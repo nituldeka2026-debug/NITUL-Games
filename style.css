@@ -399,3 +399,17 @@ footer {
     }
 
 }
+
+.game-play-btn {
+    display: inline-block;
+    text-decoration: none;
+    padding: 12px 20px;
+    background: #00eaff;
+    color: #000;
+    font-weight: bold;
+    border-radius: 6px;
+}
+
+.game-play-btn:hover {
+    transform: scale(1.05);
+}
