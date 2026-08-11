@@ -1,0 +1,262 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>NITUL Games - Play Free Online Games</title>
+    <meta name="description" content="Play free online games at NITUL Games. Racing, arcade, puzzle and more.">
+
+    <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+
+<header class="header">
+
+    <div class="logo">
+        🎮 <span>NITUL</span> Games
+    </div>
+
+    <nav>
+        <a href="#home">Home</a>
+        <a href="#games">Games</a>
+        <a href="#android">Android</a>
+        <a href="#about">About</a>
+        <a href="#contact">Contact</a>
+    </nav>
+
+</header>
+
+
+<section id="home" class="hero">
+
+    <div class="hero-content">
+
+        <p class="small-title">WELCOME TO</p>
+
+        <h1>NITUL <span>GAMES</span></h1>
+
+        <p>
+            Play exciting free games online.
+            New games coming soon!
+        </p>
+
+        <a href="#games" class="play-btn">
+            🎮 PLAY GAMES
+        </a>
+
+    </div>
+
+</section>
+
+
+<section id="games" class="games-section">
+
+    <h2>🎮 Our Games</h2>
+
+    <div class="search-box">
+        <input
+            type="text"
+            id="gameSearch"
+            placeholder="Search games..."
+            onkeyup="searchGames()"
+        >
+    </div>
+
+
+    <div class="category-buttons">
+
+        <button onclick="filterGames('all')">All</button>
+
+        <button onclick="filterGames('racing')">
+            🏎️ Racing
+        </button>
+
+        <button onclick="filterGames('arcade')">
+            👾 Arcade
+        </button>
+
+        <button onclick="filterGames('puzzle')">
+            🧩 Puzzle
+        </button>
+
+    </div>
+
+
+    <div class="games-grid" id="gamesGrid">
+
+
+        <!-- GAME 1 -->
+
+        <div class="game-card" data-category="racing">
+
+            <div class="game-image racing">
+                🏎️
+            </div>
+
+            <div class="game-info">
+
+                <h3>Street Racer</h3>
+
+                <p>
+                    Fast racing game coming soon.
+                </p>
+
+                <button onclick="playGame('Street Racer')">
+                    ▶ PLAY
+                </button>
+
+            </div>
+
+        </div>
+
+
+        <!-- GAME 2 -->
+
+        <div class="game-card" data-category="arcade">
+
+            <div class="game-image arcade">
+                👾
+            </div>
+
+            <div class="game-info">
+
+                <h3>Space Attack</h3>
+
+                <p>
+                    Destroy enemies and survive.
+                </p>
+
+                <button onclick="playGame('Space Attack')">
+                    ▶ PLAY
+                </button>
+
+            </div>
+
+        </div>
+
+
+        <!-- GAME 3 -->
+
+        <div class="game-card" data-category="puzzle">
+
+            <div class="game-image puzzle">
+                🧩
+            </div>
+
+            <div class="game-info">
+
+                <h3>Brain Puzzle</h3>
+
+                <p>
+                    Test your brain with puzzles.
+                </p>
+
+                <button onclick="playGame('Brain Puzzle')">
+                    ▶ PLAY
+                </button>
+
+            </div>
+
+        </div>
+
+
+        <!-- GAME 4 -->
+
+        <div class="game-card" data-category="arcade">
+
+            <div class="game-image arcade2">
+                🏃
+            </div>
+
+            <div class="game-info">
+
+                <h3>Run Master</h3>
+
+                <p>
+                    Run, jump and avoid obstacles.
+                </p>
+
+                <button onclick="playGame('Run Master')">
+                    ▶ PLAY
+                </button>
+
+            </div>
+
+        </div>
+
+
+    </div>
+
+</section>
+
+
+<!-- ADVERTISEMENT AREA -->
+
+<section class="ad-section">
+
+    <p>ADVERTISEMENT</p>
+
+    <div class="ad-box">
+        Your Advertisement Here
+    </div>
+
+</section>
+
+
+<section id="android" class="android-section">
+
+    <h2>📱 NITUL Games Android</h2>
+
+    <p>
+        Download our Android games from Google Play.
+    </p>
+
+    <button onclick="androidMessage()">
+        📱 ANDROID GAMES
+    </button>
+
+</section>
+
+
+<section id="about" class="about-section">
+
+    <h2>About NITUL Games</h2>
+
+    <p>
+        NITUL Games is an independent gaming platform
+        created to provide fun and exciting games for everyone.
+    </p>
+
+</section>
+
+
+<section id="contact" class="contact-section">
+
+    <h2>📩 Contact</h2>
+
+    <p>
+        For business, game development and advertising enquiries:
+    </p>
+
+    <p>
+        Email: contact@nitulgames.com
+    </p>
+
+</section>
+
+
+<footer>
+
+    <p>
+        © 2026 NITUL Games. All Rights Reserved.
+    </p>
+
+</footer>
+
+
+<script src="script.js"></script>
+
+</body>
+</html>

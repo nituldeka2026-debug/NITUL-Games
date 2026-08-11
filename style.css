@@ -1,0 +1,401 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+html {
+    scroll-behavior: smooth;
+}
+
+body {
+    font-family: Arial, sans-serif;
+    background: #080812;
+    color: white;
+}
+
+
+/* HEADER */
+
+.header {
+    width: 100%;
+    padding: 18px 7%;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+
+    background: #10101d;
+
+    position: sticky;
+    top: 0;
+    z-index: 1000;
+}
+
+.logo {
+    font-size: 25px;
+    font-weight: bold;
+}
+
+.logo span {
+    color: #00eaff;
+}
+
+nav {
+    display: flex;
+    gap: 25px;
+}
+
+nav a {
+    color: white;
+    text-decoration: none;
+    font-weight: bold;
+}
+
+nav a:hover {
+    color: #00eaff;
+}
+
+
+/* HERO */
+
+.hero {
+    min-height: 500px;
+
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    text-align: center;
+
+    background:
+        radial-gradient(circle at center,
+        #152b55,
+        #080812 70%);
+}
+
+.hero-content {
+    max-width: 800px;
+    padding: 40px;
+}
+
+.small-title {
+    color: #00eaff;
+    letter-spacing: 4px;
+    margin-bottom: 15px;
+}
+
+.hero h1 {
+    font-size: 70px;
+    margin-bottom: 20px;
+}
+
+.hero h1 span {
+    color: #00eaff;
+}
+
+.hero p {
+    font-size: 20px;
+    color: #cccccc;
+    margin-bottom: 35px;
+}
+
+.play-btn {
+    display: inline-block;
+
+    background: #00eaff;
+    color: #050510;
+
+    padding: 15px 30px;
+
+    border-radius: 8px;
+
+    font-weight: bold;
+
+    text-decoration: none;
+}
+
+.play-btn:hover {
+    transform: scale(1.05);
+}
+
+
+/* GAMES */
+
+.games-section {
+    padding: 70px 7%;
+    text-align: center;
+}
+
+.games-section h2,
+.android-section h2,
+.about-section h2,
+.contact-section h2 {
+    font-size: 35px;
+    margin-bottom: 30px;
+}
+
+
+/* SEARCH */
+
+.search-box {
+    margin-bottom: 25px;
+}
+
+.search-box input {
+    width: 100%;
+    max-width: 500px;
+
+    padding: 15px;
+
+    border-radius: 8px;
+    border: none;
+
+    font-size: 16px;
+}
+
+
+/* CATEGORY */
+
+.category-buttons {
+    margin-bottom: 35px;
+}
+
+.category-buttons button {
+    padding: 10px 18px;
+
+    margin: 5px;
+
+    border: 1px solid #00eaff;
+
+    background: transparent;
+
+    color: white;
+
+    border-radius: 20px;
+
+    cursor: pointer;
+}
+
+.category-buttons button:hover {
+    background: #00eaff;
+    color: #000;
+}
+
+
+/* GAME GRID */
+
+.games-grid {
+    display: grid;
+
+    grid-template-columns:
+        repeat(auto-fit, minmax(250px, 1fr));
+
+    gap: 25px;
+
+    max-width: 1200px;
+
+    margin: auto;
+}
+
+
+/* GAME CARD */
+
+.game-card {
+    background: #121222;
+
+    border-radius: 15px;
+
+    overflow: hidden;
+
+    border: 1px solid #24243b;
+
+    transition: 0.3s;
+}
+
+.game-card:hover {
+    transform: translateY(-8px);
+
+    border-color: #00eaff;
+}
+
+
+.game-image {
+    height: 180px;
+
+    display: flex;
+
+    justify-content: center;
+
+    align-items: center;
+
+    font-size: 75px;
+}
+
+
+.racing {
+    background: linear-gradient(135deg, #8b0000, #ff4500);
+}
+
+.arcade {
+    background: linear-gradient(135deg, #141e30, #243b55);
+}
+
+.puzzle {
+    background: linear-gradient(135deg, #41295a, #2F0743);
+}
+
+.arcade2 {
+    background: linear-gradient(135deg, #134e5e, #71b280);
+}
+
+
+.game-info {
+    padding: 20px;
+
+    text-align: left;
+}
+
+.game-info h3 {
+    margin-bottom: 8px;
+}
+
+.game-info p {
+    color: #aaa;
+
+    margin-bottom: 15px;
+}
+
+
+.game-info button,
+.android-section button {
+    border: none;
+
+    padding: 12px 20px;
+
+    background: #00eaff;
+
+    color: #000;
+
+    font-weight: bold;
+
+    border-radius: 6px;
+
+    cursor: pointer;
+}
+
+.game-info button:hover,
+.android-section button:hover {
+    opacity: 0.8;
+}
+
+
+/* AD */
+
+.ad-section {
+    text-align: center;
+
+    padding: 40px 7%;
+}
+
+.ad-section p {
+    color: #777;
+
+    margin-bottom: 10px;
+}
+
+.ad-box {
+    max-width: 728px;
+
+    height: 120px;
+
+    margin: auto;
+
+    border: 1px dashed #555;
+
+    display: flex;
+
+    align-items: center;
+
+    justify-content: center;
+
+    color: #777;
+}
+
+
+/* ANDROID */
+
+.android-section {
+    padding: 70px 7%;
+
+    text-align: center;
+
+    background: #10101d;
+}
+
+.android-section p {
+    color: #aaa;
+
+    margin-bottom: 25px;
+}
+
+
+/* ABOUT */
+
+.about-section,
+.contact-section {
+    padding: 70px 7%;
+
+    text-align: center;
+
+    max-width: 900px;
+
+    margin: auto;
+}
+
+.about-section p,
+.contact-section p {
+    color: #aaa;
+
+    line-height: 1.8;
+}
+
+
+/* FOOTER */
+
+footer {
+    text-align: center;
+
+    padding: 30px;
+
+    background: #05050b;
+
+    color: #777;
+}
+
+
+/* MOBILE */
+
+@media (max-width: 700px) {
+
+    .header {
+        flex-direction: column;
+        gap: 15px;
+    }
+
+    nav {
+        gap: 12px;
+
+        flex-wrap: wrap;
+
+        justify-content: center;
+    }
+
+    .hero h1 {
+        font-size: 45px;
+    }
+
+    .hero {
+        min-height: 450px;
+    }
+
+}
