@@ -1,0 +1,175 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Space Attack - NITUL Games</title>
+
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+body{
+    background:#050816;
+    color:white;
+    font-family:Arial,sans-serif;
+    text-align:center;
+}
+h1{margin:15px}
+#game{
+    width:360px;
+    height:600px;
+    margin:auto;
+    background:linear-gradient(#07143d,#02030b);
+    position:relative;
+    overflow:hidden;
+    border:3px solid #18d8ff;
+}
+#player{
+    position:absolute;
+    bottom:20px;
+    left:155px;
+    width:50px;
+    height:50px;
+    font-size:40px;
+}
+.enemy{
+    position:absolute;
+    font-size:35px;
+}
+.bullet{
+    position:absolute;
+    font-size:25px;
+}
+#score{margin:10px;font-size:20px}
+button{
+    padding:10px 20px;
+    border:0;
+    border-radius:8px;
+    cursor:pointer;
+}
+</style>
+</head>
+
+<body>
+
+<h1>🚀 Space Attack</h1>
+<div id="score">Score: 0</div>
+
+<div id="game">
+    <div id="player">🚀</div>
+</div>
+
+<button onclick="location.reload()">Restart</button>
+
+<script>
+const game=document.getElementById("game");
+const player=document.getElementById("player");
+const scoreBox=document.getElementById("score");
+
+let playerX=155;
+let score=0;
+let bullets=[];
+let enemies=[];
+let gameOver=false;
+
+document.addEventListener("keydown",e=>{
+    if(e.key==="ArrowLeft") playerX-=20;
+    if(e.key==="ArrowRight") playerX+=20;
+
+    playerX=Math.max(0,Math.min(310,playerX));
+    player.style.left=playerX+"px";
+
+    if(e.key===" ") shoot();
+});
+
+game.addEventListener("touchstart",e=>{
+    const x=e.touches[0].clientX;
+    const r=game.getBoundingClientRect();
+
+    if(x-r.left<180) playerX-=30;
+    else playerX+=30;
+
+    playerX=Math.max(0,Math.min(310,playerX));
+    player.style.left=playerX+"px";
+
+    shoot();
+});
+
+function shoot(){
+    if(gameOver)return;
+
+    const b=document.createElement("div");
+    b.className="bullet";
+    b.textContent="🔵";
+    b.style.left=(playerX+12)+"px";
+    b.style.bottom="70px";
+
+    game.appendChild(b);
+    bullets.push(b);
+}
+
+function createEnemy(){
+    if(gameOver)return;
+
+    const e=document.createElement("div");
+    e.className="enemy";
+    e.textContent="👾";
+    e.style.left=Math.random()*310+"px";
+    e.style.top="-40px";
+
+    game.appendChild(e);
+    enemies.push(e);
+}
+
+function loop(){
+
+    bullets.forEach((b,i)=>{
+        let y=parseInt(b.style.bottom);
+        y+=8;
+        b.style.bottom=y+"px";
+
+        if(y>620){
+            b.remove();
+            bullets.splice(i,1);
+        }
+
+        enemies.forEach((e,j)=>{
+            const br=b.getBoundingClientRect();
+            const er=e.getBoundingClientRect();
+
+            if(br.left<er.right &&
+               br.right>er.left &&
+               br.top<er.bottom &&
+               br.bottom>er.top){
+
+                e.remove();
+                b.remove();
+
+                enemies.splice(j,1);
+                bullets.splice(i,1);
+
+                score++;
+                scoreBox.textContent="Score: "+score;
+            }
+        });
+    });
+
+    enemies.forEach((e,i)=>{
+        let y=parseInt(e.style.top);
+        y+=3;
+        e.style.top=y+"px";
+
+        if(y>570){
+            gameOver=true;
+            alert("Game Over! Score: "+score);
+        }
+    });
+
+    if(!gameOver) requestAnimationFrame(loop);
+}
+
+setInterval(createEnemy,900);
+loop();
+</script>
+
+</body>
+</html>
