@@ -60,31 +60,91 @@
 </section>
 
 
-<!-- ================= CATEGORIES ================= -->
+<!-- ================= CATEGORIES + SEARCH ================= -->
 
 <section class="categories" id="categories">
 
-    <h2>Categories</h2>
+    <div class="section-heading">
+
+        <span class="small-title">
+            🎯 FIND YOUR GAME
+        </span>
+
+        <h2>Games & Categories</h2>
+
+        <p>
+            Search for your favourite game or choose a category.
+        </p>
+
+    </div>
+
+
+    <!-- SEARCH -->
+
+    <div class="search-box">
+
+        <span class="search-icon">🔍</span>
+
+        <input
+            type="text"
+            id="gameSearch"
+            placeholder="Search games..."
+            autocomplete="off"
+        >
+
+        <button
+            id="clearSearch"
+            class="clear-search"
+            type="button"
+            aria-label="Clear search"
+        >
+            ✕
+        </button>
+
+    </div>
+
+
+    <!-- CATEGORY BUTTONS -->
 
     <div class="category-buttons">
 
-        <button class="category-btn active">
+        <button
+            class="category-btn active"
+            data-category="all"
+            type="button"
+        >
             🎮 All
         </button>
 
-        <button class="category-btn">
+        <button
+            class="category-btn"
+            data-category="racing"
+            type="button"
+        >
             🏎️ Racing
         </button>
 
-        <button class="category-btn">
+        <button
+            class="category-btn"
+            data-category="puzzle"
+            type="button"
+        >
             🧩 Puzzle
         </button>
 
-        <button class="category-btn">
+        <button
+            class="category-btn"
+            data-category="action"
+            type="button"
+        >
             🚀 Action
         </button>
 
-        <button class="category-btn">
+        <button
+            class="category-btn"
+            data-category="runner"
+            type="button"
+        >
             🏃 Runner
         </button>
 
@@ -112,12 +172,16 @@
     </div>
 
 
-    <div class="games-grid">
+    <div class="games-grid" id="gamesGrid">
 
 
-        <!-- RACING -->
+        <!-- ================= RACING ================= -->
 
-        <article class="game-card">
+        <article
+            class="game-card"
+            data-category="racing"
+            data-name="Racing Game Street Racer"
+        >
 
             <div class="game-image-box">
 
@@ -133,6 +197,7 @@
 
             </div>
 
+
             <div class="game-content">
 
                 <h3>Racing Game</h3>
@@ -146,7 +211,10 @@
                     ⭐ Racing
                 </div>
 
-                <a href="racing.html" class="game-button">
+                <a
+                    href="racing.html"
+                    class="game-button"
+                >
                     PLAY NOW →
                 </a>
 
@@ -155,9 +223,13 @@
         </article>
 
 
-        <!-- BRAIN PUZZLE -->
+        <!-- ================= BRAIN PUZZLE ================= -->
 
-        <article class="game-card">
+        <article
+            class="game-card"
+            data-category="puzzle"
+            data-name="Brain Puzzle"
+        >
 
             <div class="game-image-box">
 
@@ -173,6 +245,7 @@
 
             </div>
 
+
             <div class="game-content">
 
                 <h3>Brain Puzzle</h3>
@@ -186,7 +259,10 @@
                     ⭐ Puzzle
                 </div>
 
-                <a href="brain-puzzle.html" class="game-button">
+                <a
+                    href="brain-puzzle.html"
+                    class="game-button"
+                >
                     PLAY NOW →
                 </a>
 
@@ -195,9 +271,13 @@
         </article>
 
 
-        <!-- SPACE ATTACK -->
+        <!-- ================= SPACE ATTACK ================= -->
 
-        <article class="game-card">
+        <article
+            class="game-card"
+            data-category="action"
+            data-name="Space Attack"
+        >
 
             <div class="game-image-box">
 
@@ -213,6 +293,7 @@
 
             </div>
 
+
             <div class="game-content">
 
                 <h3>Space Attack</h3>
@@ -226,7 +307,10 @@
                     ⭐ Action
                 </div>
 
-                <a href="space-attack.html" class="game-button">
+                <a
+                    href="space-attack.html"
+                    class="game-button"
+                >
                     PLAY NOW →
                 </a>
 
@@ -235,9 +319,13 @@
         </article>
 
 
-        <!-- RUN MASTER -->
+        <!-- ================= RUN MASTER ================= -->
 
-        <article class="game-card">
+        <article
+            class="game-card"
+            data-category="runner"
+            data-name="Run Master"
+        >
 
             <div class="game-image-box">
 
@@ -253,6 +341,7 @@
 
             </div>
 
+
             <div class="game-content">
 
                 <h3>Run Master</h3>
@@ -266,7 +355,10 @@
                     ⭐ Runner
                 </div>
 
-                <a href="run-master.html" class="game-button">
+                <a
+                    href="run-master.html"
+                    class="game-button"
+                >
                     PLAY NOW →
                 </a>
 
@@ -274,12 +366,33 @@
 
         </article>
 
+
+    </div>
+
+
+    <!-- NO RESULT -->
+
+    <div
+        id="noResults"
+        class="no-results"
+    >
+
+        <div class="no-results-icon">
+            🎮
+        </div>
+
+        <h3>No Games Found</h3>
+
+        <p>
+            Try another game name or category.
+        </p>
+
     </div>
 
 </section>
 
 
-<!-- ================= WHY NITUL GAMES ================= -->
+<!-- ================= FEATURES ================= -->
 
 <section class="features-section">
 
@@ -296,9 +409,12 @@
 
     <div class="features">
 
+
         <div class="feature-card">
 
-            <div class="feature-icon">🆓</div>
+            <div class="feature-icon">
+                🆓
+            </div>
 
             <h3>100% Free</h3>
 
@@ -311,7 +427,9 @@
 
         <div class="feature-card">
 
-            <div class="feature-icon">📱</div>
+            <div class="feature-icon">
+                📱
+            </div>
 
             <h3>Mobile Friendly</h3>
 
@@ -325,7 +443,9 @@
 
         <div class="feature-card">
 
-            <div class="feature-icon">⚡</div>
+            <div class="feature-icon">
+                ⚡
+            </div>
 
             <h3>Fast Loading</h3>
 
@@ -339,7 +459,9 @@
 
         <div class="feature-card">
 
-            <div class="feature-icon">🌐</div>
+            <div class="feature-icon">
+                🌐
+            </div>
 
             <h3>Play Online</h3>
 
@@ -348,6 +470,7 @@
             </p>
 
         </div>
+
 
     </div>
 
@@ -369,7 +492,9 @@
     <div class="footer-links">
 
         <a href="#home">Home</a>
+
         <a href="#games">Games</a>
+
         <a href="#categories">Categories</a>
 
     </div>
@@ -380,6 +505,8 @@
 
 </footer>
 
+
+<script src="script.js"></script>
 
 </body>
 </html>
