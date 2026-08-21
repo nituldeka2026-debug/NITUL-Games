@@ -1,421 +1,231 @@
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
-
     <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-    <meta name="viewport"
-          content="width=device-width, initial-scale=1.0">
-
-    <title>NITUL Games - Play Free Online Games</title>
+    <title>NITUL Games - Free Online Games</title>
 
     <meta name="description"
-          content="Play free online games at NITUL Games. Racing, arcade, puzzle and more.">
+          content="Play free online games at NITUL Games. Enjoy racing, puzzle, action and arcade games on mobile and PC.">
+
+    <meta name="keywords"
+          content="NITUL Games, free online games, racing games, puzzle games, arcade games, browser games">
+
+    <meta name="robots" content="index, follow">
+
+    <link rel="canonical"
+          href="https://nituldeka2026-debug.github.io/NITUL-Games/">
 
     <link rel="stylesheet" href="style.css">
-
 </head>
-
 
 <body>
 
-
-<!-- ================= HEADER ================= -->
-
 <header class="header">
-
     <div class="logo">
         🎮 <span>NITUL</span> GAMES
     </div>
 
-
     <nav>
-
-        <a href="#home">HOME</a>
-
-        <a href="#games">GAMES</a>
-
-        <a href="#android">ANDROID</a>
-
-        <a href="#about">ABOUT</a>
-
-        <a href="#contact">CONTACT</a>
-
+        <a href="index.html">Home</a>
+        <a href="about.html">About</a>
+        <a href="#games">Games</a>
     </nav>
-
 </header>
 
 
-
-<!-- ================= HERO ================= -->
-
-<section id="home" class="hero">
+<section class="hero">
 
     <div class="hero-content">
 
-        <p class="small-title">
-            WELCOME TO NITUL GAMES
-        </p>
+        <h1>🎮 NITUL GAMES</h1>
 
-
-        <h1>
-            PLAY AWESOME
-            <br>
-            <span>GAMES ONLINE</span>
-        </h1>
-
+        <h2>Play Free Online Games</h2>
 
         <p>
-            Play exciting free games online.
-            <br>
-            Racing, puzzle, arcade and much more.
+            Enjoy exciting racing, puzzle, action and arcade games
+            directly in your browser. No installation required.
         </p>
 
-
-        <a href="#games" class="play-btn">
-            ▶ EXPLORE GAMES
+        <a href="#games" class="play-button">
+            PLAY GAMES 🚀
         </a>
 
     </div>
 
 </section>
 
-
-
-<!-- ================= GAMES ================= -->
 
 <section id="games" class="games-section">
 
+    <h2>🔥 Popular Games</h2>
 
-    <h2>
-        🎮 OUR GAMES
-    </h2>
-
-
-    <!-- SEARCH -->
-
-    <div class="search-box">
-
-        <input
-            type="text"
-            id="gameSearch"
-            placeholder="🔍 Search games..."
-            onkeyup="searchGames()"
-        >
-
-    </div>
+    <p class="section-text">
+        Choose a game and start playing instantly.
+    </p>
 
 
-
-    <!-- CATEGORY -->
-
-    <div class="category-buttons">
-
-        <button onclick="filterGames('all')">
-            🎮 ALL
-        </button>
-
-        <button onclick="filterGames('racing')">
-            🏎️ RACING
-        </button>
-
-        <button onclick="filterGames('arcade')">
-            👾 ARCADE
-        </button>
-
-        <button onclick="filterGames('puzzle')">
-            🧩 PUZZLE
-        </button>
-
-    </div>
+    <div class="games-grid">
 
 
+        <!-- Racing Game -->
 
-    <!-- GAME GRID -->
+        <div class="game-card">
 
-    <div class="games-grid" id="gamesGrid">
+            <div class="game-icon">🏎️</div>
 
+            <h3>Racing Game</h3>
 
+            <p>
+                Drive fast, avoid obstacles and try to achieve
+                the highest score.
+            </p>
 
-        <!-- STREET RACER -->
-
-        <div class="game-card"
-             data-category="racing">
-
-            <div class="game-image racing">
-
-                🏎️
-
-            </div>
-
-
-            <div class="game-info">
-
-                <h3>
-                    Street Racer
-                </h3>
-
-                <p>
-                    Experience fast racing
-                    and beat your best score.
-                </p>
-
-
-                <a href="racing.html"
-                   class="game-play-btn">
-
-                    ▶ PLAY
-
-                </a>
-
-            </div>
+            <a href="racing.html" class="game-button">
+                Play Now
+            </a>
 
         </div>
 
 
+        <!-- Brain Puzzle -->
 
-        <!-- SPACE ATTACK -->
+        <div class="game-card">
 
-        <div class="game-card"
-             data-category="arcade">
+            <div class="game-icon">🧠</div>
 
-            <div class="game-image arcade">
+            <h3>Brain Puzzle</h3>
 
-                👾
+            <p>
+                Test your brain with challenging puzzles
+                and improve your thinking skills.
+            </p>
 
-            </div>
-
-
-            <div class="game-info">
-
-                <h3>
-                    Space Attack
-                </h3>
-
-                <p>
-                    Destroy enemies and
-                    survive as long as possible.
-                </p>
-
-
-                <a href="space-attack.html"
-                   class="game-play-btn">
-
-                    ▶ PLAY
-
-                </a>
-
-            </div>
+            <a href="brain-puzzle.html" class="game-button">
+                Play Now
+            </a>
 
         </div>
 
 
+        <!-- Space Attack -->
 
-        <!-- BRAIN PUZZLE -->
+        <div class="game-card">
 
-        <div class="game-card"
-             data-category="puzzle">
+            <div class="game-icon">🚀</div>
 
-            <div class="game-image puzzle">
+            <h3>Space Attack</h3>
 
-    🧩
+            <p>
+                Defend space from enemies and survive
+                as long as possible.
+            </p>
 
-</div>
-
-
-            <div class="game-info">
-
-                <h3>
-                    Brain Puzzle
-                </h3>
-
-                <p>
-                    Test your brain and
-                    solve challenging puzzles.
-                </p>
-
-
-                <a href="brain-puzzle.html"
-                   class="game-play-btn">
-
-                    ▶ PLAY
-
-                </a>
-
-            </div>
+            <a href="space-attack.html" class="game-button">
+                Play Now
+            </a>
 
         </div>
 
 
+        <!-- Run Master -->
 
-        <!-- RUN MASTER -->
+        <div class="game-card">
 
-        <div class="game-card"
-             data-category="arcade">
+            <div class="game-icon">🏃</div>
 
-            <div class="game-image arcade2">
+            <h3>Run Master</h3>
 
-                🏃
+            <p>
+                Run, jump and avoid obstacles while trying
+                to beat your best score.
+            </p>
 
-            </div>
-
-
-            <div class="game-info">
-
-                <h3>
-                    Run Master
-                </h3>
-
-                <p>
-                    Run, jump and avoid
-                    dangerous obstacles.
-                </p>
-
-
-                <a href="run-master.html"
-                   class="game-play-btn">
-
-                    ▶ PLAY
-
-                </a>
-
-            </div>
+            <a href="run-master.html" class="game-button">
+                Play Now
+            </a>
 
         </div>
-
 
     </div>
 
 </section>
 
 
+<section class="about-section">
 
-<!-- ================= ADVERTISEMENT ================= -->
-
-<section class="ad-section">
+    <h2>🎮 About NITUL Games</h2>
 
     <p>
-        ADVERTISEMENT
+        NITUL Games is a free online gaming platform where
+        players can enjoy simple and entertaining browser games
+        on smartphones, tablets and computers.
     </p>
 
+    <p>
+        Our goal is to create fun, lightweight and easy-to-play
+        games that anyone can enjoy without downloading software.
+    </p>
 
-    <div class="ad-box">
+</section>
 
-        Your Advertisement Here
+
+<section class="why-section">
+
+    <h2>⭐ Why Play NITUL Games?</h2>
+
+    <div class="features">
+
+        <div>
+            <span>🆓</span>
+            <h3>Free Games</h3>
+            <p>Play games without paying.</p>
+        </div>
+
+        <div>
+            <span>📱</span>
+            <h3>Mobile Friendly</h3>
+            <p>Play on smartphones and tablets.</p>
+        </div>
+
+        <div>
+            <span>⚡</span>
+            <h3>Fast Loading</h3>
+            <p>Lightweight browser games.</p>
+        </div>
+
+        <div>
+            <span>🌐</span>
+            <h3>Play Online</h3>
+            <p>No installation required.</p>
+        </div>
 
     </div>
 
 </section>
 
-
-
-<!-- ================= ANDROID ================= -->
-
-<section id="android"
-         class="android-section">
-
-
-    <h2>
-        📱 NITUL GAMES ANDROID
-    </h2>
-
-
-    <p>
-        Android games coming soon on Google Play.
-    </p>
-
-
-    <button onclick="androidMessage()">
-
-        📱 ANDROID GAMES
-
-    </button>
-
-</section>
-
-
-
-<!-- ================= ABOUT ================= -->
-
-<section id="about"
-         class="about-section">
-
-
-    <h2>
-        🎮 ABOUT NITUL GAMES
-    </h2>
-
-
-    <p>
-
-        NITUL Games is an independent gaming
-        platform created to provide fun,
-        exciting and free games for everyone.
-
-        <br><br>
-
-        More games are coming soon!
-
-    </p>
-
-</section>
-
-
-
-<!-- ================= CONTACT ================= -->
-
-<section id="contact"
-         class="contact-section">
-
-
-    <h2>
-        📩 CONTACT
-    </h2>
-
-
-    <p>
-
-        For business, game development
-        and advertising enquiries:
-
-    </p>
-
-
-    <p>
-
-        Email:
-
-        <a href="mailto:nitul.deka2026@gmail.com">
-
-            nitul.deka2026@gmail.com
-
-        </a>
-
-    </p>
-
-</section>
-
-
-
-<!-- ================= FOOTER ================= -->
 
 <footer>
 
+    <div class="footer-logo">
+        🎮 NITUL GAMES
+    </div>
+
+    <div class="footer-links">
+        <a href="index.html">Home</a>
+        <a href="about.html">About</a>
+        <a href="privacy.html">Privacy Policy</a>
+        <a href="contact.html">Contact</a>
+        <a href="terms.html">Terms</a>
+    </div>
+
     <p>
-        © 2026 NITUL Games.
-        All Rights Reserved.
+        © 2026 NITUL Games. All Rights Reserved.
     </p>
 
 </footer>
 
 
-
-<!-- ================= JAVASCRIPT ================= -->
-
-<script src="script.js"></script>
-
-
 </body>
-
 </html>
