@@ -1,7 +1,12 @@
-/* ===============================
+/* =========================================
    NITUL GAMES
-   Modern Gaming Website
-================================ */
+   MODERN GAMING WEBSITE
+========================================= */
+
+
+/* =========================
+   RESET
+========================= */
 
 * {
     margin: 0;
@@ -9,12 +14,17 @@
     box-sizing: border-box;
 }
 
+
 html {
     scroll-behavior: smooth;
 }
 
+
 body {
-    font-family: Arial, Helvetica, sans-serif;
+    font-family:
+        Arial,
+        Helvetica,
+        sans-serif;
 
     background:
         radial-gradient(
@@ -35,69 +45,96 @@ body {
 }
 
 
-/* ===============================
+/* =========================
    HEADER
-================================ */
+========================= */
 
 .header {
+
     position: sticky;
+
     top: 0;
+
     z-index: 1000;
 
     width: 100%;
 
     display: flex;
+
     justify-content: space-between;
+
     align-items: center;
 
     padding: 18px 6%;
 
-    background: rgba(8, 11, 20, 0.88);
+    background:
+        rgba(8, 11, 20, 0.88);
 
-    backdrop-filter: blur(18px);
+    backdrop-filter:
+        blur(18px);
 
-    border-bottom: 1px solid rgba(255,255,255,0.08);
+    border-bottom:
+        1px solid
+        rgba(255,255,255,0.08);
 }
 
+
 .logo {
+
     font-size: 24px;
+
     font-weight: 800;
+
     letter-spacing: 0.5px;
 }
 
+
 .logo span {
+
     color: #00d9ff;
 }
 
+
 .nav {
+
     display: flex;
+
     gap: 30px;
 }
 
+
 .nav a {
+
     color: #ffffff;
+
     text-decoration: none;
 
     font-size: 15px;
+
     font-weight: 600;
 
     transition: 0.3s;
 }
 
+
 .nav a:hover {
+
     color: #00d9ff;
 }
 
 
-/* ===============================
+/* =========================
    HERO
-================================ */
+========================= */
 
 .hero {
+
     min-height: 520px;
 
     display: flex;
+
     align-items: center;
+
     justify-content: center;
 
     text-align: center;
@@ -116,31 +153,42 @@ body {
         );
 }
 
+
 .hero-content {
+
     max-width: 780px;
 }
 
+
 .hero-badge {
+
     display: inline-block;
 
     padding: 9px 18px;
 
     border-radius: 50px;
 
-    background: rgba(0,217,255,0.12);
+    background:
+        rgba(0,217,255,0.12);
 
-    border: 1px solid rgba(0,217,255,0.3);
+    border:
+        1px solid
+        rgba(0,217,255,0.3);
 
     color: #00d9ff;
 
     font-size: 14px;
+
     font-weight: 700;
 
     margin-bottom: 22px;
 }
 
+
 .hero h1 {
-    font-size: clamp(45px, 7vw, 82px);
+
+    font-size:
+        clamp(45px, 7vw, 82px);
 
     line-height: 1.05;
 
@@ -149,18 +197,24 @@ body {
     margin-bottom: 20px;
 }
 
+
 .hero h1 span {
-    background: linear-gradient(
-        90deg,
-        #00d9ff,
-        #8b5cff
-    );
+
+    background:
+        linear-gradient(
+            90deg,
+            #00d9ff,
+            #8b5cff
+        );
 
     -webkit-background-clip: text;
+
     -webkit-text-fill-color: transparent;
 }
 
+
 .hero p {
+
     max-width: 650px;
 
     margin: auto;
@@ -174,18 +228,21 @@ body {
     margin-bottom: 32px;
 }
 
+
 .hero-button {
+
     display: inline-block;
 
     padding: 15px 30px;
 
     border-radius: 12px;
 
-    background: linear-gradient(
-        135deg,
-        #00d9ff,
-        #008cff
-    );
+    background:
+        linear-gradient(
+            135deg,
+            #00d9ff,
+            #008cff
+        );
 
     color: #001018;
 
@@ -194,92 +251,38 @@ body {
     font-weight: 800;
 
     box-shadow:
-        0 10px 35px rgba(0,217,255,0.25);
+        0 10px 35px
+        rgba(0,217,255,0.25);
 
     transition: 0.3s;
 }
+
 
 .hero-button:hover {
-    transform: translateY(-4px);
+
+    transform:
+        translateY(-4px);
 
     box-shadow:
-        0 15px 45px rgba(0,217,255,0.4);
+        0 15px 45px
+        rgba(0,217,255,0.4);
 }
 
 
-/* ===============================
-   CATEGORIES
-================================ */
-
-.categories {
-    text-align: center;
-
-    padding: 45px 20px 20px;
-}
-
-.categories h2 {
-    font-size: 32px;
-
-    margin-bottom: 25px;
-}
-
-.category-buttons {
-    display: flex;
-
-    justify-content: center;
-
-    flex-wrap: wrap;
-
-    gap: 12px;
-}
-
-.category-btn {
-    border: 1px solid rgba(255,255,255,0.08);
-
-    background: rgba(255,255,255,0.06);
-
-    color: #ffffff;
-
-    padding: 11px 20px;
-
-    border-radius: 50px;
-
-    cursor: pointer;
-
-    font-weight: 700;
-
-    transition: 0.3s;
-}
-
-.category-btn:hover,
-.category-btn.active {
-    background: #00cfff;
-
-    color: #001018;
-
-    transform: translateY(-2px);
-}
-
-
-/* ===============================
+/* =========================
    SECTION HEADING
-================================ */
-
-.games-section {
-    max-width: 1400px;
-
-    margin: auto;
-
-    padding: 80px 6%;
-}
+========================= */
 
 .section-heading {
+
     text-align: center;
 
-    margin-bottom: 45px;
+    margin-bottom: 40px;
 }
 
+
 .small-title {
+
     display: block;
 
     color: #00d9ff;
@@ -293,22 +296,225 @@ body {
     margin-bottom: 10px;
 }
 
+
 .section-heading h2 {
-    font-size: clamp(30px, 4vw, 45px);
+
+    font-size:
+        clamp(30px, 4vw, 45px);
 
     margin-bottom: 10px;
 }
 
+
 .section-heading p {
+
     color: #9fa8bd;
 }
 
 
-/* ===============================
+/* =========================
+   CATEGORIES
+========================= */
+
+.categories {
+
+    text-align: center;
+
+    padding:
+        70px 20px 20px;
+}
+
+
+/* =========================
+   SEARCH
+========================= */
+
+.search-box {
+
+    width:
+        min(520px, 92%);
+
+    margin:
+        0 auto 25px;
+
+    display: flex;
+
+    align-items: center;
+
+    gap: 10px;
+
+    padding:
+        14px 18px;
+
+    background:
+        rgba(255,255,255,0.06);
+
+    border:
+        1px solid
+        rgba(255,255,255,0.12);
+
+    border-radius: 50px;
+
+    backdrop-filter:
+        blur(12px);
+
+    transition: 0.3s;
+}
+
+
+.search-box:focus-within {
+
+    border-color:
+        #00d9ff;
+
+    box-shadow:
+        0 0 25px
+        rgba(0,217,255,0.15);
+}
+
+
+.search-icon {
+
+    font-size: 17px;
+}
+
+
+.search-box input {
+
+    width: 100%;
+
+    border: none;
+
+    outline: none;
+
+    background: transparent;
+
+    color: #ffffff;
+
+    font-size: 15px;
+}
+
+
+.search-box input::placeholder {
+
+    color: #8993a8;
+}
+
+
+.clear-search {
+
+    display: none;
+
+    border: none;
+
+    background: transparent;
+
+    color: #9fa8bd;
+
+    cursor: pointer;
+
+    font-size: 15px;
+}
+
+
+.clear-search.show {
+
+    display: block;
+}
+
+
+.clear-search:hover {
+
+    color: #ffffff;
+}
+
+
+/* =========================
+   CATEGORY BUTTONS
+========================= */
+
+.category-buttons {
+
+    display: flex;
+
+    justify-content: center;
+
+    flex-wrap: wrap;
+
+    gap: 12px;
+}
+
+
+.category-btn {
+
+    border:
+        1px solid
+        rgba(255,255,255,0.08);
+
+    background:
+        rgba(255,255,255,0.06);
+
+    color: #ffffff;
+
+    padding:
+        11px 20px;
+
+    border-radius: 50px;
+
+    cursor: pointer;
+
+    font-weight: 700;
+
+    transition: 0.3s;
+}
+
+
+.category-btn:hover {
+
+    transform:
+        translateY(-2px);
+
+    border-color:
+        rgba(0,217,255,0.4);
+}
+
+
+.category-btn.active {
+
+    background: #00cfff;
+
+    color: #001018;
+
+    border-color:
+        #00cfff;
+
+    box-shadow:
+        0 5px 20px
+        rgba(0,207,255,0.18);
+}
+
+
+/* =========================
+   GAMES SECTION
+========================= */
+
+.games-section {
+
+    max-width: 1400px;
+
+    margin: auto;
+
+    padding:
+        70px 6%;
+}
+
+
+/* =========================
    GAME GRID
-================================ */
+========================= */
 
 .games-grid {
+
     display: grid;
 
     grid-template-columns:
@@ -318,11 +524,12 @@ body {
 }
 
 
-/* ===============================
+/* =========================
    GAME CARD
-================================ */
+========================= */
 
 .game-card {
+
     overflow: hidden;
 
     border-radius: 20px;
@@ -334,34 +541,72 @@ body {
             rgba(255,255,255,0.035)
         );
 
-    border: 1px solid rgba(255,255,255,0.09);
+    border:
+        1px solid
+        rgba(255,255,255,0.09);
 
     box-shadow:
-        0 15px 45px rgba(0,0,0,0.25);
+        0 15px 45px
+        rgba(0,0,0,0.25);
 
     transition:
         transform 0.35s,
         border-color 0.35s,
         box-shadow 0.35s;
+
+    animation:
+        cardIn 0.5s ease both;
 }
 
+
 .game-card:hover {
-    transform: translateY(-10px);
+
+    transform:
+        translateY(-10px);
 
     border-color:
         rgba(0,217,255,0.45);
 
     box-shadow:
-        0 20px 60px rgba(0,0,0,0.45),
-        0 0 25px rgba(0,217,255,0.08);
+        0 20px 60px
+        rgba(0,0,0,0.45),
+        0 0 25px
+        rgba(0,217,255,0.08);
 }
 
 
-/* ===============================
+.game-card.hidden {
+
+    display: none;
+}
+
+
+@keyframes cardIn {
+
+    from {
+
+        opacity: 0;
+
+        transform:
+            translateY(20px);
+    }
+
+    to {
+
+        opacity: 1;
+
+        transform:
+            translateY(0);
+    }
+}
+
+
+/* =========================
    GAME IMAGE
-================================ */
+========================= */
 
 .game-image-box {
+
     position: relative;
 
     width: 100%;
@@ -370,10 +615,13 @@ body {
 
     overflow: hidden;
 
-    background: #111827;
+    background:
+        #111827;
 }
 
+
 .game-image {
+
     width: 100%;
 
     height: 100%;
@@ -382,17 +630,21 @@ body {
 
     object-fit: cover;
 
-    transition: transform 0.5s;
-}
-
-.game-card:hover .game-image {
-    transform: scale(1.08);
+    transition:
+        transform 0.5s;
 }
 
 
-/* Image overlay */
+.game-card:hover
+.game-image {
+
+    transform:
+        scale(1.08);
+}
+
 
 .game-image-box::after {
+
     content: "";
 
     position: absolute;
@@ -402,19 +654,20 @@ body {
     background:
         linear-gradient(
             to top,
-            rgba(5,8,15,0.75),
-            transparent 60%
+            rgba(5,8,15,0.78),
+            transparent 65%
         );
 
     pointer-events: none;
 }
 
 
-/* ===============================
-   BADGE
-================================ */
+/* =========================
+   GAME BADGE
+========================= */
 
 .game-badge {
+
     position: absolute;
 
     left: 14px;
@@ -423,39 +676,45 @@ body {
 
     z-index: 2;
 
-    padding: 7px 12px;
+    padding:
+        7px 12px;
 
     border-radius: 50px;
 
-    background: rgba(0,0,0,0.65);
+    background:
+        rgba(0,0,0,0.65);
 
-    backdrop-filter: blur(8px);
+    backdrop-filter:
+        blur(8px);
 
     color: #00d9ff;
 
     font-size: 11px;
 
     font-weight: 800;
-
-    letter-spacing: 0.5px;
 }
 
 
-/* ===============================
+/* =========================
    GAME CONTENT
-================================ */
+========================= */
 
 .game-content {
+
     padding: 20px;
 }
 
+
 .game-content h3 {
+
     font-size: 21px;
 
     margin-bottom: 9px;
 }
 
+
 .game-content p {
+
     color: #9fa8bd;
 
     font-size: 14px;
@@ -465,8 +724,11 @@ body {
     min-height: 45px;
 }
 
+
 .game-info {
-    margin: 16px 0;
+
+    margin:
+        16px 0;
 
     color: #ffd84d;
 
@@ -476,11 +738,12 @@ body {
 }
 
 
-/* ===============================
+/* =========================
    GAME BUTTON
-================================ */
+========================= */
 
 .game-button {
+
     display: block;
 
     width: 100%;
@@ -509,29 +772,79 @@ body {
     transition: 0.3s;
 }
 
-.game-button:hover {
-    transform: translateY(-2px);
 
-    filter: brightness(1.1);
+.game-button:hover {
+
+    transform:
+        translateY(-2px);
+
+    filter:
+        brightness(1.1);
 
     box-shadow:
-        0 8px 25px rgba(0,217,255,0.25);
+        0 8px 25px
+        rgba(0,217,255,0.25);
 }
 
 
-/* ===============================
+/* =========================
+   NO RESULTS
+========================= */
+
+.no-results {
+
+    display: none;
+
+    text-align: center;
+
+    padding:
+        55px 20px;
+
+    color: #9fa8bd;
+}
+
+
+.no-results.show {
+
+    display: block;
+}
+
+
+.no-results-icon {
+
+    font-size: 48px;
+
+    margin-bottom: 12px;
+}
+
+
+.no-results h3 {
+
+    color: #ffffff;
+
+    font-size: 24px;
+
+    margin-bottom: 8px;
+}
+
+
+/* =========================
    FEATURES
-================================ */
+========================= */
 
 .features-section {
+
     max-width: 1400px;
 
     margin: auto;
 
-    padding: 40px 6% 90px;
+    padding:
+        40px 6% 90px;
 }
 
+
 .features {
+
     display: grid;
 
     grid-template-columns:
@@ -540,38 +853,53 @@ body {
     gap: 18px;
 }
 
+
 .feature-card {
-    padding: 28px 20px;
+
+    padding:
+        28px 20px;
 
     text-align: center;
 
     border-radius: 18px;
 
-    background: rgba(255,255,255,0.045);
+    background:
+        rgba(255,255,255,0.045);
 
-    border: 1px solid rgba(255,255,255,0.07);
+    border:
+        1px solid
+        rgba(255,255,255,0.07);
 
     transition: 0.3s;
 }
 
+
 .feature-card:hover {
-    transform: translateY(-6px);
+
+    transform:
+        translateY(-6px);
 
     border-color:
         rgba(0,217,255,0.3);
 }
 
+
 .feature-icon {
+
     font-size: 35px;
 
     margin-bottom: 12px;
 }
 
+
 .feature-card h3 {
+
     margin-bottom: 8px;
 }
 
+
 .feature-card p {
+
     color: #9fa8bd;
 
     font-size: 14px;
@@ -580,22 +908,28 @@ body {
 }
 
 
-/* ===============================
+/* =========================
    FOOTER
-================================ */
+========================= */
 
 .footer {
+
     text-align: center;
 
-    padding: 50px 20px;
+    padding:
+        50px 20px;
 
     border-top:
-        1px solid rgba(255,255,255,0.07);
+        1px solid
+        rgba(255,255,255,0.07);
 
-    background: rgba(0,0,0,0.25);
+    background:
+        rgba(0,0,0,0.25);
 }
 
+
 .footer-logo {
+
     font-size: 24px;
 
     font-weight: 900;
@@ -603,17 +937,23 @@ body {
     margin-bottom: 12px;
 }
 
+
 .footer-logo span {
+
     color: #00d9ff;
 }
 
+
 .footer p {
+
     color: #9fa8bd;
 
     margin-bottom: 20px;
 }
 
+
 .footer-links {
+
     display: flex;
 
     justify-content: center;
@@ -625,7 +965,9 @@ body {
     margin-bottom: 22px;
 }
 
+
 .footer-links a {
+
     color: #ffffff;
 
     text-decoration: none;
@@ -635,131 +977,182 @@ body {
     transition: 0.3s;
 }
 
+
 .footer-links a:hover {
+
     color: #00d9ff;
 }
 
+
 .copyright {
+
     color: #667085;
 
     font-size: 13px;
 }
 
 
-/* ===============================
+/* =========================
    TABLET
-================================ */
+========================= */
 
 @media (max-width: 1050px) {
 
     .games-grid {
+
         grid-template-columns:
             repeat(2, 1fr);
     }
 
+
     .features {
+
         grid-template-columns:
             repeat(2, 1fr);
     }
 }
 
 
-/* ===============================
+/* =========================
    MOBILE
-================================ */
+========================= */
 
 @media (max-width: 650px) {
 
     .header {
-        padding: 15px 5%;
+
+        padding:
+            15px 5%;
     }
 
+
     .logo {
+
         font-size: 20px;
     }
 
+
     .nav {
+
         gap: 12px;
     }
 
+
     .nav a {
+
         font-size: 12px;
     }
 
+
     .hero {
+
         min-height: 480px;
 
-        padding: 60px 20px;
+        padding:
+            60px 20px;
     }
 
+
     .hero h1 {
+
         font-size: 48px;
     }
 
+
     .hero p {
+
         font-size: 15px;
     }
 
+
     .categories {
-        padding-top: 30px;
+
+        padding:
+            55px 15px 15px;
     }
 
-    .categories h2 {
-        font-size: 27px;
-    }
 
     .games-section {
+
         padding:
             55px 5%;
     }
 
+
     .games-grid {
-        grid-template-columns: 1fr;
+
+        grid-template-columns:
+            1fr;
 
         gap: 20px;
     }
 
+
     .game-image-box {
+
         height: 220px;
     }
 
+
     .features-section {
+
         padding:
             20px 5% 60px;
     }
 
+
     .features {
-        grid-template-columns: 1fr;
+
+        grid-template-columns:
+            1fr;
 
         gap: 15px;
     }
 
+
     .footer {
+
         padding:
             40px 15px;
     }
 }
 
 
-/* ===============================
+/* =========================
    SMALL PHONES
-================================ */
+========================= */
 
 @media (max-width: 400px) {
 
     .nav {
+
         gap: 8px;
     }
 
+
     .nav a {
+
         font-size: 11px;
     }
 
+
     .hero h1 {
+
         font-size: 40px;
     }
 
+
     .game-image-box {
+
         height: 200px;
+    }
+
+
+    .category-btn {
+
+        padding:
+            9px 14px;
+
+        font-size: 13px;
     }
 }
