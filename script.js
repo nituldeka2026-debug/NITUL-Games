@@ -1,84 +1,200 @@
-// PLAY GAME
+// ======================================
+// NITUL GAMES
+// SEARCH + CATEGORY FILTER
+// ======================================
 
-function playGame(gameName) {
+document.addEventListener("DOMContentLoaded", function () {
 
-    alert(
-        gameName +
-        " is coming soon! 🎮"
-    );
+    const searchInput = document.getElementById("gameSearch");
+    const gameCards = document.querySelectorAll(".game-card");
+    const noResults = document.getElementById("noResults");
+    const categoryButtons =
+        document.querySelectorAll(".category-btn");
 
-}
-
-
-// ANDROID
-
-function androidMessage() {
-
-    alert(
-        "NITUL Games Android games are coming soon! 📱"
-    );
-
-}
+    let currentCategory = "all";
 
 
-// CATEGORY FILTER
+    // ==============================
+    // FILTER GAMES
+    // ==============================
 
-function filterGames(category) {
+    function updateGames() {
+
+        const searchText =
+            searchInput.value
+                .trim()
+                .toLowerCase();
+
+        let visibleGames = 0;
+
+
+        gameCards.forEach(function (game) {
+
+            const category =
+                game.dataset.category || "";
+
+            const searchData =
+                game.dataset.search ||
+                game.querySelector("h3").innerText;
+
+            const matchesCategory =
+                currentCategory === "all" ||
+                category === currentCategory;
+
+            const matchesSearch =
+                searchData
+                    .toLowerCase()
+                    .includes(searchText);
+
+
+            if (matchesCategory && matchesSearch) {
+
+                game.classList.remove("game-hidden");
+
+                visibleGames++;
+
+            } else {
+
+                game.classList.add("game-hidden");
+
+            }
+
+        });
+
+
+        // NO RESULT MESSAGE
+
+        if (visibleGames === 0) {
+
+            noResults.style.display = "block";
+
+        } else {
+
+            noResults.style.display = "none";
+
+        }
+
+    }
+
+
+    // ==============================
+    // SEARCH
+    // ==============================
+
+    if (searchInput) {
+
+        searchInput.addEventListener(
+            "input",
+            updateGames
+        );
+
+    }
+
+
+    // ==============================
+    // CATEGORY BUTTONS
+    // ==============================
+
+    categoryButtons.forEach(function (button) {
+
+        button.addEventListener(
+            "click",
+            function () {
+
+                currentCategory =
+                    button.getAttribute("data-category");
+
+                categoryButtons.forEach(function (btn) {
+
+                    btn.classList.remove("active");
+
+                });
+
+                button.classList.add("active");
+
+                updateGames();
+
+            }
+        );
+
+    });
+
+
+    // ==============================
+    // INITIAL
+    // ==============================
+
+    updateGames();
+
+});
+
+
+// ======================================
+// CATEGORY BUTTON FUNCTION
+// ======================================
+
+function filterGames(category, button) {
+
+    const buttons =
+        document.querySelectorAll(".category-btn");
+
+    buttons.forEach(function (btn) {
+
+        btn.classList.remove("active");
+
+    });
+
+    button.classList.add("active");
+
+
+    const searchInput =
+        document.getElementById("gameSearch");
+
+    if (searchInput) {
+
+        searchInput.value = "";
+
+    }
+
 
     const games =
         document.querySelectorAll(".game-card");
 
-    games.forEach(function(game) {
+    let visibleGames = 0;
+
+    games.forEach(function (game) {
+
+        const gameCategory =
+            game.dataset.category;
 
         if (
             category === "all" ||
-            game.dataset.category === category
+            gameCategory === category
         ) {
 
-            game.style.display = "block";
+            game.classList.remove("game-hidden");
+
+            visibleGames++;
 
         } else {
 
-            game.style.display = "none";
+            game.classList.add("game-hidden");
 
         }
 
     });
 
-}
 
+    const noResults =
+        document.getElementById("noResults");
 
-// SEARCH
+    if (noResults) {
 
-function searchGames() {
+        noResults.style.display =
+            visibleGames === 0
+                ? "block"
+                : "none";
 
-    const search =
-        document
-        .getElementById("gameSearch")
-        .value
-        .toLowerCase();
-
-    const games =
-        document.querySelectorAll(".game-card");
-
-    games.forEach(function(game) {
-
-        const title =
-            game
-            .querySelector("h3")
-            .innerText
-            .toLowerCase();
-
-        if (title.includes(search)) {
-
-            game.style.display = "block";
-
-        } else {
-
-            game.style.display = "none";
-
-        }
-
-    });
+    }
 
 }
