@@ -7,10 +7,10 @@
     <title>NITUL Games - Free Online Games</title>
 
     <meta name="description"
-          content="Play free online games at NITUL Games. Enjoy racing, puzzle, arcade and action games on mobile and PC.">
+          content="Play free online games at NITUL Games. Enjoy racing, puzzle, action and arcade games on mobile and PC.">
 
     <meta name="keywords"
-          content="NITUL Games, free games, online games, racing games, puzzle games, arcade games">
+          content="NITUL Games, free online games, racing games, puzzle games, arcade games, browser games">
 
     <meta name="robots" content="index, follow">
 
@@ -21,8 +21,6 @@
 </head>
 
 <body>
-
-<!-- NAVBAR -->
 
 <header class="navbar">
 
@@ -39,8 +37,6 @@
 
 </header>
 
-
-<!-- HERO -->
 
 <section class="hero">
 
@@ -78,8 +74,6 @@
 </section>
 
 
-<!-- FEATURE BAR -->
-
 <section class="feature-bar">
 
     <div>
@@ -109,8 +103,6 @@
 </section>
 
 
-<!-- GAMES -->
-
 <section id="games" class="games-section">
 
     <div class="section-heading">
@@ -121,18 +113,78 @@
         </div>
 
         <p>
-            Choose your favourite game and start playing now.
+            Search and choose your favourite game.
         </p>
 
     </div>
 
 
-    <div class="games-grid">
+    <!-- SEARCH -->
+
+    <div class="game-tools">
+
+        <div class="search-box">
+
+            <span>🔍</span>
+
+            <input
+                type="search"
+                id="gameSearch"
+                placeholder="Search games..."
+                oninput="searchGames()"
+                autocomplete="off"
+            >
+
+        </div>
+
+
+        <!-- CATEGORIES -->
+
+        <div class="categories">
+
+            <button
+                class="category-btn active"
+                onclick="filterGames('all', this)">
+                🎮 All Games
+            </button>
+
+            <button
+                class="category-btn"
+                onclick="filterGames('racing', this)">
+                🏎️ Racing
+            </button>
+
+            <button
+                class="category-btn"
+                onclick="filterGames('puzzle', this)">
+                🧩 Puzzle
+            </button>
+
+            <button
+                class="category-btn"
+                onclick="filterGames('action', this)">
+                🚀 Action
+            </button>
+
+            <button
+                class="category-btn"
+                onclick="filterGames('arcade', this)">
+                🏃 Arcade
+            </button>
+
+        </div>
+
+    </div>
+
+
+    <div class="games-grid" id="gamesGrid">
 
 
         <!-- RACING -->
 
-        <article class="game-card racing-card">
+        <article class="game-card"
+                 data-category="racing"
+                 data-search="racing car race racing game">
 
             <div class="game-image racing-image">
 
@@ -155,7 +207,7 @@
 
                 <div class="game-bottom">
 
-                    <span>⭐ Arcade</span>
+                    <span>⭐ Racing</span>
 
                     <a href="racing.html">
                         PLAY NOW →
@@ -170,7 +222,9 @@
 
         <!-- BRAIN PUZZLE -->
 
-        <article class="game-card">
+        <article class="game-card"
+                 data-category="puzzle"
+                 data-search="brain puzzle brain puzzle game">
 
             <div class="game-image puzzle-image">
 
@@ -208,7 +262,9 @@
 
         <!-- SPACE ATTACK -->
 
-        <article class="game-card">
+        <article class="game-card"
+                 data-category="action"
+                 data-search="space attack space action shooting">
 
             <div class="game-image space-image">
 
@@ -246,14 +302,16 @@
 
         <!-- RUN MASTER -->
 
-        <article class="game-card">
+        <article class="game-card"
+                 data-category="arcade"
+                 data-search="run master running arcade runner">
 
             <div class="game-image run-image">
 
                 <span class="big-icon">🏃</span>
 
                 <span class="game-badge">
-                    🏃 RUNNING
+                    🏃 ARCADE
                 </span>
 
             </div>
@@ -284,10 +342,17 @@
 
     </div>
 
+
+    <!-- NO RESULT -->
+
+    <div id="noResults" class="no-results">
+
+        😕 No games found.
+
+    </div>
+
 </section>
 
-
-<!-- ABOUT -->
 
 <section id="about" class="about-section">
 
@@ -295,7 +360,9 @@
 
         <span class="section-label">ABOUT US</span>
 
-        <h2>Welcome to <span>NITUL Games</span></h2>
+        <h2>
+            Welcome to <span>NITUL Games</span>
+        </h2>
 
         <p>
             NITUL Games is a free online gaming platform created
@@ -304,7 +371,7 @@
 
         <p>
             Play directly from your browser without installing
-            any software. New games will be added regularly.
+            any software.
         </p>
 
         <a href="about.html" class="outline-btn">
@@ -316,15 +383,17 @@
 </section>
 
 
-<!-- WHY NITUL GAMES -->
-
 <section class="why-section">
 
     <div class="section-heading center">
 
-        <span class="section-label">WHY NITUL GAMES?</span>
+        <span class="section-label">
+            WHY NITUL GAMES?
+        </span>
 
-        <h2>Built For Gamers 🎮</h2>
+        <h2>
+            Built For Gamers 🎮
+        </h2>
 
     </div>
 
@@ -332,66 +401,45 @@
     <div class="why-grid">
 
         <div class="why-card">
-
             <span>⚡</span>
-
             <h3>Fast & Lightweight</h3>
-
             <p>
                 Our games are designed to load quickly
                 and run smoothly.
             </p>
-
         </div>
 
-
         <div class="why-card">
-
             <span>📱</span>
-
             <h3>Play Anywhere</h3>
-
             <p>
                 Enjoy NITUL Games on phones, tablets
                 and computers.
             </p>
-
         </div>
 
-
         <div class="why-card">
-
             <span>🆓</span>
-
             <h3>Free To Play</h3>
-
             <p>
                 Play our games online without
                 downloading anything.
             </p>
-
         </div>
 
-
         <div class="why-card">
-
             <span>🔥</span>
-
             <h3>More Games Coming</h3>
-
             <p>
                 New games and exciting challenges
                 will be added regularly.
             </p>
-
         </div>
 
     </div>
 
 </section>
 
-
-<!-- FOOTER -->
 
 <footer>
 
@@ -452,6 +500,8 @@
 
 </footer>
 
+
+<script src="script.js"></script>
 
 </body>
 </html>
