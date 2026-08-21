@@ -15,7 +15,6 @@ body {
     line-height: 1.6;
 }
 
-
 /* HEADER */
 
 .header {
@@ -54,7 +53,6 @@ nav a:hover {
     color: #00e5ff;
 }
 
-
 /* HERO */
 
 .hero {
@@ -92,7 +90,6 @@ nav a:hover {
     margin-bottom: 30px;
 }
 
-
 /* BUTTON */
 
 .play-button,
@@ -113,7 +110,6 @@ nav a:hover {
 .play-button:hover {
     transform: scale(1.08);
 }
-
 
 /* GAMES */
 
@@ -144,7 +140,6 @@ nav a:hover {
 
     gap: 25px;
 }
-
 
 /* GAME CARD */
 
@@ -187,7 +182,6 @@ nav a:hover {
     transform: scale(1.05);
 }
 
-
 /* ABOUT */
 
 .about-section {
@@ -201,7 +195,6 @@ nav a:hover {
     margin: 15px auto;
     color: #c4cada;
 }
-
 
 /* WHY */
 
@@ -239,7 +232,6 @@ nav a:hover {
     color: #aeb5c8;
 }
 
-
 /* FOOTER */
 
 footer {
@@ -274,7 +266,6 @@ footer {
 footer p {
     color: #777f94;
 }
-
 
 /* MOBILE */
 
