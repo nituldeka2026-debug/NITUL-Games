@@ -1,1 +1,147 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
+    <title>Puku Blast</title>
+
+    <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+
+<div class="game-shell">
+
+    <!-- TOP PANEL -->
+    <header class="top">
+
+        <div class="score-card">
+
+            <div class="stars">
+                ★ ★ ★
+            </div>
+
+            <div class="progress">
+                <div id="scoreFill"></div>
+            </div>
+
+            <div class="score">
+                Score: <span id="score">0</span>
+            </div>
+
+        </div>
+
+
+        <!-- LEVEL -->
+        <div class="level-card">
+
+            <small id="level">PUKU 1</small>
+
+            <strong id="moves">25</strong>
+
+            <span>MOVES</span>
+
+        </div>
+
+
+        <!-- TARGET -->
+        <div class="target-card">
+
+            <div class="target-icon">
+                🧪
+            </div>
+
+            <div>
+                <span id="targetNow">0</span> /
+                <span id="targetNeed">30</span>
+            </div>
+
+        </div>
+
+
+        <!-- MENU -->
+        <button id="menuBtn" class="menu">
+            ☰
+        </button>
+
+    </header>
+
+
+    <!-- GAME BOARD -->
+
+    <main class="play-area">
+
+        <div class="board-wrap">
+
+            <div id="board" class="board"></div>
+
+        </div>
+
+    </main>
+
+
+    <!-- BOOSTERS -->
+
+    <footer class="boosters">
+
+        <button class="booster" data-booster="hammer">
+            🔨
+            <b>5</b>
+        </button>
+
+        <button class="booster" data-booster="bomb">
+            💥
+            <b>2</b>
+        </button>
+
+        <button class="booster" data-booster="hand">
+            ✋
+            <b>4</b>
+        </button>
+
+        <button class="booster" data-booster="stripe">
+            🎯
+            <b>3</b>
+        </button>
+
+        <button class="booster" data-booster="rainbow">
+            🌈
+            <b>1</b>
+        </button>
+
+    </footer>
+
+</div>
+
+
+<!-- MESSAGE -->
+
+<div id="toast" class="toast"></div>
+
+
+<!-- GAME OVER -->
+
+<div id="modal" class="modal hidden">
+
+    <div class="modal-card">
+
+        <h2 id="modalTitle">
+            Puku Blast
+        </h2>
+
+        <p id="modalText"></p>
+
+        <button id="restartBtn">
+            Play Again
+        </button>
+
+    </div>
+
+</div>
+
+
+<script src="script.js"></script>
+
+</body>
+</html>
