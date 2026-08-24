@@ -1,629 +1,329 @@
-* {
-    box-sizing: border-box;
-    -webkit-tap-highlight-color: transparent;
-}
-
-body {
-    margin: 0;
-    min-height: 100vh;
-    overflow: hidden;
-
-    font-family: Arial, sans-serif;
-    color: white;
-
-    background:
-        radial-gradient(circle at 50% 0%, #55e3d0 0%, #2db3be 20%, transparent 45%),
-        linear-gradient(#1db6bd 0%, #101c74 28%, #06165e 100%);
-}
-
-
-/* MAIN */
-
-.game-shell {
-    min-height: 100vh;
-
-    display: flex;
-    flex-direction: column;
-
-    max-width: 760px;
-
-    margin: auto;
-}
-
-
-/* TOP */
-
-.top {
-
-    min-height: 160px;
-
-    padding: 12px;
-
-    display: grid;
-
-    grid-template-columns:
-        1fr
-        140px
-        1fr
-        55px;
-
-    gap: 10px;
-
-    align-items: center;
-
-}
-
-
-/* SCORE */
-
-.score-card {
-
-    text-shadow: 0 2px 3px #125;
-
-}
-
-.stars {
-
-    font-size: 25px;
-
-    color: #659a97;
-
-    letter-spacing: 5px;
-
-}
-
-.progress {
-
-    height: 14px;
-
-    margin-top: 8px;
-
-    border-radius: 20px;
-
-    background: rgba(0, 80, 110, .5);
-
-    overflow: hidden;
-
-}
-
-#scoreFill {
-
-    height: 100%;
-
-    width: 0%;
-
-    border-radius: 20px;
-
-    background:
-        linear-gradient(
-            90deg,
-            #ffd25a,
-            #fff4aa
-        );
-
-}
-
-.score {
-
-    margin-top: 10px;
-
-    font-size: 18px;
-
-}
-
-
-/* LEVEL */
-
-.level-card {
-
-    height: 140px;
-
-    border-radius:
-        0
-        0
-        40px
-        40px;
-
-    background:
-        radial-gradient(
-            circle,
-            #51d6c5,
-            #169a9b 70%
-        );
-
-    display: flex;
-
-    flex-direction: column;
-
-    align-items: center;
-
-    justify-content: center;
-
-    box-shadow:
-        0 8px 16px rgba(0,0,0,.3);
-
-}
-
-.level-card small {
-
-    font-size: 18px;
-
-    font-weight: bold;
-
-    color: #176c76;
-
-}
-
-.level-card strong {
-
-    font-size: 45px;
-
-    line-height: 50px;
-
-}
-
-.level-card span {
-
-    font-size: 10px;
-
-    letter-spacing: 2px;
-
-}
-
-
-/* TARGET */
-
-.target-card {
-
-    display: flex;
-
-    align-items: center;
-
-    justify-content: center;
-
-    gap: 8px;
-
-    font-size: 24px;
-
-}
-
-.target-icon {
-
-    font-size: 50px;
-
-}
-
-
-/* MENU */
-
-.menu {
-
-    width: 52px;
-
-    height: 52px;
-
-    border-radius: 15px;
-
-    border: 3px solid #1971a5;
-
-    background:
-        linear-gradient(
-            #43c8de,
-            #126da3
-        );
-
-    font-size: 28px;
-
-}
-
-
-/* GAME AREA */
-
-.play-area {
-
-    flex: 1;
-
-    display: flex;
-
-    align-items: center;
-
-    justify-content: center;
-
-    padding: 8px;
-
-}
-
-
-.board-wrap {
-
-    width: min(96vw, 690px);
-
-    aspect-ratio: 1;
-
-    padding: 7px;
-
-    border-radius: 15px;
-
-    background:
-        linear-gradient(
-            135deg,
-            rgba(46,207,225,.4),
-            rgba(4,37,121,.5)
-        );
-
-}
-
-
-.board {
-
-    width: 100%;
-
-    height: 100%;
-
-    display: grid;
-
-    grid-template-columns: repeat(9, 1fr);
-
-    grid-template-rows: repeat(9, 1fr);
-
-    gap: 2px;
-
-}
-
-
-/* CELL */
-
-.cell {
-
-    border: 0;
-
-    border-radius: 7px;
-
+/* ================= CANDY ================= */
+
+.candy {
+    width: 78%;
+    height: 78%;
     position: relative;
+    transition:
+        transform .18s ease,
+        opacity .18s ease;
 
-    overflow: hidden;
+    filter:
+        drop-shadow(0 4px 3px rgba(0, 0, 50, .35));
 
-    display: flex;
-
-    align-items: center;
-
-    justify-content: center;
-
-    cursor: pointer;
-
-    background:
-        linear-gradient(
-            135deg,
-            #0a4a9c,
-            #063179
-        );
-
-}
-
-.cell.selected {
-
-    outline: 4px solid #fff7a5;
-
-    z-index: 10;
-
+    animation: candyPop .22s ease;
 }
 
 
-/* BLOCK */
+/* GLOSSY HIGHLIGHT */
 
-.cell.blocked::after {
-
+.candy::before {
     content: "";
 
     position: absolute;
 
-    inset: 3px;
+    width: 35%;
+    height: 22%;
 
-    border-radius: 7px;
+    top: 12%;
+    left: 15%;
+
+    border-radius: 50%;
 
     background:
-        linear-gradient(
-            135deg,
-            #ffc542,
-            #ff7b12
-        );
+        rgba(255, 255, 255, .55);
 
-    border: 2px solid #fff0a0;
+    transform: rotate(-25deg);
 
-    z-index: 5;
-
+    filter: blur(1px);
 }
 
 
-/* CANDY */
+/* SMALL SHINE */
 
-.candy {
+.candy::after {
+    content: "";
 
-    width: 76%;
+    position: absolute;
 
-    height: 76%;
+    width: 18%;
+    height: 12%;
 
-    position: relative;
+    bottom: 15%;
+    right: 15%;
 
-    transition:
-        transform .2s,
-        opacity .2s;
+    border-radius: 50%;
 
+    background:
+        rgba(255, 255, 255, .25);
 }
 
 
-/* RED */
+/* ================= RED JELLY DROP ================= */
 
 .red {
 
     background:
-        linear-gradient(
-            135deg,
-            #ff5145,
-            #c60014,
-            #70000c
+        radial-gradient(
+            circle at 30% 25%,
+            #ffb1a8 0%,
+            #ff4d55 25%,
+            #d5112b 60%,
+            #750013 100%
         );
 
     border-radius:
-        60%
-        25%
-        60%
-        30%;
+        65% 35%
+        70% 30%
+        / 40% 65%
+        35% 60%;
 
     transform: rotate(35deg);
+
+    border:
+        2px solid
+        rgba(255,255,255,.28);
 
 }
 
 
-/* YELLOW */
+/* ================= YELLOW SUN CANDY ================= */
 
 .yellow {
 
     background:
         radial-gradient(
-            circle at 38% 25%,
-            #fffbb0,
-            #ffd520,
-            #d28a00
+            circle at 32% 24%,
+            #fffbd0 0%,
+            #ffe75c 22%,
+            #ffc800 55%,
+            #d77c00 100%
         );
 
     border-radius: 50%;
 
+    border:
+        2px solid
+        rgba(255,255,255,.3);
+
+    box-shadow:
+        inset 0 -5px 8px rgba(160,80,0,.35);
+
 }
 
 
-/* BLUE */
+/* ================= BLUE DIAMOND ================= */
 
 .blue {
 
     background:
         linear-gradient(
             135deg,
-            #6ffff8,
-            #19b5dc,
-            #0756ad
+            #b9ffff 0%,
+            #46e8ff 25%,
+            #1599e6 60%,
+            #063a9e 100%
         );
 
     border-radius:
-        55%
-        45%
-        55%
-        45%;
+        25% 60%
+        25% 60%;
 
     transform: rotate(45deg);
+
+    border:
+        2px solid
+        rgba(255,255,255,.3);
 
 }
 
 
-/* GREEN */
+/* ================= GREEN LEAF ================= */
 
 .green {
 
     background:
-        linear-gradient(
-            135deg,
-            #63ff63,
-            #0fbd29,
-            #047014
+        radial-gradient(
+            ellipse at 30% 25%,
+            #c7ff9e 0%,
+            #67f044 30%,
+            #17b42c 65%,
+            #05721b 100%
         );
 
     border-radius:
-        25%
-        55%
-        25%
-        55%;
+        15% 70%
+        15% 70%;
+
+    transform: rotate(45deg);
+
+    border:
+        2px solid
+        rgba(255,255,255,.28);
 
 }
 
 
-/* PURPLE */
+/* ================= PURPLE SWIRL ================= */
 
 .purple {
 
     background:
         radial-gradient(
-            circle at 35% 25%,
-            #ff9dff,
-            #b11ad4,
-            #590072
+            circle at 32% 24%,
+            #ffd2ff 0%,
+            #ee75ff 22%,
+            #a61bd5 58%,
+            #50006f 100%
         );
 
     border-radius: 50%;
 
-}
+    border:
+        2px solid
+        rgba(255,255,255,.3);
 
-
-/* ORANGE */
-
-.orange {
-
-    background:
-        radial-gradient(
-            circle at 38% 25%,
-            #fff3a4,
-            #ff9e0a,
-            #cf5200
-        );
-
-    border-radius: 45%;
+    overflow: hidden;
 
 }
 
 
-/* BOOSTERS */
+.purple::after {
 
-.boosters {
-
-    height: 130px;
-
-    display: flex;
-
-    justify-content: center;
-
-    align-items: center;
-
-    gap: 15px;
-
-}
-
-
-.booster {
-
-    width: 70px;
-
-    height: 70px;
-
-    border-radius: 50%;
-
-    border: 3px solid #29b53a;
-
-    background:
-        radial-gradient(
-            circle at 40% 25%,
-            #4cf34d,
-            #14962a,
-            #075f1d
-        );
-
-    font-size: 30px;
-
-    position: relative;
-
-}
-
-
-.booster b {
+    content: "✦";
 
     position: absolute;
 
-    right: -8px;
-
-    top: -8px;
-
-    background: #d62ea7;
-
-    border-radius: 50%;
-
-    padding: 5px 8px;
-
-}
-
-
-.booster.active {
-
-    outline: 4px solid #fff7a5;
-
-}
-
-
-/* TOAST */
-
-.toast {
-
-    position: fixed;
-
-    top: 15px;
-
-    left: 50%;
-
-    transform:
-        translate(-50%, -100px);
-
-    padding: 10px 20px;
-
-    border-radius: 20px;
-
-    background: #102d74;
-
-    transition: .3s;
-
-}
-
-
-.toast.show {
-
-    transform:
-        translate(-50%, 0);
-
-}
-
-
-/* MODAL */
-
-.modal {
-
-    position: fixed;
-
     inset: 0;
-
-    background:
-        rgba(0,0,40,.7);
 
     display: grid;
 
     place-items: center;
 
-}
+    font-size: 26px;
 
-
-.hidden {
-
-    display: none;
+    color:
+        rgba(255,255,255,.45);
 
 }
 
 
-.modal-card {
+/* ================= ORANGE FLOWER ================= */
 
-    width: 300px;
-
-    padding: 30px;
-
-    text-align: center;
-
-    border-radius: 25px;
+.orange {
 
     background:
-        linear-gradient(
-            #55d9ce,
-            #116aa4
+        radial-gradient(
+            circle at 30% 25%,
+            #fff0b0 0%,
+            #ffbf3f 20%,
+            #ff7b10 55%,
+            #b53600 100%
         );
+
+    border-radius:
+        55% 35%
+        55% 35%;
+
+    transform: rotate(20deg);
+
+    border:
+        2px solid
+        rgba(255,255,255,.3);
 
 }
 
 
-.modal-card button {
+/* ================= CANDY POP ================= */
 
-    padding:
-        12px
-        25px;
+@keyframes candyPop {
 
-    border: 0;
+    0% {
+        transform: scale(.65);
+        opacity: 0;
+    }
 
-    border-radius: 25px;
+    70% {
+        transform: scale(1.08);
+        opacity: 1;
+    }
 
-    background: #ffcf32;
+    100% {
+        transform: scale(1);
+    }
 
-    font-size: 18px;
+}
+
+
+/* ================= SELECTED CANDY ================= */
+
+.cell.selected .candy {
+
+    animation:
+        selectedBounce .6s infinite alternate;
+
+}
+
+
+@keyframes selectedBounce {
+
+    from {
+
+        transform:
+            scale(1);
+
+    }
+
+    to {
+
+        transform:
+            scale(1.15);
+
+    }
+
+}
+
+
+/* ================= MATCH BLAST EFFECT ================= */
+
+.candy.blast {
+
+    animation:
+        blastCandy .35s ease forwards;
+
+}
+
+
+@keyframes blastCandy {
+
+    0% {
+
+        transform:
+            scale(1)
+            rotate(0deg);
+
+        opacity: 1;
+
+    }
+
+    60% {
+
+        transform:
+            scale(1.5)
+            rotate(120deg);
+
+        opacity: .7;
+
+    }
+
+    100% {
+
+        transform:
+            scale(0)
+            rotate(260deg);
+
+        opacity: 0;
+
+    }
 
 }
