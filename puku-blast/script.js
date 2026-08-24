@@ -1,6 +1,7 @@
-const SIZE = 9;
+const ROWS = 9;
+const COLS = 9;
 
-const COLORS = [
+const TYPES = [
     "red",
     "yellow",
     "blue",
@@ -9,24 +10,25 @@ const COLORS = [
     "orange"
 ];
 
-let board = [];
+
+let grid = [];
 
 let score = 0;
 
 let moves = 25;
 
-let target = 0;
+let goal = 30;
 
-let need = 30;
+let level = 1;
+
+let locked = false;
 
 let selected = null;
 
-let busy = false;
 
-let activeBooster = null;
+/* ELEMENTS */
 
-
-const boardEl =
+const board =
     document.getElementById("board");
 
 const scoreEl =
@@ -35,420 +37,367 @@ const scoreEl =
 const movesEl =
     document.getElementById("moves");
 
-const targetNow =
-    document.getElementById("targetNow");
+const goalEl =
+    document.getElementById("goal");
 
-const targetNeed =
-    document.getElementById("targetNeed");
+const levelEl =
+    document.getElementById("level");
+
+const progress =
+    document.getElementById("progress");
+
+const modal =
+    document.getElementById("modal");
+
+const modalTitle =
+    document.getElementById("modalTitle");
+
+const modalText =
+    document.getElementById("modalText");
+
+const playBtn =
+    document.getElementById("playBtn");
 
 
 /* RANDOM CANDY */
 
-function randomCandy() {
+function randomType() {
 
-    return COLORS[
+    return TYPES[
         Math.floor(
-            Math.random() * COLORS.length
+            Math.random() * TYPES.length
         )
     ];
-
 }
 
 
-/* CREATE BOARD */
+/* PREVENT STARTING MATCH */
 
-function createBoard() {
+function wouldMatch(r, c, type) {
 
-    board = [];
+    const horizontal =
+        c >= 2 &&
+        grid[r][c - 1]?.type === type &&
+        grid[r][c - 2]?.type === type;
 
-    for (let row = 0; row < SIZE; row++) {
+    const vertical =
+        r >= 2 &&
+        grid[r - 1]?.[c]?.type === type &&
+        grid[r - 2]?.[c]?.type === type;
 
-        let newRow = [];
+    return horizontal || vertical;
+}
 
-        for (let col = 0; col < SIZE; col++) {
 
-            newRow.push({
+/* START LEVEL */
 
-                type: randomCandy(),
+function startLevel() {
 
-                blocked: false
+    score = 0;
 
-            });
+    moves =
+        25 +
+        Math.min(
+            10,
+            Math.floor(level / 5)
+        );
+
+    goal =
+        30 +
+        level * 4;
+
+
+    grid =
+        Array.from(
+            { length: ROWS },
+            () => Array(COLS)
+        );
+
+
+    for (
+        let r = 0;
+        r < ROWS;
+        r++
+    ) {
+
+        for (
+            let c = 0;
+            c < COLS;
+            c++
+        ) {
+
+            let type;
+
+            do {
+
+                type =
+                    randomType();
+
+            } while (
+                wouldMatch(
+                    r,
+                    c,
+                    type
+                )
+            );
+
+
+            grid[r][c] = {
+
+                type: type,
+
+                special: null
+
+            };
 
         }
-
-        board.push(newRow);
 
     }
 
 
-    /* HONEY BLOCKS */
+    render();
 
-    const blocks = [
-
-        [0,0],[0,1],[0,3],
-        [0,4],[0,5],[0,7],
-        [0,8],
-
-        [1,0],[1,1],
-        [1,3],[1,4],[1,5],
-        [1,7],[1,8],
-
-        [2,0],
-        [2,4],
-        [2,8],
-
-        [6,3],
-        [6,5],
-
-        [7,3],[7,4],[7,5],
-
-        [8,3],[8,4],[8,5]
-
-    ];
-
-
-    blocks.forEach(pos => {
-
-        let r = pos[0];
-
-        let c = pos[1];
-
-        board[r][c].blocked = true;
-
-    });
-
-
-    renderBoard();
-
+    updateUI();
 }
 
 
 /* DRAW BOARD */
 
-function renderBoard() {
+function render() {
 
-    boardEl.innerHTML = "";
+    board.innerHTML = "";
 
-    for (let r = 0; r < SIZE; r++) {
 
-        for (let c = 0; c < SIZE; c++) {
+    for (
+        let r = 0;
+        r < ROWS;
+        r++
+    ) {
 
-            const data =
-                board[r][c];
-
+        for (
+            let c = 0;
+            c < COLS;
+            c++
+        ) {
 
             const cell =
-                document.createElement("button");
-
-
-            cell.className = "cell";
-
-
-            if (data.blocked) {
-
-                cell.classList.add(
-                    "blocked"
+                document.createElement(
+                    "div"
                 );
 
-            }
+
+            cell.className =
+                "cell";
 
 
             const candy =
-                document.createElement("div");
+                document.createElement(
+                    "div"
+                );
+
+
+            const item =
+                grid[r][c];
 
 
             candy.className =
-                "candy " + data.type;
+                "candy " +
+                item.type +
+                (
+                    item.special
+                    ?
+                    " " +
+                    item.special
+                    :
+                    ""
+                );
 
 
-            cell.appendChild(candy);
-
-
-            cell.addEventListener(
-                "click",
-                function() {
-
-                    clickCandy(r, c);
-
-                }
+            cell.appendChild(
+                candy
             );
 
 
-            boardEl.appendChild(cell);
+            cell.addEventListener(
+                "pointerdown",
+                () => selectCandy(r, c)
+            );
+
+
+            board.appendChild(
+                cell
+            );
 
         }
 
     }
 
-
-    updateHUD();
-
 }
 
 
-/* UPDATE SCORE */
+/* SELECT CANDY */
 
-function updateHUD() {
+function selectCandy(r, c) {
 
-    scoreEl.textContent =
-        score;
-
-    movesEl.textContent =
-        moves;
-
-    targetNow.textContent =
-        target;
-
-    targetNeed.textContent =
-        need;
+    if (locked) return;
 
 
-    document
-        .getElementById("scoreFill")
-        .style.width =
-        Math.min(
-            100,
-            score / 1500 * 100
-        ) + "%";
+    if (!selected) {
 
-}
+        selected = {
+            r: r,
+            c: c
+        };
 
+        return;
 
-/* CANDY CLICK */
-
-function clickCandy(r, c) {
-
-    if (busy) return;
-
-    if (moves <= 0) return;
+    }
 
 
-    if (board[r][c].blocked) {
-
-        showMessage(
-            "Blocked Candy!"
+    const rowDifference =
+        Math.abs(
+            r - selected.r
         );
 
-        return;
 
-    }
-
-
-    /* FIRST SELECT */
-
-    if (selected === null) {
-
-        selected = [r, c];
-
-        highlightSelected();
-
-        return;
-
-    }
-
-
-    const sr =
-        selected[0];
-
-    const sc =
-        selected[1];
-
-
-    /* SAME CANDY */
-
-    if (sr === r && sc === c) {
-
-        selected = null;
-
-        highlightSelected();
-
-        return;
-
-    }
-
-
-    /* CHECK NEIGHBOUR */
-
-    const distance =
-        Math.abs(sr - r)
-        +
-        Math.abs(sc - c);
-
-
-    if (distance !== 1) {
-
-        selected = [r, c];
-
-        highlightSelected();
-
-        return;
-
-    }
-
-
-    swap(sr, sc, r, c);
-
-
-    let matches =
-        findMatches();
-
-
-    /* NO MATCH */
-
-    if (matches.length === 0) {
-
-        swap(sr, sc, r, c);
-
-        selected = null;
-
-        renderBoard();
-
-        showMessage(
-            "No Match!"
+    const colDifference =
+        Math.abs(
+            c - selected.c
         );
 
-        return;
+
+    if (
+        rowDifference +
+        colDifference === 1
+    ) {
+
+        swapCandies(
+            selected.r,
+            selected.c,
+            r,
+            c
+        );
 
     }
 
 
     selected = null;
-
-    moves--;
-
-
-    resolveMatches(
-        matches
-    );
-
-}
-
-
-/* HIGHLIGHT */
-
-function highlightSelected() {
-
-    document
-        .querySelectorAll(".cell")
-        .forEach(cell => {
-
-            cell.classList.remove(
-                "selected"
-            );
-
-        });
-
-
-    if (selected) {
-
-        const r =
-            selected[0];
-
-        const c =
-            selected[1];
-
-
-        const cells =
-            document.querySelectorAll(
-                ".cell"
-            );
-
-
-        cells[
-            r * SIZE + c
-        ].classList.add(
-            "selected"
-        );
-
-    }
-
 }
 
 
 /* SWAP */
 
-function swap(
+async function swapCandies(
     r1,
     c1,
     r2,
     c2
 ) {
 
-    const temp =
-        board[r1][c1];
+    [
+        grid[r1][c1],
+        grid[r2][c2]
+    ] =
+    [
+        grid[r2][c2],
+        grid[r1][c1]
+    ];
 
 
-    board[r1][c1] =
-        board[r2][c2];
+    let matches =
+        findMatches();
 
 
-    board[r2][c2] =
-        temp;
+    if (
+        matches.length === 0
+    ) {
 
+        [
+            grid[r1][c1],
+            grid[r2][c2]
+        ] =
+        [
+            grid[r2][c2],
+            grid[r1][c1]
+        ];
+
+        return;
+    }
+
+
+    moves--;
+
+    locked = true;
+
+
+    await resolveMatches(
+        matches
+    );
+
+
+    locked = false;
+
+
+    checkGameEnd();
 }
 
 
-/* FIND MATCH */
+/* FIND MATCHES */
 
 function findMatches() {
 
-    let matches = [];
+    const matches =
+        new Set();
 
 
     /* HORIZONTAL */
 
     for (
         let r = 0;
-        r < SIZE;
+        r < ROWS;
         r++
     ) {
 
-        let count = 1;
+        let start = 0;
 
 
         for (
             let c = 1;
-            c <= SIZE;
+            c <= COLS;
             c++
         ) {
 
             if (
-                c < SIZE
-                &&
-                board[r][c].type
-                ===
-                board[r][c - 1].type
+                c < COLS &&
+                grid[r][c].type ===
+                grid[r][start].type
             ) {
 
-                count++;
+                continue;
 
             }
 
-            else {
 
-                if (
-                    count >= 3
+            if (
+                c - start >= 3
+            ) {
+
+                for (
+                    let x = start;
+                    x < c;
+                    x++
                 ) {
 
-                    for (
-                        let i =
-                            c - count;
-                        i < c;
-                        i++
-                    ) {
-
-                        matches.push(
-                            [r, i]
-                        );
-
-                    }
+                    matches.add(
+                        `${r},${x}`
+                    );
 
                 }
 
-                count = 1;
-
             }
+
+
+            start = c;
 
         }
 
@@ -459,214 +408,155 @@ function findMatches() {
 
     for (
         let c = 0;
-        c < SIZE;
+        c < COLS;
         c++
     ) {
 
-        let count = 1;
+        let start = 0;
 
 
         for (
             let r = 1;
-            r <= SIZE;
+            r <= ROWS;
             r++
         ) {
 
             if (
-
-                r < SIZE
-
-                &&
-
-                board[r][c].type
-                ===
-                board[r - 1][c].type
-
+                r < ROWS &&
+                grid[r][c].type ===
+                grid[start][c].type
             ) {
 
-                count++;
+                continue;
 
             }
 
-            else {
 
-                if (
-                    count >= 3
+            if (
+                r - start >= 3
+            ) {
+
+                for (
+                    let x = start;
+                    x < r;
+                    x++
                 ) {
 
-                    for (
-
-                        let i =
-                            r - count;
-
-                        i < r;
-
-                        i++
-
-                    ) {
-
-                        matches.push(
-                            [i, c]
-                        );
-
-                    }
+                    matches.add(
+                        `${x},${c}`
+                    );
 
                 }
 
-                count = 1;
-
             }
+
+
+            start = r;
 
         }
 
     }
-
-
-    /* REMOVE DUPLICATE */
-
-    const unique =
-        new Map();
-
-
-    matches.forEach(pos => {
-
-        unique.set(
-            pos[0] + "-" + pos[1],
-            pos
-        );
-
-    });
 
 
     return [
-        ...unique.values()
-    ];
-
+        ...matches
+    ].map(
+        value =>
+            value
+                .split(",")
+                .map(Number)
+    );
 }
 
 
-/* REMOVE MATCH */
+/* RESOLVE */
 
-async function resolveMatches(matches) {
-
-    busy = true;
-
+async function resolveMatches(
+    matches
+) {
 
     while (
-        matches.length > 0
+        matches.length
     ) {
 
         score +=
-            matches.length * 20;
+            matches.length * 60;
 
 
-        target +=
-            matches.length;
+        goal =
+            Math.max(
+                0,
+                goal - matches.length
+            );
 
 
-        matches.forEach(pos => {
+        /* REMOVE */
 
-            const r =
-                pos[0];
+        matches.forEach(
+            ([r, c]) => {
 
-            const c =
-                pos[1];
+                grid[r][c] =
+                    null;
 
-
-            board[r][c] =
-                null;
-
-        });
+            }
+        );
 
 
-        collapseBoard();
+        render();
+
+        updateUI();
 
 
-        renderBoard();
+        await wait(150);
 
 
-        await sleep(250);
-
-
-        matches =
-            findMatches();
-
-    }
-
-
-    busy = false;
-
-
-    checkGame();
-
-}
-
-
-/* DROP CANDY */
-
-function collapseBoard() {
-
-    for (
-        let c = 0;
-        c < SIZE;
-        c++
-    ) {
-
-        let candies = [];
-
+        /* DROP */
 
         for (
-            let r =
-                SIZE - 1;
-            r >= 0;
-            r--
+            let c = 0;
+            c < COLS;
+            c++
         ) {
 
-            if (
-                board[r][c]
-                !== null
+            let write =
+                ROWS - 1;
+
+
+            for (
+                let r = ROWS - 1;
+                r >= 0;
+                r--
             ) {
 
-                candies.push(
-                    board[r][c]
-                );
+                if (
+                    grid[r][c]
+                ) {
+
+                    grid[write][c] =
+                        grid[r][c];
+
+                    write--;
+
+                }
 
             }
 
-        }
 
+            /* NEW CANDIES */
 
-        for (
-            let r =
-                SIZE - 1;
-
-            r >= 0;
-
-            r--
-        ) {
-
-            let index =
-                SIZE - 1 - r;
-
-
-            if (
-                candies[index]
+            for (
+                let r = write;
+                r >= 0;
+                r--
             ) {
 
-                board[r][c] =
-                    candies[index];
-
-            }
-
-            else {
-
-                board[r][c] = {
+                grid[r][c] = {
 
                     type:
-                        randomCandy(),
+                        randomType(),
 
-                    blocked:
-                        false
+                    special:
+                        null
 
                 };
 
@@ -674,34 +564,114 @@ function collapseBoard() {
 
         }
 
+
+        render();
+
+
+        await wait(150);
+
+
+        matches =
+            findMatches();
+
     }
 
 }
 
 
-/* CHECK GAME */
+/* UI */
 
-function checkGame() {
+function updateUI() {
+
+    scoreEl.textContent =
+        score.toLocaleString();
+
+
+    movesEl.textContent =
+        moves;
+
+
+    const total =
+        30 + level * 4;
+
+
+    const completed =
+        total - goal;
+
+
+    goalEl.textContent =
+        completed +
+        "/" +
+        total;
+
+
+    levelEl.textContent =
+        level;
+
+
+    const percentage =
+        (
+            completed /
+            total
+        ) * 100;
+
+
+    progress.style.width =
+        Math.min(
+            100,
+            percentage
+        ) + "%";
+
+}
+
+
+/* END GAME */
+
+function checkGameEnd() {
 
     if (
-        target >= need
+        goal <= 0
     ) {
 
-        gameOver(
-            true
-        );
+        modalTitle.textContent =
+            "⭐ LEVEL COMPLETE!";
 
-        return;
+
+        modalText.textContent =
+            "Excellent! You scored " +
+            score.toLocaleString() +
+            " points. Ready for the next level?";
+
+
+        playBtn.textContent =
+            "NEXT LEVEL";
+
+
+        modal.classList.add(
+            "show"
+        );
 
     }
 
 
-    if (
+    else if (
         moves <= 0
     ) {
 
-        gameOver(
-            false
+        modalTitle.textContent =
+            "TRY AGAIN";
+
+
+        modalText.textContent =
+            "No moves left! Blast the candies again.";
+
+
+        playBtn.textContent =
+            "RETRY";
+
+
+        modal.classList.add(
+            "show"
         );
 
     }
@@ -709,104 +679,9 @@ function checkGame() {
 }
 
 
-/* GAME OVER */
+/* WAIT */
 
-function gameOver(win) {
-
-    const modal =
-        document.getElementById(
-            "modal"
-        );
-
-
-    const title =
-        document.getElementById(
-            "modalTitle"
-        );
-
-
-    const text =
-        document.getElementById(
-            "modalText"
-        );
-
-
-    if (win) {
-
-        title.textContent =
-            "Level Complete! 🎉";
-
-
-        text.textContent =
-            "Excellent! You collected "
-            +
-            target
-            +
-            " targets.";
-
-    }
-
-    else {
-
-        title.textContent =
-            "Out of Moves!";
-
-
-        text.textContent =
-            "You collected "
-            +
-            target
-            +
-            " / "
-            +
-            need;
-
-    }
-
-
-    modal.classList.remove(
-        "hidden"
-    );
-
-}
-
-
-/* MESSAGE */
-
-function showMessage(text) {
-
-    const toast =
-        document.getElementById(
-            "toast"
-        );
-
-
-    toast.textContent =
-        text;
-
-
-    toast.classList.add(
-        "show"
-    );
-
-
-    setTimeout(
-        function() {
-
-            toast.classList.remove(
-                "show"
-            );
-
-        },
-        1000
-    );
-
-}
-
-
-/* DELAY */
-
-function sleep(ms) {
+function wait(ms) {
 
     return new Promise(
         resolve =>
@@ -819,104 +694,324 @@ function sleep(ms) {
 }
 
 
-/* BOOSTERS */
+/* PLAY BUTTON */
 
-document
-    .querySelectorAll(
-        ".booster"
-    )
-    .forEach(btn => {
+playBtn.addEventListener(
+    "click",
+    () => {
 
-        btn.addEventListener(
-            "click",
-            function() {
+        if (
+            goal <= 0
+        ) {
 
-                activeBooster =
-                    btn.dataset.booster;
+            level++;
 
-
-                document
-                    .querySelectorAll(
-                        ".booster"
-                    )
-                    .forEach(b => {
-
-                        b.classList.remove(
-                            "active"
-                        );
-
-                    });
+        }
 
 
-                btn.classList.add(
-                    "active"
-                );
+        startLevel();
 
 
-                showMessage(
-                    activeBooster
-                    +
-                    " selected"
-                );
-
-            }
+        modal.classList.remove(
+            "show"
         );
 
-    });
+
+        playBtn.textContent =
+            "PLAY!";
+
+    }
+);
 
 
 /* MENU */
 
 document
-    .getElementById(
-        "menuBtn"
-    )
+    .getElementById("menuBtn")
     .addEventListener(
         "click",
-        function() {
+        () => {
 
-            showMessage(
-                "Puku Blast Menu"
+            modalTitle.textContent =
+                "🍬 PUKU BLAST";
+
+
+            modalText.textContent =
+                "Match 3 or more candies, " +
+                "make combos and clear the board!";
+
+
+            playBtn.textContent =
+                "PLAY!";
+
+
+            modal.classList.add(
+                "show"
             );
 
         }
     );
 
 
-/* RESTART */
+/* BOOSTERS */
 
 document
-    .getElementById(
-        "restartBtn"
-    )
-    .addEventListener(
-        "click",
-        function() {
+    .querySelectorAll(".booster")
+    .forEach(
+        button => {
 
-            score = 0;
+            button.addEventListener(
+                "click",
+                () => {
 
-            moves = 25;
-
-            target = 0;
-
-            selected = null;
+                    if (
+                        locked ||
+                        moves <= 0
+                    ) return;
 
 
-            document
-                .getElementById(
-                    "modal"
-                )
-                .classList.add(
-                    "hidden"
-                );
+                    const type =
+                        button.dataset.type;
 
 
-            createBoard();
+                    /* SHUFFLE */
+
+                    if (
+                        type ===
+                        "shuffle"
+                    ) {
+
+                        const all =
+                            grid
+                                .flat()
+                                .sort(
+                                    () =>
+                                        Math.random() -
+                                        0.5
+                                );
+
+
+                        grid =
+                            Array.from(
+                                {
+                                    length:
+                                        ROWS
+                                },
+                                (_, r) =>
+                                    all.slice(
+                                        r * COLS,
+                                        r * COLS +
+                                        COLS
+                                    )
+                            );
+
+
+                        score += 50;
+
+                    }
+
+
+                    /* HAMMER */
+
+                    if (
+                        type ===
+                        "hammer"
+                    ) {
+
+                        const r =
+                            Math.floor(
+                                Math.random() *
+                                ROWS
+                            );
+
+
+                        const c =
+                            Math.floor(
+                                Math.random() *
+                                COLS
+                            );
+
+
+                        grid[r][c] = {
+
+                            type:
+                                randomType(),
+
+                            special:
+                                null
+
+                        };
+
+
+                        score += 100;
+
+                    }
+
+
+                    /* ROCKET */
+
+                    if (
+                        type ===
+                        "rocket"
+                    ) {
+
+                        const r =
+                            Math.floor(
+                                Math.random() *
+                                ROWS
+                            );
+
+
+                        for (
+                            let c = 0;
+                            c < COLS;
+                            c++
+                        ) {
+
+                            grid[r][c] =
+                                null;
+
+                        }
+
+
+                        score += 500;
+
+                    }
+
+
+                    /* BOMB */
+
+                    if (
+                        type ===
+                        "bomb"
+                    ) {
+
+                        const r =
+                            Math.floor(
+                                Math.random() *
+                                ROWS
+                            );
+
+
+                        const c =
+                            Math.floor(
+                                Math.random() *
+                                COLS
+                            );
+
+
+                        for (
+                            let y =
+                                Math.max(
+                                    0,
+                                    r - 1
+                                );
+
+                            y <=
+                                Math.min(
+                                    ROWS - 1,
+                                    r + 1
+                                );
+
+                            y++
+                        ) {
+
+                            for (
+                                let x =
+                                    Math.max(
+                                        0,
+                                        c - 1
+                                    );
+
+                                x <=
+                                    Math.min(
+                                        COLS - 1,
+                                        c + 1
+                                    );
+
+                                x++
+                            ) {
+
+                                grid[y][x] =
+                                    null;
+
+                            }
+
+                        }
+
+
+                        score += 700;
+
+                    }
+
+
+                    /* RAINBOW */
+
+                    if (
+                        type ===
+                        "rainbow"
+                    ) {
+
+                        const target =
+                            randomType();
+
+
+                        for (
+                            let r = 0;
+                            r < ROWS;
+                            r++
+                        ) {
+
+                            for (
+                                let c = 0;
+                                c < COLS;
+                                c++
+                            ) {
+
+                                if (
+                                    grid[r][c]
+                                        .type ===
+                                    target
+                                ) {
+
+                                    grid[r][c] = {
+
+                                        type:
+                                            randomType(),
+
+                                        special:
+                                            null
+
+                                    };
+
+                                }
+
+                            }
+
+                        }
+
+
+                        score += 1000;
+
+                    }
+
+
+                    moves--;
+
+
+                    render();
+
+                    updateUI();
+
+                    checkGameEnd();
+
+                }
+            );
 
         }
     );
 
 
-/* START GAME */
+/* START */
 
-createBoard();
+startLevel();
