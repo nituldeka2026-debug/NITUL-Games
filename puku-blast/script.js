@@ -1,629 +1,922 @@
-* {
-    box-sizing: border-box;
-    -webkit-tap-highlight-color: transparent;
-}
+const SIZE = 9;
 
-body {
-    margin: 0;
-    min-height: 100vh;
-    overflow: hidden;
+const COLORS = [
+    "red",
+    "yellow",
+    "blue",
+    "green",
+    "purple",
+    "orange"
+];
 
-    font-family: Arial, sans-serif;
-    color: white;
+let board = [];
 
-    background:
-        radial-gradient(circle at 50% 0%, #55e3d0 0%, #2db3be 20%, transparent 45%),
-        linear-gradient(#1db6bd 0%, #101c74 28%, #06165e 100%);
-}
+let score = 0;
 
+let moves = 25;
 
-/* MAIN */
+let target = 0;
 
-.game-shell {
-    min-height: 100vh;
+let need = 30;
 
-    display: flex;
-    flex-direction: column;
+let selected = null;
 
-    max-width: 760px;
+let busy = false;
 
-    margin: auto;
-}
+let activeBooster = null;
 
 
-/* TOP */
+const boardEl =
+    document.getElementById("board");
 
-.top {
+const scoreEl =
+    document.getElementById("score");
 
-    min-height: 160px;
+const movesEl =
+    document.getElementById("moves");
 
-    padding: 12px;
+const targetNow =
+    document.getElementById("targetNow");
 
-    display: grid;
-
-    grid-template-columns:
-        1fr
-        140px
-        1fr
-        55px;
-
-    gap: 10px;
-
-    align-items: center;
-
-}
+const targetNeed =
+    document.getElementById("targetNeed");
 
 
-/* SCORE */
+/* RANDOM CANDY */
 
-.score-card {
+function randomCandy() {
 
-    text-shadow: 0 2px 3px #125;
+    return COLORS[
+        Math.floor(
+            Math.random() * COLORS.length
+        )
+    ];
 
 }
 
-.stars {
 
-    font-size: 25px;
+/* CREATE BOARD */
 
-    color: #659a97;
+function createBoard() {
 
-    letter-spacing: 5px;
+    board = [];
+
+    for (let row = 0; row < SIZE; row++) {
+
+        let newRow = [];
+
+        for (let col = 0; col < SIZE; col++) {
+
+            newRow.push({
+
+                type: randomCandy(),
+
+                blocked: false
+
+            });
+
+        }
+
+        board.push(newRow);
+
+    }
+
+
+    /* HONEY BLOCKS */
+
+    const blocks = [
+
+        [0,0],[0,1],[0,3],
+        [0,4],[0,5],[0,7],
+        [0,8],
+
+        [1,0],[1,1],
+        [1,3],[1,4],[1,5],
+        [1,7],[1,8],
+
+        [2,0],
+        [2,4],
+        [2,8],
+
+        [6,3],
+        [6,5],
+
+        [7,3],[7,4],[7,5],
+
+        [8,3],[8,4],[8,5]
+
+    ];
+
+
+    blocks.forEach(pos => {
+
+        let r = pos[0];
+
+        let c = pos[1];
+
+        board[r][c].blocked = true;
+
+    });
+
+
+    renderBoard();
 
 }
 
-.progress {
 
-    height: 14px;
+/* DRAW BOARD */
 
-    margin-top: 8px;
+function renderBoard() {
 
-    border-radius: 20px;
+    boardEl.innerHTML = "";
 
-    background: rgba(0, 80, 110, .5);
+    for (let r = 0; r < SIZE; r++) {
 
-    overflow: hidden;
+        for (let c = 0; c < SIZE; c++) {
+
+            const data =
+                board[r][c];
+
+
+            const cell =
+                document.createElement("button");
+
+
+            cell.className = "cell";
+
+
+            if (data.blocked) {
+
+                cell.classList.add(
+                    "blocked"
+                );
+
+            }
+
+
+            const candy =
+                document.createElement("div");
+
+
+            candy.className =
+                "candy " + data.type;
+
+
+            cell.appendChild(candy);
+
+
+            cell.addEventListener(
+                "click",
+                function() {
+
+                    clickCandy(r, c);
+
+                }
+            );
+
+
+            boardEl.appendChild(cell);
+
+        }
+
+    }
+
+
+    updateHUD();
 
 }
 
-#scoreFill {
 
-    height: 100%;
+/* UPDATE SCORE */
 
-    width: 0%;
+function updateHUD() {
 
-    border-radius: 20px;
+    scoreEl.textContent =
+        score;
 
-    background:
-        linear-gradient(
-            90deg,
-            #ffd25a,
-            #fff4aa
+    movesEl.textContent =
+        moves;
+
+    targetNow.textContent =
+        target;
+
+    targetNeed.textContent =
+        need;
+
+
+    document
+        .getElementById("scoreFill")
+        .style.width =
+        Math.min(
+            100,
+            score / 1500 * 100
+        ) + "%";
+
+}
+
+
+/* CANDY CLICK */
+
+function clickCandy(r, c) {
+
+    if (busy) return;
+
+    if (moves <= 0) return;
+
+
+    if (board[r][c].blocked) {
+
+        showMessage(
+            "Blocked Candy!"
         );
 
-}
+        return;
 
-.score {
-
-    margin-top: 10px;
-
-    font-size: 18px;
-
-}
+    }
 
 
-/* LEVEL */
+    /* FIRST SELECT */
 
-.level-card {
+    if (selected === null) {
 
-    height: 140px;
+        selected = [r, c];
 
-    border-radius:
-        0
-        0
-        40px
-        40px;
+        highlightSelected();
 
-    background:
-        radial-gradient(
-            circle,
-            #51d6c5,
-            #169a9b 70%
+        return;
+
+    }
+
+
+    const sr =
+        selected[0];
+
+    const sc =
+        selected[1];
+
+
+    /* SAME CANDY */
+
+    if (sr === r && sc === c) {
+
+        selected = null;
+
+        highlightSelected();
+
+        return;
+
+    }
+
+
+    /* CHECK NEIGHBOUR */
+
+    const distance =
+        Math.abs(sr - r)
+        +
+        Math.abs(sc - c);
+
+
+    if (distance !== 1) {
+
+        selected = [r, c];
+
+        highlightSelected();
+
+        return;
+
+    }
+
+
+    swap(sr, sc, r, c);
+
+
+    let matches =
+        findMatches();
+
+
+    /* NO MATCH */
+
+    if (matches.length === 0) {
+
+        swap(sr, sc, r, c);
+
+        selected = null;
+
+        renderBoard();
+
+        showMessage(
+            "No Match!"
         );
 
-    display: flex;
+        return;
 
-    flex-direction: column;
+    }
 
-    align-items: center;
 
-    justify-content: center;
+    selected = null;
 
-    box-shadow:
-        0 8px 16px rgba(0,0,0,.3);
+    moves--;
 
-}
 
-.level-card small {
-
-    font-size: 18px;
-
-    font-weight: bold;
-
-    color: #176c76;
-
-}
-
-.level-card strong {
-
-    font-size: 45px;
-
-    line-height: 50px;
-
-}
-
-.level-card span {
-
-    font-size: 10px;
-
-    letter-spacing: 2px;
+    resolveMatches(
+        matches
+    );
 
 }
 
 
-/* TARGET */
+/* HIGHLIGHT */
 
-.target-card {
+function highlightSelected() {
 
-    display: flex;
+    document
+        .querySelectorAll(".cell")
+        .forEach(cell => {
 
-    align-items: center;
+            cell.classList.remove(
+                "selected"
+            );
 
-    justify-content: center;
-
-    gap: 8px;
-
-    font-size: 24px;
-
-}
-
-.target-icon {
-
-    font-size: 50px;
-
-}
+        });
 
 
-/* MENU */
+    if (selected) {
 
-.menu {
+        const r =
+            selected[0];
 
-    width: 52px;
+        const c =
+            selected[1];
 
-    height: 52px;
 
-    border-radius: 15px;
+        const cells =
+            document.querySelectorAll(
+                ".cell"
+            );
 
-    border: 3px solid #1971a5;
 
-    background:
-        linear-gradient(
-            #43c8de,
-            #126da3
+        cells[
+            r * SIZE + c
+        ].classList.add(
+            "selected"
         );
 
-    font-size: 28px;
+    }
 
 }
 
 
-/* GAME AREA */
+/* SWAP */
 
-.play-area {
+function swap(
+    r1,
+    c1,
+    r2,
+    c2
+) {
 
-    flex: 1;
+    const temp =
+        board[r1][c1];
 
-    display: flex;
 
-    align-items: center;
+    board[r1][c1] =
+        board[r2][c2];
 
-    justify-content: center;
 
-    padding: 8px;
+    board[r2][c2] =
+        temp;
 
 }
 
 
-.board-wrap {
+/* FIND MATCH */
 
-    width: min(96vw, 690px);
+function findMatches() {
 
-    aspect-ratio: 1;
+    let matches = [];
 
-    padding: 7px;
 
-    border-radius: 15px;
+    /* HORIZONTAL */
 
-    background:
-        linear-gradient(
-            135deg,
-            rgba(46,207,225,.4),
-            rgba(4,37,121,.5)
+    for (
+        let r = 0;
+        r < SIZE;
+        r++
+    ) {
+
+        let count = 1;
+
+
+        for (
+            let c = 1;
+            c <= SIZE;
+            c++
+        ) {
+
+            if (
+                c < SIZE
+                &&
+                board[r][c].type
+                ===
+                board[r][c - 1].type
+            ) {
+
+                count++;
+
+            }
+
+            else {
+
+                if (
+                    count >= 3
+                ) {
+
+                    for (
+                        let i =
+                            c - count;
+                        i < c;
+                        i++
+                    ) {
+
+                        matches.push(
+                            [r, i]
+                        );
+
+                    }
+
+                }
+
+                count = 1;
+
+            }
+
+        }
+
+    }
+
+
+    /* VERTICAL */
+
+    for (
+        let c = 0;
+        c < SIZE;
+        c++
+    ) {
+
+        let count = 1;
+
+
+        for (
+            let r = 1;
+            r <= SIZE;
+            r++
+        ) {
+
+            if (
+
+                r < SIZE
+
+                &&
+
+                board[r][c].type
+                ===
+                board[r - 1][c].type
+
+            ) {
+
+                count++;
+
+            }
+
+            else {
+
+                if (
+                    count >= 3
+                ) {
+
+                    for (
+
+                        let i =
+                            r - count;
+
+                        i < r;
+
+                        i++
+
+                    ) {
+
+                        matches.push(
+                            [i, c]
+                        );
+
+                    }
+
+                }
+
+                count = 1;
+
+            }
+
+        }
+
+    }
+
+
+    /* REMOVE DUPLICATE */
+
+    const unique =
+        new Map();
+
+
+    matches.forEach(pos => {
+
+        unique.set(
+            pos[0] + "-" + pos[1],
+            pos
         );
 
-}
+    });
 
 
-.board {
-
-    width: 100%;
-
-    height: 100%;
-
-    display: grid;
-
-    grid-template-columns: repeat(9, 1fr);
-
-    grid-template-rows: repeat(9, 1fr);
-
-    gap: 2px;
+    return [
+        ...unique.values()
+    ];
 
 }
 
 
-/* CELL */
+/* REMOVE MATCH */
 
-.cell {
+async function resolveMatches(matches) {
 
-    border: 0;
+    busy = true;
 
-    border-radius: 7px;
 
-    position: relative;
+    while (
+        matches.length > 0
+    ) {
 
-    overflow: hidden;
+        score +=
+            matches.length * 20;
 
-    display: flex;
 
-    align-items: center;
+        target +=
+            matches.length;
 
-    justify-content: center;
 
-    cursor: pointer;
+        matches.forEach(pos => {
 
-    background:
-        linear-gradient(
-            135deg,
-            #0a4a9c,
-            #063179
+            const r =
+                pos[0];
+
+            const c =
+                pos[1];
+
+
+            board[r][c] =
+                null;
+
+        });
+
+
+        collapseBoard();
+
+
+        renderBoard();
+
+
+        await sleep(250);
+
+
+        matches =
+            findMatches();
+
+    }
+
+
+    busy = false;
+
+
+    checkGame();
+
+}
+
+
+/* DROP CANDY */
+
+function collapseBoard() {
+
+    for (
+        let c = 0;
+        c < SIZE;
+        c++
+    ) {
+
+        let candies = [];
+
+
+        for (
+            let r =
+                SIZE - 1;
+            r >= 0;
+            r--
+        ) {
+
+            if (
+                board[r][c]
+                !== null
+            ) {
+
+                candies.push(
+                    board[r][c]
+                );
+
+            }
+
+        }
+
+
+        for (
+            let r =
+                SIZE - 1;
+
+            r >= 0;
+
+            r--
+        ) {
+
+            let index =
+                SIZE - 1 - r;
+
+
+            if (
+                candies[index]
+            ) {
+
+                board[r][c] =
+                    candies[index];
+
+            }
+
+            else {
+
+                board[r][c] = {
+
+                    type:
+                        randomCandy(),
+
+                    blocked:
+                        false
+
+                };
+
+            }
+
+        }
+
+    }
+
+}
+
+
+/* CHECK GAME */
+
+function checkGame() {
+
+    if (
+        target >= need
+    ) {
+
+        gameOver(
+            true
         );
 
-}
+        return;
 
-.cell.selected {
-
-    outline: 4px solid #fff7a5;
-
-    z-index: 10;
-
-}
+    }
 
 
-/* BLOCK */
+    if (
+        moves <= 0
+    ) {
 
-.cell.blocked::after {
-
-    content: "";
-
-    position: absolute;
-
-    inset: 3px;
-
-    border-radius: 7px;
-
-    background:
-        linear-gradient(
-            135deg,
-            #ffc542,
-            #ff7b12
+        gameOver(
+            false
         );
 
-    border: 2px solid #fff0a0;
-
-    z-index: 5;
+    }
 
 }
 
 
-/* CANDY */
+/* GAME OVER */
 
-.candy {
+function gameOver(win) {
 
-    width: 76%;
-
-    height: 76%;
-
-    position: relative;
-
-    transition:
-        transform .2s,
-        opacity .2s;
-
-}
-
-
-/* RED */
-
-.red {
-
-    background:
-        linear-gradient(
-            135deg,
-            #ff5145,
-            #c60014,
-            #70000c
+    const modal =
+        document.getElementById(
+            "modal"
         );
 
-    border-radius:
-        60%
-        25%
-        60%
-        30%;
 
-    transform: rotate(35deg);
+    const title =
+        document.getElementById(
+            "modalTitle"
+        );
+
+
+    const text =
+        document.getElementById(
+            "modalText"
+        );
+
+
+    if (win) {
+
+        title.textContent =
+            "Level Complete! 🎉";
+
+
+        text.textContent =
+            "Excellent! You collected "
+            +
+            target
+            +
+            " targets.";
+
+    }
+
+    else {
+
+        title.textContent =
+            "Out of Moves!";
+
+
+        text.textContent =
+            "You collected "
+            +
+            target
+            +
+            " / "
+            +
+            need;
+
+    }
+
+
+    modal.classList.remove(
+        "hidden"
+    );
 
 }
 
 
-/* YELLOW */
+/* MESSAGE */
 
-.yellow {
+function showMessage(text) {
 
-    background:
-        radial-gradient(
-            circle at 38% 25%,
-            #fffbb0,
-            #ffd520,
-            #d28a00
+    const toast =
+        document.getElementById(
+            "toast"
         );
 
-    border-radius: 50%;
+
+    toast.textContent =
+        text;
+
+
+    toast.classList.add(
+        "show"
+    );
+
+
+    setTimeout(
+        function() {
+
+            toast.classList.remove(
+                "show"
+            );
+
+        },
+        1000
+    );
 
 }
 
 
-/* BLUE */
+/* DELAY */
 
-.blue {
+function sleep(ms) {
 
-    background:
-        linear-gradient(
-            135deg,
-            #6ffff8,
-            #19b5dc,
-            #0756ad
-        );
-
-    border-radius:
-        55%
-        45%
-        55%
-        45%;
-
-    transform: rotate(45deg);
-
-}
-
-
-/* GREEN */
-
-.green {
-
-    background:
-        linear-gradient(
-            135deg,
-            #63ff63,
-            #0fbd29,
-            #047014
-        );
-
-    border-radius:
-        25%
-        55%
-        25%
-        55%;
-
-}
-
-
-/* PURPLE */
-
-.purple {
-
-    background:
-        radial-gradient(
-            circle at 35% 25%,
-            #ff9dff,
-            #b11ad4,
-            #590072
-        );
-
-    border-radius: 50%;
-
-}
-
-
-/* ORANGE */
-
-.orange {
-
-    background:
-        radial-gradient(
-            circle at 38% 25%,
-            #fff3a4,
-            #ff9e0a,
-            #cf5200
-        );
-
-    border-radius: 45%;
+    return new Promise(
+        resolve =>
+            setTimeout(
+                resolve,
+                ms
+            )
+    );
 
 }
 
 
 /* BOOSTERS */
 
-.boosters {
+document
+    .querySelectorAll(
+        ".booster"
+    )
+    .forEach(btn => {
 
-    height: 130px;
+        btn.addEventListener(
+            "click",
+            function() {
 
-    display: flex;
-
-    justify-content: center;
-
-    align-items: center;
-
-    gap: 15px;
-
-}
+                activeBooster =
+                    btn.dataset.booster;
 
 
-.booster {
+                document
+                    .querySelectorAll(
+                        ".booster"
+                    )
+                    .forEach(b => {
 
-    width: 70px;
+                        b.classList.remove(
+                            "active"
+                        );
 
-    height: 70px;
+                    });
 
-    border-radius: 50%;
 
-    border: 3px solid #29b53a;
+                btn.classList.add(
+                    "active"
+                );
 
-    background:
-        radial-gradient(
-            circle at 40% 25%,
-            #4cf34d,
-            #14962a,
-            #075f1d
+
+                showMessage(
+                    activeBooster
+                    +
+                    " selected"
+                );
+
+            }
         );
 
-    font-size: 30px;
-
-    position: relative;
-
-}
+    });
 
 
-.booster b {
+/* MENU */
 
-    position: absolute;
+document
+    .getElementById(
+        "menuBtn"
+    )
+    .addEventListener(
+        "click",
+        function() {
 
-    right: -8px;
+            showMessage(
+                "Puku Blast Menu"
+            );
 
-    top: -8px;
-
-    background: #d62ea7;
-
-    border-radius: 50%;
-
-    padding: 5px 8px;
-
-}
-
-
-.booster.active {
-
-    outline: 4px solid #fff7a5;
-
-}
+        }
+    );
 
 
-/* TOAST */
+/* RESTART */
 
-.toast {
+document
+    .getElementById(
+        "restartBtn"
+    )
+    .addEventListener(
+        "click",
+        function() {
 
-    position: fixed;
+            score = 0;
 
-    top: 15px;
+            moves = 25;
 
-    left: 50%;
+            target = 0;
 
-    transform:
-        translate(-50%, -100px);
-
-    padding: 10px 20px;
-
-    border-radius: 20px;
-
-    background: #102d74;
-
-    transition: .3s;
-
-}
+            selected = null;
 
 
-.toast.show {
-
-    transform:
-        translate(-50%, 0);
-
-}
-
-
-/* MODAL */
-
-.modal {
-
-    position: fixed;
-
-    inset: 0;
-
-    background:
-        rgba(0,0,40,.7);
-
-    display: grid;
-
-    place-items: center;
-
-}
+            document
+                .getElementById(
+                    "modal"
+                )
+                .classList.add(
+                    "hidden"
+                );
 
 
-.hidden {
+            createBoard();
 
-    display: none;
-
-}
-
-
-.modal-card {
-
-    width: 300px;
-
-    padding: 30px;
-
-    text-align: center;
-
-    border-radius: 25px;
-
-    background:
-        linear-gradient(
-            #55d9ce,
-            #116aa4
-        );
-
-}
+        }
+    );
 
 
-.modal-card button {
+/* START GAME */
 
-    padding:
-        12px
-        25px;
-
-    border: 0;
-
-    border-radius: 25px;
-
-    background: #ffcf32;
-
-    font-size: 18px;
-
-}
+createBoard();
