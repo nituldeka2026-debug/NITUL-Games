@@ -2,138 +2,130 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="viewport"
+          content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
 
-    <title>Puku Blast</title>
+    <title>Puku Blast - NITUL Games</title>
 
     <link rel="stylesheet" href="style.css">
 </head>
 
 <body>
 
-<div class="game-shell">
+<div id="game">
 
-    <!-- TOP PANEL -->
-    <header class="top">
+    <!-- TOP BAR -->
+    <header class="topbar">
 
-        <div class="score-card">
-
-            <div class="stars">
-                ★ ★ ★
-            </div>
-
-            <div class="progress">
-                <div id="scoreFill"></div>
-            </div>
-
-            <div class="score">
-                Score: <span id="score">0</span>
-            </div>
-
+        <div class="game-title">
+            🍬 PUKU BLAST
         </div>
 
-
-        <!-- LEVEL -->
-        <div class="level-card">
-
-            <small id="level">PUKU 1</small>
-
-            <strong id="moves">25</strong>
-
-            <span>MOVES</span>
-
-        </div>
-
-
-        <!-- TARGET -->
-        <div class="target-card">
-
-            <div class="target-icon">
-                🧪
-            </div>
-
-            <div>
-                <span id="targetNow">0</span> /
-                <span id="targetNeed">30</span>
-            </div>
-
-        </div>
-
-
-        <!-- MENU -->
-        <button id="menuBtn" class="menu">
+        <button id="menuBtn" class="menu-btn">
             ☰
         </button>
+
+        <div class="stats">
+
+            <div class="stat">
+                <span>SCORE</span>
+                <strong id="score">0</strong>
+            </div>
+
+            <div class="stat">
+                <span>MOVES</span>
+                <strong id="moves">25</strong>
+            </div>
+
+            <div class="stat">
+                <span>GOAL</span>
+                <strong id="goal">0/30</strong>
+            </div>
+
+        </div>
 
     </header>
 
 
-    <!-- GAME BOARD -->
+    <!-- LEVEL -->
+    <section class="level-bar">
 
-    <main class="play-area">
-
-        <div class="board-wrap">
-
-            <div id="board" class="board"></div>
-
+        <div class="stars">
+            ★ ★ ★
         </div>
+
+        <div class="level-title">
+            LEVEL <span id="level">1</span>
+        </div>
+
+        <div class="progress">
+            <div id="progress"></div>
+        </div>
+
+    </section>
+
+
+    <!-- GAME BOARD -->
+    <main class="game-area">
+
+        <div id="board" class="board"></div>
 
     </main>
 
 
     <!-- BOOSTERS -->
+    <section class="boosters">
 
-    <footer class="boosters">
-
-        <button class="booster" data-booster="hammer">
+        <button class="booster" data-type="hammer">
             🔨
-            <b>5</b>
+            <span>6</span>
         </button>
 
-        <button class="booster" data-booster="bomb">
-            💥
-            <b>2</b>
+        <button class="booster" data-type="rocket">
+            🚀
+            <span>4</span>
         </button>
 
-        <button class="booster" data-booster="hand">
-            ✋
-            <b>4</b>
+        <button class="booster" data-type="bomb">
+            💣
+            <span>3</span>
         </button>
 
-        <button class="booster" data-booster="stripe">
-            🎯
-            <b>3</b>
-        </button>
-
-        <button class="booster" data-booster="rainbow">
+        <button class="booster" data-type="rainbow">
             🌈
-            <b>1</b>
+            <span>2</span>
         </button>
 
-    </footer>
+        <button class="booster" data-type="shuffle">
+            🔄
+            <span>+</span>
+        </button>
+
+    </section>
 
 </div>
 
 
-<!-- MESSAGE -->
+<!-- POPUP -->
+<div id="modal" class="modal show">
 
-<div id="toast" class="toast"></div>
+    <div class="popup">
 
+        <div class="popup-icon">
+            🧸
+        </div>
 
-<!-- GAME OVER -->
+        <h1 id="modalTitle">
+            PUKU BLAST
+        </h1>
 
-<div id="modal" class="modal hidden">
+        <p id="modalText">
+            Match 3 or more candies, create powerful blasts
+            and complete the level!
+        </p>
 
-    <div class="modal-card">
-
-        <h2 id="modalTitle">
-            Puku Blast
-        </h2>
-
-        <p id="modalText"></p>
-
-        <button id="restartBtn">
-            Play Again
+        <button id="playBtn" class="play-btn">
+            PLAY!
         </button>
 
     </div>
