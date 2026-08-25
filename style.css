@@ -9,9 +9,9 @@ html {
 }
 
 body {
-    font-family: Arial, sans-serif;
-    background: #080c18;
-    color: white;
+    font-family: Arial, Helvetica, sans-serif;
+    background: #070b16;
+    color: #ffffff;
     line-height: 1.6;
 }
 
@@ -20,21 +20,26 @@ a {
     color: inherit;
 }
 
-
-/* HEADER */
-
-.header {
-    position: sticky;
-    top: 0;
-    z-index: 999;
-
-    background: rgba(8, 12, 24, .92);
-    backdrop-filter: blur(15px);
-
-    border-bottom: 1px solid rgba(255,255,255,.08);
+button,
+input {
+    font: inherit;
 }
 
-.header-inner {
+
+/* ================= HEADER ================= */
+
+.site-header {
+    position: sticky;
+    top: 0;
+    z-index: 1000;
+
+    background: rgba(7, 11, 22, 0.94);
+    backdrop-filter: blur(18px);
+
+    border-bottom: 1px solid rgba(255,255,255,0.08);
+}
+
+.header-container {
     max-width: 1200px;
     min-height: 72px;
 
@@ -44,172 +49,229 @@ a {
     display: flex;
     align-items: center;
     justify-content: space-between;
+
     gap: 25px;
 }
 
 
 /* LOGO */
 
-.logo-area {
+.brand {
     display: flex;
     align-items: center;
     gap: 10px;
+
+    flex-shrink: 0;
 }
 
-.logo-area img {
+.brand img {
     width: 45px;
     height: 45px;
+
     object-fit: contain;
 }
 
-.logo-area strong {
+.brand-text strong {
     display: block;
-    font-size: 21px;
+
+    font-size: 20px;
+    line-height: 1;
 }
 
-.logo-area span {
+.brand-text span {
     display: block;
-    color: #8b73ff;
-    font-size: 10px;
-    font-weight: bold;
+
+    margin-top: 4px;
+
+    color: #8d76ff;
+
+    font-size: 9px;
+    font-weight: 800;
+
     letter-spacing: 3px;
 }
 
 
 /* NAV */
 
-nav {
+.main-nav {
     display: flex;
-    gap: 25px;
+    align-items: center;
+    gap: 27px;
 }
 
-nav a {
+.main-nav a {
     color: #9ca6bb;
-    font-size: 14px;
-    font-weight: bold;
-    transition: .2s;
+
+    font-size: 13px;
+    font-weight: 700;
+
+    transition: 0.2s;
 }
 
-nav a:hover {
-    color: white;
+.main-nav a:hover {
+    color: #ffffff;
 }
 
 
-/* BUTTONS */
+/* HEADER BUTTON */
 
-.top-btn,
-.main-btn {
-    display: inline-block;
+.header-button {
+    padding: 10px 17px;
 
-    padding: 11px 18px;
-
-    border-radius: 11px;
+    border-radius: 10px;
 
     background: linear-gradient(
         135deg,
-        #7055ff,
-        #a44cff
+        #7156ff,
+        #a34cff
     );
 
-    font-size: 13px;
-    font-weight: bold;
+    font-size: 12px;
+    font-weight: 800;
 
-    transition: .2s;
+    transition: 0.2s;
 }
 
-.top-btn:hover,
-.main-btn:hover {
+.header-button:hover {
     transform: translateY(-2px);
 }
 
-.outline-btn {
-    display: inline-block;
 
-    padding: 10px 18px;
-
-    border-radius: 11px;
-
-    border: 1px solid rgba(255,255,255,.15);
-
-    color: #b8c0d2;
-
-    font-size: 13px;
-    font-weight: bold;
-}
-
-
-/* HERO */
+/* ================= HERO ================= */
 
 .hero {
-    min-height: 600px;
+    position: relative;
+
+    min-height: 610px;
 
     display: flex;
     align-items: center;
 
+    overflow: hidden;
+
     background:
         radial-gradient(
             circle at 75% 30%,
-            rgba(120,80,255,.25),
-            transparent 35%
+            rgba(119, 78, 255, 0.25),
+            transparent 32%
         ),
         radial-gradient(
-            circle at 15% 80%,
-            rgba(0,180,255,.10),
+            circle at 15% 75%,
+            rgba(0, 180, 255, 0.09),
             transparent 30%
+        ),
+        #070b16;
+}
+
+
+/* GRID BACKGROUND */
+
+.hero::before {
+    content: "";
+
+    position: absolute;
+    inset: 0;
+
+    background-image:
+        linear-gradient(
+            rgba(255,255,255,0.025) 1px,
+            transparent 1px
+        ),
+        linear-gradient(
+            90deg,
+            rgba(255,255,255,0.025) 1px,
+            transparent 1px
+        );
+
+    background-size: 50px 50px;
+
+    mask-image:
+        linear-gradient(
+            to bottom,
+            black,
+            transparent
         );
 }
 
-.hero-inner {
+
+.hero-container {
+    position: relative;
+    z-index: 2;
+
     width: 1200px;
     max-width: 100%;
 
     margin: auto;
-    padding: 80px 20px;
+
+    padding: 85px 20px;
 }
 
-.badge {
+
+.hero-content {
+    max-width: 760px;
+}
+
+
+/* BADGE */
+
+.hero-badge {
     display: inline-block;
+
+    margin-bottom: 22px;
 
     padding: 7px 13px;
 
-    margin-bottom: 20px;
-
     border-radius: 30px;
 
-    background: rgba(124,92,255,.1);
+    background: rgba(126, 93, 255, 0.10);
 
-    border: 1px solid rgba(124,92,255,.3);
+    border: 1px solid rgba(126, 93, 255, 0.28);
 
-    color: #bdb2ff;
+    color: #c0b6ff;
 
-    font-size: 11px;
-    font-weight: bold;
-    letter-spacing: 1px;
+    font-size: 10px;
+    font-weight: 900;
+
+    letter-spacing: 1.5px;
 }
 
-.hero h1 {
-    font-size: clamp(50px, 8vw, 90px);
 
-    line-height: .95;
+/* TITLE */
+
+.hero h1 {
+    margin-bottom: 25px;
+
+    font-size: clamp(
+        50px,
+        8vw,
+        88px
+    );
+
+    line-height: 0.93;
 
     letter-spacing: -4px;
-
-    margin-bottom: 25px;
 }
 
 .hero h1 span {
-    color: #8c70ff;
+    color: #8b70ff;
 }
 
-.hero p {
-    max-width: 600px;
+
+/* DESCRIPTION */
+
+.hero-content > p {
+    max-width: 610px;
+
+    margin-bottom: 32px;
 
     color: #929db3;
 
     font-size: 17px;
-
-    margin-bottom: 30px;
 }
+
+
+/* HERO BUTTONS */
 
 .hero-buttons {
     display: flex;
@@ -218,64 +280,136 @@ nav a:hover {
     gap: 12px;
 }
 
-.stats {
+.primary-button {
+    display: inline-block;
+
+    padding: 12px 19px;
+
+    border-radius: 11px;
+
+    background: linear-gradient(
+        135deg,
+        #7156ff,
+        #a34cff
+    );
+
+    box-shadow:
+        0 10px 30px
+        rgba(113, 86, 255, 0.25);
+
+    font-size: 13px;
+    font-weight: 800;
+
+    transition: 0.2s;
+}
+
+.primary-button:hover {
+    transform: translateY(-2px);
+}
+
+.secondary-button {
+    display: inline-block;
+
+    padding: 11px 18px;
+
+    border-radius: 11px;
+
+    background: rgba(255,255,255,0.04);
+
+    border: 1px solid rgba(255,255,255,0.12);
+
+    color: #b8c1d3;
+
+    font-size: 13px;
+    font-weight: 700;
+
+    transition: 0.2s;
+}
+
+.secondary-button:hover {
+    background: rgba(255,255,255,0.08);
+
+    color: #ffffff;
+}
+
+
+/* HERO STATS */
+
+.hero-stats {
     display: flex;
+
     gap: 45px;
 
     margin-top: 55px;
 }
 
-.stats b {
-    display: block;
+.hero-stats div {
+    display: flex;
+    flex-direction: column;
+}
+
+.hero-stats strong {
     font-size: 23px;
 }
 
-.stats small {
+.hero-stats span {
     color: #68738a;
+
+    font-size: 11px;
 }
 
 
-/* GAMES */
+/* ================= GAMES SECTION ================= */
 
 .games-section {
     max-width: 1200px;
 
     margin: auto;
 
-    padding: 80px 20px;
+    padding: 85px 20px;
 }
 
-.section-title {
+
+/* SECTION HEADER */
+
+.section-header {
     display: flex;
-    align-items: end;
+    align-items: flex-end;
     justify-content: space-between;
+
+    gap: 25px;
 
     margin-bottom: 30px;
 }
 
-.section-title small,
-.cta small {
-    color: #8975ff;
+.section-header small {
+    color: #8b76ff;
 
     font-size: 10px;
-    font-weight: bold;
+    font-weight: 900;
 
     letter-spacing: 2px;
 }
 
-.section-title h2 {
+.section-header h2 {
+    margin-top: 4px;
+
     font-size: 40px;
+
+    letter-spacing: -1px;
 }
 
-.section-title p {
+.section-header p {
     color: #788398;
+
+    font-size: 13px;
 }
 
 
-/* SEARCH */
+/* ================= SEARCH ================= */
 
-.search {
-    max-width: 550px;
+.search-container {
+    max-width: 560px;
 
     display: flex;
     align-items: center;
@@ -284,39 +418,54 @@ nav a:hover {
 
     padding: 0 14px;
 
-    background: #101626;
+    background: #101625;
 
-    border: 1px solid rgba(255,255,255,.08);
+    border: 1px solid rgba(255,255,255,0.08);
 
     border-radius: 13px;
 }
 
-.search input {
+.search-container > span {
+    font-size: 16px;
+}
+
+.search-container input {
     width: 100%;
 
-    padding: 14px;
+    padding: 14px 12px;
 
     background: transparent;
 
     border: none;
     outline: none;
 
-    color: white;
+    color: #ffffff;
+
+    font-size: 13px;
 }
 
-.search button {
-    background: none;
+.search-container input::placeholder {
+    color: #657087;
+}
+
+.search-container button {
     border: none;
 
-    color: #7c879c;
+    background: transparent;
+
+    color: #68738a;
 
     font-size: 22px;
 
     cursor: pointer;
+
+    opacity: 0;
+
+    transition: 0.2s;
 }
 
 
-/* CATEGORIES */
+/* ================= CATEGORIES ================= */
 
 .categories {
     display: flex;
@@ -332,63 +481,76 @@ nav a:hover {
 
     border-radius: 10px;
 
-    border: 1px solid rgba(255,255,255,.08);
+    border: 1px solid rgba(255,255,255,0.08);
 
-    background: #101626;
+    background: #101625;
 
     color: #8993aa;
 
     cursor: pointer;
 
     font-size: 12px;
-    font-weight: bold;
+    font-weight: 800;
+
+    transition: 0.2s;
 }
 
-.category-btn.active,
-.category-btn:hover {
+.category-btn:hover,
+.category-btn.active {
     background: #765aff;
-    color: white;
 
     border-color: #765aff;
+
+    color: #ffffff;
 }
 
 
-/* GAME GRID */
+/* ================= GAME GRID ================= */
 
 .games-grid {
     display: grid;
 
     grid-template-columns:
-        repeat(3, 1fr);
+        repeat(3, minmax(0, 1fr));
 
     gap: 20px;
 }
 
+
+/* GAME CARD */
+
 .game-card {
     overflow: hidden;
 
-    background: #101626;
+    background: #101625;
 
-    border: 1px solid rgba(255,255,255,.07);
+    border: 1px solid rgba(255,255,255,0.07);
 
     border-radius: 18px;
 
-    transition: .25s;
+    box-shadow:
+        0 15px 40px rgba(0,0,0,0.18);
+
+    transition: 0.25s;
 }
 
 .game-card:hover {
     transform: translateY(-7px);
 
-    border-color: rgba(137,112,255,.4);
+    border-color:
+        rgba(137,112,255,0.40);
+
+    box-shadow:
+        0 25px 60px rgba(0,0,0,0.30);
 }
 
 
-/* GAME IMAGE */
+/* IMAGE */
 
 .game-image {
     position: relative;
 
-    height: 210px;
+    height: 215px;
 
     overflow: hidden;
 
@@ -399,18 +561,21 @@ nav a:hover {
     width: 100%;
     height: 100%;
 
-    object-fit: cover;
-
     display: block;
 
-    transition: .4s;
+    object-fit: cover;
+
+    transition: 0.4s;
 }
 
-.game-card:hover img {
+.game-card:hover .game-image img {
     transform: scale(1.06);
 }
 
-.game-image span {
+
+/* CATEGORY LABEL */
+
+.game-category {
     position: absolute;
 
     top: 12px;
@@ -420,24 +585,29 @@ nav a:hover {
 
     border-radius: 7px;
 
-    background: rgba(5,8,18,.85);
+    background: rgba(5,8,18,0.85);
 
-    color: #bcb0ff;
+    color: #c0b5ff;
 
     font-size: 9px;
-    font-weight: bold;
-    text-transform: uppercase;
+    font-weight: 900;
+
+    letter-spacing: 1px;
 }
 
-.run-master {
+
+/* RUN MASTER PLACEHOLDER */
+
+.run-master-image {
     display: flex;
+
     align-items: center;
     justify-content: center;
 
     background:
         radial-gradient(
             circle,
-            rgba(120,90,255,.4),
+            rgba(120,90,255,0.38),
             transparent 60%
         ),
         #151c2e;
@@ -448,50 +618,62 @@ nav a:hover {
 }
 
 
-/* GAME CONTENT */
+/* GAME INFO */
 
 .game-info {
     padding: 20px;
 }
 
 .game-info h3 {
-    font-size: 20px;
-
     margin-bottom: 5px;
+
+    font-size: 20px;
 }
 
 .game-info p {
-    min-height: 45px;
+    min-height: 46px;
 
     color: #7f899f;
 
     font-size: 13px;
 }
 
-.play-btn {
-    display: block;
+
+/* PLAY BUTTON */
+
+.game-button {
+    display: flex;
+
+    align-items: center;
+    justify-content: space-between;
 
     margin-top: 17px;
 
-    padding: 11px;
-
-    text-align: center;
+    padding: 11px 13px;
 
     border-radius: 10px;
 
-    background: rgba(124,92,255,.1);
+    background: rgba(124,92,255,0.10);
 
-    color: #a89aff;
+    color: #a99cff;
 
     font-size: 12px;
-    font-weight: bold;
+    font-weight: 900;
 
-    transition: .2s;
+    transition: 0.2s;
 }
 
-.play-btn:hover {
+.game-button:hover {
     background: #765aff;
-    color: white;
+
+    color: #ffffff;
+}
+
+
+/* HIDDEN CARD */
+
+.game-card.hidden {
+    display: none;
 }
 
 
@@ -502,89 +684,114 @@ nav a:hover {
 
     text-align: center;
 
-    padding: 60px 20px;
+    padding: 65px 20px;
 
-    color: #778298;
+    color: #788398;
 }
 
 .no-results.show {
     display: block;
 }
 
-.no-results div {
+.no-results-icon {
     font-size: 45px;
+
+    margin-bottom: 8px;
 }
 
 .no-results h3 {
-    color: white;
+    color: #ffffff;
+
+    margin-bottom: 5px;
 }
 
 
-/* CTA */
+/* ================= CTA ================= */
 
-.cta {
+.cta-section {
     max-width: 1155px;
 
-    margin: 0 auto 80px;
+    margin:
+        0 auto
+        80px;
 
     padding: 50px;
-
-    border-radius: 23px;
 
     display: flex;
     align-items: center;
     justify-content: space-between;
 
-    gap: 25px;
+    gap: 30px;
+
+    border-radius: 24px;
 
     background:
         radial-gradient(
             circle at 80% 30%,
-            rgba(155,75,255,.25),
+            rgba(155,75,255,0.25),
             transparent 40%
         ),
         #11182a;
 
-    border: 1px solid rgba(255,255,255,.08);
+    border: 1px solid rgba(255,255,255,0.08);
 }
 
-.cta h2 {
-    margin: 5px 0;
+.cta-content small {
+    color: #8b76ff;
+
+    font-size: 10px;
+    font-weight: 900;
+
+    letter-spacing: 2px;
+}
+
+.cta-content h2 {
+    margin: 6px 0;
 
     font-size: 30px;
 }
 
-.cta p {
+.cta-content p {
     color: #7e899e;
+
+    font-size: 13px;
 }
 
 
-/* FOOTER */
+/* ================= FOOTER ================= */
 
 footer {
-    padding: 45px 20px 20px;
-
     background: #050812;
 
-    border-top: 1px solid rgba(255,255,255,.06);
+    border-top:
+        1px solid
+        rgba(255,255,255,0.06);
+
+    padding:
+        45px
+        20px
+        20px;
 }
 
-.footer-inner {
+.footer-container {
     max-width: 1155px;
 
     margin: auto;
 
     display: flex;
+
     justify-content: space-between;
 
     gap: 30px;
 }
 
-.footer-inner h3 {
+.footer-brand h3 {
     font-size: 20px;
 }
 
-.footer-inner p {
+.footer-brand p {
+    margin-top: 4px;
+
     color: #69748a;
 
     font-size: 12px;
@@ -592,6 +799,7 @@ footer {
 
 .footer-links {
     display: flex;
+
     flex-wrap: wrap;
 
     gap: 20px;
@@ -601,20 +809,27 @@ footer {
     color: #7d879a;
 
     font-size: 12px;
+
+    transition: 0.2s;
 }
 
 .footer-links a:hover {
-    color: white;
+    color: #ffffff;
 }
 
-.copyright {
+.footer-bottom {
     max-width: 1155px;
 
-    margin: 30px auto 0;
+    margin:
+        30px
+        auto
+        0;
 
     padding-top: 18px;
 
-    border-top: 1px solid rgba(255,255,255,.06);
+    border-top:
+        1px solid
+        rgba(255,255,255,0.06);
 
     color: #505b70;
 
@@ -622,69 +837,80 @@ footer {
 }
 
 
-/* HIDDEN */
-
-.game-card.hidden {
-    display: none;
-}
-
-
-/* TABLET */
+/* ================= TABLET ================= */
 
 @media (max-width: 850px) {
 
-    nav {
+    .main-nav {
         display: none;
     }
 
     .games-grid {
-        grid-template-columns: repeat(2, 1fr);
+        grid-template-columns:
+            repeat(2, minmax(0, 1fr));
     }
 
-    .section-title {
-        align-items: start;
+    .section-header {
+        align-items: flex-start;
 
         flex-direction: column;
 
         gap: 8px;
     }
 
-    .cta {
+    .cta-section {
         margin-left: 20px;
         margin-right: 20px;
 
         flex-direction: column;
+
         align-items: flex-start;
     }
+
 }
 
 
-/* MOBILE */
+/* ================= MOBILE ================= */
 
 @media (max-width: 560px) {
 
-    .header-inner {
+    .header-container {
         min-height: 65px;
     }
 
-    .top-btn {
+    .brand img {
+        width: 38px;
+        height: 38px;
+    }
+
+    .brand-text strong {
+        font-size: 18px;
+    }
+
+    .header-button {
         padding: 9px 12px;
     }
 
     .hero {
-        min-height: 560px;
+        min-height: 570px;
+    }
+
+    .hero-container {
+        padding-top: 65px;
+        padding-bottom: 65px;
     }
 
     .hero h1 {
         font-size: 50px;
+
         letter-spacing: -2px;
     }
 
-    .hero p {
+    .hero-content > p {
         font-size: 14px;
     }
 
-    .stats {
+    .hero-stats {
         gap: 25px;
     }
 
@@ -692,7 +918,7 @@ footer {
         padding-top: 60px;
     }
 
-    .section-title h2 {
+    .section-header h2 {
         font-size: 32px;
     }
 
@@ -704,11 +930,12 @@ footer {
         height: 220px;
     }
 
-    .cta {
+    .cta-section {
         padding: 35px 25px;
     }
 
-    .footer-inner {
+    .footer-container {
         flex-direction: column;
     }
+
 }
