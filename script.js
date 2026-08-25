@@ -1,10 +1,7 @@
 document.addEventListener("DOMContentLoaded", function () {
 
-    const searchInput =
-        document.getElementById("gameSearch");
-
-    const clearSearch =
-        document.getElementById("clearSearch");
+    const searchInput = document.getElementById("searchInput");
+    const clearSearch = document.getElementById("clearSearch");
 
     const categoryButtons =
         document.querySelectorAll(".category-btn");
@@ -26,31 +23,34 @@ document.addEventListener("DOMContentLoaded", function () {
                 .toLowerCase()
                 .trim();
 
-        let visible = 0;
+        let visibleGames = 0;
 
 
         gameCards.forEach(function (card) {
 
-            const name =
-                card.dataset.name.toLowerCase();
+            const gameName =
+                (card.dataset.name || "")
+                .toLowerCase();
 
-            const category =
-                card.dataset.category.toLowerCase();
+            const gameCategory =
+                (card.dataset.category || "")
+                .toLowerCase();
 
 
-            const matchesSearch =
-                name.includes(searchText);
+            const searchMatch =
+                gameName.includes(searchText);
 
-            const matchesCategory =
+
+            const categoryMatch =
                 selectedCategory === "all" ||
-                category === selectedCategory;
+                gameCategory === selectedCategory;
 
 
-            if (matchesSearch && matchesCategory) {
+            if (searchMatch && categoryMatch) {
 
                 card.classList.remove("hidden");
 
-                visible++;
+                visibleGames++;
 
             } else {
 
@@ -61,7 +61,9 @@ document.addEventListener("DOMContentLoaded", function () {
         });
 
 
-        if (visible === 0) {
+        /* NO RESULTS */
+
+        if (visibleGames === 0) {
 
             noResults.classList.add("show");
 
@@ -72,28 +74,38 @@ document.addEventListener("DOMContentLoaded", function () {
         }
 
 
+        /* CLEAR BUTTON */
+
         if (searchText.length > 0) {
 
             clearSearch.style.opacity = "1";
+            clearSearch.style.pointerEvents = "auto";
 
         } else {
 
             clearSearch.style.opacity = "0";
+            clearSearch.style.pointerEvents = "none";
 
         }
 
     }
 
 
-    /* SEARCH */
+
+    /* ================= SEARCH ================= */
 
     searchInput.addEventListener(
         "input",
-        filterGames
+        function () {
+
+            filterGames();
+
+        }
     );
 
 
-    /* CLEAR SEARCH */
+
+    /* ================= CLEAR SEARCH ================= */
 
     clearSearch.addEventListener(
         "click",
@@ -109,7 +121,8 @@ document.addEventListener("DOMContentLoaded", function () {
     );
 
 
-    /* CATEGORY */
+
+    /* ================= CATEGORY FILTER ================= */
 
     categoryButtons.forEach(function (button) {
 
@@ -117,21 +130,41 @@ document.addEventListener("DOMContentLoaded", function () {
             "click",
             function () {
 
+
+                /* Remove active */
+
                 categoryButtons.forEach(
                     function (btn) {
+
                         btn.classList.remove("active");
+
                     }
                 );
 
 
+                /* Add active */
+
                 button.classList.add("active");
 
+
+                /* Selected category */
 
                 selectedCategory =
                     button.dataset.category;
 
 
+                /* Filter */
+
                 filterGames();
+
+
+                /* Smooth scroll */
+
+                document.getElementById("games")
+                    .scrollIntoView({
+                        behavior: "smooth",
+                        block: "start"
+                    });
 
             }
         );
@@ -139,7 +172,8 @@ document.addEventListener("DOMContentLoaded", function () {
     });
 
 
-    /* ESCAPE KEY */
+
+    /* ================= ESC KEY ================= */
 
     searchInput.addEventListener(
         "keydown",
@@ -157,7 +191,29 @@ document.addEventListener("DOMContentLoaded", function () {
     );
 
 
-    /* INITIAL */
+
+    /* ================= PLAY BUTTON FEEDBACK ================= */
+
+    const playButtons =
+        document.querySelectorAll(".game-button");
+
+
+    playButtons.forEach(function (button) {
+
+        button.addEventListener(
+            "click",
+            function () {
+
+                button.style.opacity = "0.7";
+
+            }
+        );
+
+    });
+
+
+
+    /* ================= INITIAL LOAD ================= */
 
     filterGames();
 
