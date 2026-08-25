@@ -1,17 +1,54 @@
-document.addEventListener("DOMContentLoaded", function () {
+document.addEventListener("DOMContentLoaded", () => {
 
     const searchInput = document.getElementById("searchInput");
     const clearSearch = document.getElementById("clearSearch");
 
-    const categoryButtons =
-        document.querySelectorAll(".category-btn");
+    const categories = document.querySelectorAll(".category");
+    const games = document.querySelectorAll(".game-card");
 
-    const gameCards =
-        document.querySelectorAll(".game-card");
+    const noGames = document.getElementById("noGames");
 
-    const noResults =
-        document.getElementById("noResults");
+    const menuBtn = document.getElementById("menuBtn");
+    const nav = document.getElementById("nav");
 
+
+    /* ================= MOBILE MENU ================= */
+
+    if (menuBtn) {
+
+        menuBtn.addEventListener("click", () => {
+
+            nav.classList.toggle("open");
+
+            if (nav.classList.contains("open")) {
+                menuBtn.textContent = "✕";
+            } else {
+                menuBtn.textContent = "☰";
+            }
+
+        });
+
+    }
+
+
+    /* CLOSE MOBILE MENU AFTER CLICK */
+
+    document.querySelectorAll(".nav a").forEach(link => {
+
+        link.addEventListener("click", () => {
+
+            nav.classList.remove("open");
+
+            if (menuBtn) {
+                menuBtn.textContent = "☰";
+            }
+
+        });
+
+    });
+
+
+    /* ================= GAME FILTER ================= */
 
     let selectedCategory = "all";
 
@@ -20,25 +57,19 @@ document.addEventListener("DOMContentLoaded", function () {
 
         const searchText =
             searchInput.value
-                .toLowerCase()
-                .trim();
+                .trim()
+                .toLowerCase();
 
         let visibleGames = 0;
 
 
-        gameCards.forEach(function (card) {
+        games.forEach(game => {
 
             const gameName =
-                (card.dataset.name || "")
-                .toLowerCase();
+                game.dataset.name.toLowerCase();
 
             const gameCategory =
-                (card.dataset.category || "")
-                .toLowerCase();
-
-
-            const searchMatch =
-                gameName.includes(searchText);
+                game.dataset.category.toLowerCase();
 
 
             const categoryMatch =
@@ -46,70 +77,73 @@ document.addEventListener("DOMContentLoaded", function () {
                 gameCategory === selectedCategory;
 
 
-            if (searchMatch && categoryMatch) {
+            const searchMatch =
+                gameName.includes(searchText);
 
-                card.classList.remove("hidden");
+
+            if (categoryMatch && searchMatch) {
+
+                game.style.display = "";
 
                 visibleGames++;
 
             } else {
 
-                card.classList.add("hidden");
+                game.style.display = "none";
 
             }
 
         });
 
 
-        /* NO RESULTS */
-
         if (visibleGames === 0) {
-
-            noResults.classList.add("show");
-
+            noGames.style.display = "block";
         } else {
-
-            noResults.classList.remove("show");
-
-        }
-
-
-        /* CLEAR BUTTON */
-
-        if (searchText.length > 0) {
-
-            clearSearch.style.opacity = "1";
-            clearSearch.style.pointerEvents = "auto";
-
-        } else {
-
-            clearSearch.style.opacity = "0";
-            clearSearch.style.pointerEvents = "none";
-
+            noGames.style.display = "none";
         }
 
     }
 
 
+    /* CATEGORY BUTTONS */
 
-    /* ================= SEARCH ================= */
+    categories.forEach(button => {
 
-    searchInput.addEventListener(
-        "input",
-        function () {
+        button.addEventListener("click", () => {
+
+            categories.forEach(btn => {
+                btn.classList.remove("active");
+            });
+
+            button.classList.add("active");
+
+            selectedCategory =
+                button.dataset.category;
 
             filterGames();
 
-        }
-    );
+        });
+
+    });
 
 
+    /* SEARCH */
 
-    /* ================= CLEAR SEARCH ================= */
+    if (searchInput) {
 
-    clearSearch.addEventListener(
-        "click",
-        function () {
+        searchInput.addEventListener(
+            "input",
+            filterGames
+        );
+
+    }
+
+
+    /* CLEAR SEARCH */
+
+    if (clearSearch) {
+
+        clearSearch.addEventListener("click", () => {
 
             searchInput.value = "";
 
@@ -117,103 +151,53 @@ document.addEventListener("DOMContentLoaded", function () {
 
             searchInput.focus();
 
-        }
-    );
+        });
+
+    }
 
 
+    /* ================= SCROLL ANIMATION ================= */
 
-    /* ================= CATEGORY FILTER ================= */
-
-    categoryButtons.forEach(function (button) {
-
-        button.addEventListener(
-            "click",
-            function () {
+    const cards =
+        document.querySelectorAll(".game-card");
 
 
-                /* Remove active */
+    const observer =
+        new IntersectionObserver(
+            entries => {
 
-                categoryButtons.forEach(
-                    function (btn) {
+                entries.forEach(entry => {
 
-                        btn.classList.remove("active");
+                    if (entry.isIntersecting) {
+
+                        entry.target.style.opacity = "1";
+                        entry.target.style.transform =
+                            "translateY(0)";
 
                     }
-                );
 
+                });
 
-                /* Add active */
-
-                button.classList.add("active");
-
-
-                /* Selected category */
-
-                selectedCategory =
-                    button.dataset.category;
-
-
-                /* Filter */
-
-                filterGames();
-
-
-                /* Smooth scroll */
-
-                document.getElementById("games")
-                    .scrollIntoView({
-                        behavior: "smooth",
-                        block: "start"
-                    });
-
+            },
+            {
+                threshold: 0.08
             }
         );
+
+
+    cards.forEach(card => {
+
+        card.style.opacity = "0";
+        card.style.transform = "translateY(25px)";
+        card.style.transition =
+            "opacity .6s ease, transform .6s ease";
+
+        observer.observe(card);
 
     });
 
 
-
-    /* ================= ESC KEY ================= */
-
-    searchInput.addEventListener(
-        "keydown",
-        function (event) {
-
-            if (event.key === "Escape") {
-
-                searchInput.value = "";
-
-                filterGames();
-
-            }
-
-        }
-    );
-
-
-
-    /* ================= PLAY BUTTON FEEDBACK ================= */
-
-    const playButtons =
-        document.querySelectorAll(".game-button");
-
-
-    playButtons.forEach(function (button) {
-
-        button.addEventListener(
-            "click",
-            function () {
-
-                button.style.opacity = "0.7";
-
-            }
-        );
-
-    });
-
-
-
-    /* ================= INITIAL LOAD ================= */
+    /* INITIAL FILTER */
 
     filterGames();
 
