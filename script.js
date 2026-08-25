@@ -1,268 +1,164 @@
-/* =========================================
-   NITUL GAMES
-   SEARCH + CATEGORY FILTER
-========================================= */
+document.addEventListener("DOMContentLoaded", function () {
 
-document.addEventListener(
-    "DOMContentLoaded",
-    function () {
+    const searchInput =
+        document.getElementById("gameSearch");
 
+    const clearSearch =
+        document.getElementById("clearSearch");
 
-        /* =========================
-           ELEMENTS
-        ========================= */
+    const categoryButtons =
+        document.querySelectorAll(".category-btn");
 
-        const searchInput =
-            document.getElementById(
-                "gameSearch"
-            );
+    const gameCards =
+        document.querySelectorAll(".game-card");
+
+    const noResults =
+        document.getElementById("noResults");
 
 
-        const clearSearch =
-            document.getElementById(
-                "clearSearch"
-            );
+    let selectedCategory = "all";
 
 
-        const categoryButtons =
-            document.querySelectorAll(
-                ".category-btn"
-            );
+    function filterGames() {
+
+        const searchText =
+            searchInput.value
+                .toLowerCase()
+                .trim();
+
+        let visible = 0;
 
 
-        const gameCards =
-            document.querySelectorAll(
-                ".game-card"
-            );
+        gameCards.forEach(function (card) {
+
+            const name =
+                card.dataset.name.toLowerCase();
+
+            const category =
+                card.dataset.category.toLowerCase();
 
 
-        const noResults =
-            document.getElementById(
-                "noResults"
-            );
+            const matchesSearch =
+                name.includes(searchText);
+
+            const matchesCategory =
+                selectedCategory === "all" ||
+                category === selectedCategory;
 
 
-        /* =========================
-           CURRENT CATEGORY
-        ========================= */
+            if (matchesSearch && matchesCategory) {
 
-        let selectedCategory = "all";
+                card.classList.remove("hidden");
 
-
-        /* =========================
-           FILTER FUNCTION
-        ========================= */
-
-        function filterGames() {
-
-            const searchText =
-                searchInput.value
-                    .toLowerCase()
-                    .trim();
-
-
-            let visibleGames = 0;
-
-
-            gameCards.forEach(
-                function (card) {
-
-
-                    const category =
-                        card.dataset.category
-                            .toLowerCase();
-
-
-                    const name =
-                        card.dataset.name
-                            .toLowerCase();
-
-
-                    const categoryMatch =
-                        selectedCategory === "all" ||
-                        category === selectedCategory;
-
-
-                    const searchMatch =
-                        name.includes(
-                            searchText
-                        );
-
-
-                    if (
-                        categoryMatch &&
-                        searchMatch
-                    ) {
-
-                        card.classList.remove(
-                            "hidden"
-                        );
-
-                        visibleGames++;
-
-                    } else {
-
-                        card.classList.add(
-                            "hidden"
-                        );
-
-                    }
-
-                }
-            );
-
-
-            /* =========================
-               NO RESULT
-            ========================= */
-
-            if (visibleGames === 0) {
-
-                noResults.classList.add(
-                    "show"
-                );
+                visible++;
 
             } else {
 
-                noResults.classList.remove(
-                    "show"
-                );
+                card.classList.add("hidden");
 
             }
 
+        });
 
-            /* =========================
-               CLEAR BUTTON
-            ========================= */
 
-            if (
-                searchText.length > 0
-            ) {
+        if (visible === 0) {
 
-                clearSearch.classList.add(
-                    "show"
-                );
+            noResults.classList.add("show");
 
-            } else {
+        } else {
 
-                clearSearch.classList.remove(
-                    "show"
-                );
-
-            }
+            noResults.classList.remove("show");
 
         }
 
 
-        /* =========================
-           CATEGORY CLICK
-        ========================= */
+        if (searchText.length > 0) {
 
-        categoryButtons.forEach(
-            function (button) {
+            clearSearch.style.opacity = "1";
 
-                button.addEventListener(
-                    "click",
-                    function () {
+        } else {
 
+            clearSearch.style.opacity = "0";
 
-                        /* Remove active */
+        }
 
-                        categoryButtons.forEach(
-                            function (btn) {
-
-                                btn.classList.remove(
-                                    "active"
-                                );
-
-                            }
-                        );
+    }
 
 
-                        /* Add active */
+    /* SEARCH */
 
-                        this.classList.add(
-                            "active"
-                        );
-
-
-                        /* Get category */
-
-                        selectedCategory =
-                            this.dataset.category;
+    searchInput.addEventListener(
+        "input",
+        filterGames
+    );
 
 
-                        /* Filter */
+    /* CLEAR SEARCH */
 
-                        filterGames();
+    clearSearch.addEventListener(
+        "click",
+        function () {
 
-                    }
-                );
+            searchInput.value = "";
 
-            }
-        );
+            filterGames();
 
+            searchInput.focus();
 
-        /* =========================
-           SEARCH INPUT
-        ========================= */
-
-        searchInput.addEventListener(
-            "input",
-            function () {
-
-                filterGames();
-
-            }
-        );
+        }
+    );
 
 
-        /* =========================
-           CLEAR SEARCH
-        ========================= */
+    /* CATEGORY */
 
-        clearSearch.addEventListener(
+    categoryButtons.forEach(function (button) {
+
+        button.addEventListener(
             "click",
             function () {
 
-                searchInput.value = "";
+                categoryButtons.forEach(
+                    function (btn) {
+                        btn.classList.remove("active");
+                    }
+                );
 
-                searchInput.focus();
+
+                button.classList.add("active");
+
+
+                selectedCategory =
+                    button.dataset.category;
+
 
                 filterGames();
 
             }
         );
 
+    });
 
-        /* =========================
-           ENTER KEY
-        ========================= */
 
-        searchInput.addEventListener(
-            "keydown",
-            function (event) {
+    /* ESCAPE KEY */
 
-                if (
-                    event.key === "Escape"
-                ) {
+    searchInput.addEventListener(
+        "keydown",
+        function (event) {
 
-                    searchInput.value = "";
+            if (event.key === "Escape") {
 
-                    filterGames();
+                searchInput.value = "";
 
-                }
+                filterGames();
 
             }
-        );
+
+        }
+    );
 
 
-        /* =========================
-           INITIAL LOAD
-        ========================= */
+    /* INITIAL */
 
-        filterGames();
+    filterGames();
 
-
-    }
-);
+});
