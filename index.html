@@ -2,301 +2,451 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-    <meta name="viewport"
-          content="width=device-width, initial-scale=1.0">
-
-    <title>NITUL Games - Free Online Games</title>
+    <title>NITUL Games | Free Online Games</title>
 
     <meta name="description"
-          content="Play free online games at NITUL Games. Enjoy puzzle, racing, action and adventure games for free.">
+          content="Play free online games at NITUL Games. Puzzle, racing, action and arcade games.">
+
+    <meta name="theme-color" content="#080c18">
 
     <link rel="stylesheet" href="style.css">
 </head>
 
 <body>
 
-    <!-- HEADER -->
-    <header>
+<header class="header">
 
-        <div class="logo-area">
+    <div class="header-inner">
 
-            <a href="index.html">
+        <a href="index.html" class="logo-area">
 
-                <img src="assets/images/logo.png"
-                     alt="NITUL Games Logo"
-                     class="logo">
+            <img src="assets/images/logo.png"
+                 alt="NITUL Games Logo">
 
-            </a>
+            <div>
+                <strong>NITUL</strong>
+                <span>GAMES</span>
+            </div>
 
-            <h1>NITUL Games</h1>
-
-        </div>
+        </a>
 
 
         <nav>
-
-            <a href="index.html">Home</a>
-
+            <a href="#home">Home</a>
             <a href="#games">Games</a>
-
+            <a href="#categories">Categories</a>
             <a href="pages/about.html">About</a>
-
             <a href="pages/contact.html">Contact</a>
-
         </nav>
 
-    </header>
+
+        <a href="#games" class="top-btn">
+            Play Now
+        </a>
+
+    </div>
+
+</header>
 
 
-    <!-- HERO SECTION -->
+<main>
 
-    <section class="hero">
 
-        <div class="hero-content">
+<!-- HERO -->
 
-            <h2>Play Amazing Games For Free</h2>
+<section class="hero" id="home">
 
-            <p>
-                Discover exciting puzzle, racing, action and adventure games.
-                Play instantly without downloading anything.
-            </p>
+    <div class="hero-inner">
 
-            <a href="#games" class="play-btn">
-                Play Games
+        <div class="badge">
+            🎮 FREE ONLINE GAMES
+        </div>
+
+        <h1>
+            PLAY.<br>
+            <span>ENJOY.</span><br>
+            REPEAT.
+        </h1>
+
+        <p>
+            Discover exciting games and play instantly
+            in your browser. No download required.
+        </p>
+
+        <div class="hero-buttons">
+
+            <a href="#games" class="main-btn">
+                🎮 Explore Games
+            </a>
+
+            <a href="#categories" class="outline-btn">
+                Browse Categories
             </a>
 
         </div>
 
-    </section>
+
+        <div class="stats">
+
+            <div>
+                <b>5+</b>
+                <small>Games</small>
+            </div>
+
+            <div>
+                <b>100%</b>
+                <small>Free</small>
+            </div>
+
+            <div>
+                <b>📱</b>
+                <small>Mobile Ready</small>
+            </div>
+
+        </div>
+
+    </div>
+
+</section>
+
+
+
+<!-- GAMES -->
+
+<section class="games-section" id="games">
+
+    <div class="section-title">
+
+        <div>
+            <small>OUR COLLECTION</small>
+            <h2>Featured Games</h2>
+        </div>
+
+        <p>
+            Choose a game and start playing.
+        </p>
+
+    </div>
 
 
     <!-- SEARCH -->
 
-    <section class="search-section">
+    <div class="search">
+
+        <span>🔎</span>
 
         <input
             type="text"
-            id="searchInput"
-            placeholder="Search games..."
-        >
+            id="gameSearch"
+            placeholder="Search games...">
 
-    </section>
+        <button id="clearSearch">
+            ×
+        </button>
 
-
-    <!-- FEATURED GAMES -->
-
-    <section class="games-section" id="games">
-
-        <h2>🎮 Featured Games</h2>
-
-        <div class="games-grid">
+    </div>
 
 
-            <!-- PUKU BLAST -->
+    <!-- CATEGORIES -->
 
-            <div class="game-card">
+    <div class="categories" id="categories">
+
+        <button class="category-btn active"
+                data-category="all">
+            All Games
+        </button>
+
+        <button class="category-btn"
+                data-category="puzzle">
+            🧩 Puzzle
+        </button>
+
+        <button class="category-btn"
+                data-category="racing">
+            🏎️ Racing
+        </button>
+
+        <button class="category-btn"
+                data-category="action">
+            🚀 Action
+        </button>
+
+        <button class="category-btn"
+                data-category="arcade">
+            🏃 Arcade
+        </button>
+
+    </div>
+
+
+    <!-- GAME CARDS -->
+
+    <div class="games-grid">
+
+
+        <!-- PUKU BLAST -->
+
+        <article class="game-card"
+                 data-category="puzzle"
+                 data-name="puku blast">
+
+            <div class="game-image">
 
                 <img
                     src="assets/images/games/puku-blast.jpg"
-                    alt="Puku Blast"
-                >
+                    alt="Puku Blast">
 
-                <div class="game-info">
-
-                    <h3>Puku Blast</h3>
-
-                    <p>Fun Match-3 Puzzle Game</p>
-
-                    <a href="games/puku-blast/index.html"
-                       class="game-btn">
-
-                        Play Now
-
-                    </a>
-
-                </div>
+                <span>Puzzle</span>
 
             </div>
 
+            <div class="game-info">
 
-            <!-- RACING -->
+                <h3>Puku Blast</h3>
 
-            <div class="game-card">
+                <p>
+                    Match colorful pieces and create powerful combos.
+                </p>
 
-                <img
-                    src="assets/images/games/racing.jpg"
-                    alt="Racing Game"
-                >
-
-                <div class="game-info">
-
-                    <h3>Racing Game</h3>
-
-                    <p>Fast and exciting racing action</p>
-
-                    <a href="games/racing/index.html"
-                       class="game-btn">
-
-                        Play Now
-
-                    </a>
-
-                </div>
-
-            </div>
-
-
-            <!-- SPACE ATTACK -->
-
-            <div class="game-card">
-
-                <img
-                    src="assets/images/games/space-attack.jpg"
-                    alt="Space Attack"
-                >
-
-                <div class="game-info">
-
-                    <h3>Space Attack</h3>
-
-                    <p>Defend the galaxy from enemies</p>
-
-                    <a href="games/space-attack/index.html"
-                       class="game-btn">
-
-                        Play Now
-
-                    </a>
-
-                </div>
-
-            </div>
-
-
-            <!-- BRAIN PUZZLE -->
-
-            <div class="game-card">
-
-                <img
-                    src="assets/images/games/brain-puzzle.jpg"
-                    alt="Brain Puzzle"
-                >
-
-                <div class="game-info">
-
-                    <h3>Brain Puzzle</h3>
-
-                    <p>Challenge your brain and solve puzzles</p>
-
-                    <a href="games/brain-puzzle/index.html"
-                       class="game-btn">
-
-                        Play Now
-
-                    </a>
-
-                </div>
-
-            </div>
-
-
-            <!-- RUN MASTER -->
-
-            <div class="game-card run-master-card">
-
-                <div class="game-placeholder">
-
-                    🏃
-
-                </div>
-
-                <div class="game-info">
-
-                    <h3>Run Master</h3>
-
-                    <p>Run, jump and avoid obstacles</p>
-
-                    <a href="games/run-master/index.html"
-                       class="game-btn">
-
-                        Play Now
-
-                    </a>
-
-                </div>
-
-            </div>
-
-
-        </div>
-
-    </section>
-
-
-    <!-- ABOUT -->
-
-    <section class="about-preview">
-
-        <h2>About NITUL Games</h2>
-
-        <p>
-
-            NITUL Games is a free online gaming platform where you can
-            enjoy fun and exciting games directly in your browser.
-
-        </p>
-
-        <a href="pages/about.html"
-           class="play-btn">
-
-            Learn More
-
-        </a>
-
-    </section>
-
-
-    <!-- FOOTER -->
-
-    <footer>
-
-        <div class="footer-content">
-
-            <h3>NITUL Games</h3>
-
-            <p>
-                Play free online games anytime.
-            </p>
-
-
-            <div class="footer-links">
-
-                <a href="index.html">Home</a>
-
-                <a href="pages/about.html">About</a>
-
-                <a href="pages/contact.html">Contact</a>
-
-                <a href="pages/privacy.html">
-                    Privacy Policy
+                <a href="games/puku-blast/index.html"
+                   class="play-btn">
+                    Play Now →
                 </a>
 
             </div>
 
+        </article>
 
-            <p class="copyright">
 
-                © 2026 NITUL Games. All Rights Reserved.
 
+        <!-- RACING -->
+
+        <article class="game-card"
+                 data-category="racing"
+                 data-name="racing game">
+
+            <div class="game-image">
+
+                <img
+                    src="assets/images/games/racing.jpg"
+                    alt="Racing Game">
+
+                <span>Racing</span>
+
+            </div>
+
+            <div class="game-info">
+
+                <h3>Racing Game</h3>
+
+                <p>
+                    Race fast and beat your best score.
+                </p>
+
+                <a href="games/racing/index.html"
+                   class="play-btn">
+                    Play Now →
+                </a>
+
+            </div>
+
+        </article>
+
+
+
+        <!-- SPACE ATTACK -->
+
+        <article class="game-card"
+                 data-category="action"
+                 data-name="space attack">
+
+            <div class="game-image">
+
+                <img
+                    src="assets/images/games/space-attack.jpg"
+                    alt="Space Attack">
+
+                <span>Action</span>
+
+            </div>
+
+            <div class="game-info">
+
+                <h3>Space Attack</h3>
+
+                <p>
+                    Defend the galaxy and destroy enemies.
+                </p>
+
+                <a href="games/space-attack/index.html"
+                   class="play-btn">
+                    Play Now →
+                </a>
+
+            </div>
+
+        </article>
+
+
+
+        <!-- BRAIN PUZZLE -->
+
+        <article class="game-card"
+                 data-category="puzzle"
+                 data-name="brain puzzle">
+
+            <div class="game-image">
+
+                <img
+                    src="assets/images/games/brain-puzzle.jpg"
+                    alt="Brain Puzzle">
+
+                <span>Puzzle</span>
+
+            </div>
+
+            <div class="game-info">
+
+                <h3>Brain Puzzle</h3>
+
+                <p>
+                    Challenge your brain with fun puzzles.
+                </p>
+
+                <a href="games/brain-puzzle/index.html"
+                   class="play-btn">
+                    Play Now →
+                </a>
+
+            </div>
+
+        </article>
+
+
+
+        <!-- RUN MASTER -->
+
+        <article class="game-card"
+                 data-category="arcade"
+                 data-name="run master">
+
+            <div class="game-image run-master">
+
+                <div class="runner">
+                    🏃
+                </div>
+
+                <span>Arcade</span>
+
+            </div>
+
+            <div class="game-info">
+
+                <h3>Run Master</h3>
+
+                <p>
+                    Run, jump and avoid dangerous obstacles.
+                </p>
+
+                <a href="games/run-master/index.html"
+                   class="play-btn">
+                    Play Now →
+                </a>
+
+            </div>
+
+        </article>
+
+
+    </div>
+
+
+    <div id="noResults" class="no-results">
+
+        <div>🎮</div>
+
+        <h3>No Games Found</h3>
+
+        <p>
+            Try another search or category.
+        </p>
+
+    </div>
+
+</section>
+
+
+
+<!-- CTA -->
+
+<section class="cta">
+
+    <div>
+
+        <small>MORE GAMES COMING</small>
+
+        <h2>Something exciting is coming!</h2>
+
+        <p>
+            NITUL Games is growing with more fun games.
+        </p>
+
+    </div>
+
+    <a href="#games" class="main-btn">
+        Play Games
+    </a>
+
+</section>
+
+
+</main>
+
+
+
+<!-- FOOTER -->
+
+<footer>
+
+    <div class="footer-inner">
+
+        <div>
+
+            <h3>NITUL Games</h3>
+
+            <p>
+                Free online games for everyone.
             </p>
 
         </div>
 
-    </footer>
+
+        <div class="footer-links">
+
+            <a href="index.html">Home</a>
+            <a href="#games">Games</a>
+            <a href="pages/about.html">About</a>
+            <a href="pages/contact.html">Contact</a>
+            <a href="pages/privacy.html">Privacy</a>
+
+        </div>
+
+    </div>
 
 
-    <script src="script.js"></script>
+    <div class="copyright">
+
+        © 2026 NITUL Games. All Rights Reserved.
+
+    </div>
+
+</footer>
+
+
+
+<script src="script.js"></script>
 
 </body>
 </html>
