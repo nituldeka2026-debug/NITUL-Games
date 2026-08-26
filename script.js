@@ -1,184 +1,145 @@
 document.addEventListener("DOMContentLoaded", () => {
 
-    const menuBtn = document.getElementById("menuBtn");
-    const nav = document.getElementById("nav");
+    const searchInput =
+        document.getElementById("gameSearch");
 
-    const searchInput = document.getElementById("searchInput");
-    const clearSearch = document.getElementById("clearSearch");
+    const clearSearch =
+        document.getElementById("clearSearch");
 
     const categoryButtons =
-        document.querySelectorAll(".category");
+        document.querySelectorAll(".category-btn");
 
     const gameCards =
         document.querySelectorAll(".game-card");
 
-    const noGames =
-        document.getElementById("noGames");
+    const noResults =
+        document.getElementById("noResults");
+
+    const gameCount =
+        document.getElementById("gameCount");
+
+    const menuBtn =
+        document.getElementById("menuBtn");
+
+    const nav =
+        document.getElementById("nav");
 
 
-    let currentCategory = "all";
+    let activeCategory = "all";
 
 
-    /* =========================
-       MOBILE MENU
-    ========================== */
+    /* ================= MOBILE MENU ================= */
 
-    if (menuBtn && nav) {
+    menuBtn.addEventListener("click", () => {
 
-        menuBtn.addEventListener("click", () => {
+        nav.classList.toggle("show");
 
-            nav.classList.toggle("show");
+        menuBtn.textContent =
+            nav.classList.contains("show")
+                ? "✕"
+                : "☰";
 
-            menuBtn.classList.toggle("active");
-
-        });
+    });
 
 
-        nav.querySelectorAll("a")
+    document.querySelectorAll(".nav a")
         .forEach(link => {
 
             link.addEventListener("click", () => {
 
                 nav.classList.remove("show");
 
-                menuBtn.classList.remove("active");
+                menuBtn.textContent = "☰";
 
             });
 
         });
 
-    }
 
-
-    /* =========================
-       GAME FILTER FUNCTION
-    ========================== */
+    /* ================= FILTER ================= */
 
     function filterGames() {
 
-        const searchText =
-            searchInput
-            ? searchInput.value
-                .toLowerCase()
+        const search =
+            searchInput.value
                 .trim()
-            : "";
+                .toLowerCase();
 
-        let visibleCount = 0;
+        let visible = 0;
 
 
         gameCards.forEach(card => {
 
-            const gameCategory =
-                card.dataset.category
-                ? card.dataset.category.toLowerCase()
-                : "";
-
-            const gameName =
+            const name =
                 card.dataset.name
-                ? card.dataset.name.toLowerCase()
-                : card.textContent.toLowerCase();
+                    .toLowerCase();
+
+            const category =
+                card.dataset.category
+                    .toLowerCase();
 
 
-            const categoryMatch =
-                currentCategory === "all" ||
-                gameCategory === currentCategory;
+            const matchesSearch =
+                name.includes(search);
+
+            const matchesCategory =
+                activeCategory === "all" ||
+                category === activeCategory;
 
 
-            const searchMatch =
-                gameName.includes(searchText);
-
-
-            if (categoryMatch && searchMatch) {
+            if (
+                matchesSearch &&
+                matchesCategory
+            ) {
 
                 card.style.display = "";
 
-                card.classList.remove("hidden");
-
-                visibleCount++;
+                visible++;
 
             } else {
 
                 card.style.display = "none";
 
-                card.classList.add("hidden");
-
             }
 
         });
 
 
-        /* NO GAMES MESSAGE */
+        /* GAME COUNT */
 
-        if (noGames) {
-
-            if (visibleCount === 0) {
-
-                noGames.style.display = "block";
-
-            } else {
-
-                noGames.style.display = "none";
-
-            }
-
-        }
-
-    }
+        gameCount.textContent =
+            `${visible} ${visible === 1 ? "Game" : "Games"}`;
 
 
-    /* =========================
-       CATEGORY BUTTONS
-    ========================== */
+        /* NO RESULTS */
 
-    categoryButtons.forEach(button => {
-
-        button.addEventListener("click", () => {
-
-            categoryButtons.forEach(btn => {
-
-                btn.classList.remove("active");
-
-            });
+        noResults.style.display =
+            visible === 0
+                ? "block"
+                : "none";
 
 
-            button.classList.add("active");
+        /* CLEAR BUTTON */
 
-
-            currentCategory =
-                button.dataset.category
-                ? button.dataset.category.toLowerCase()
-                : "all";
-
-
-            filterGames();
-
-        });
-
-    });
-
-
-    /* =========================
-       SEARCH
-    ========================== */
-
-    if (searchInput) {
-
-        searchInput.addEventListener("input", () => {
-
-            filterGames();
-
-        });
+        clearSearch.style.display =
+            search.length > 0
+                ? "block"
+                : "none";
 
     }
 
 
-    /* =========================
-       CLEAR SEARCH
-    ========================== */
+    /* ================= SEARCH ================= */
 
-    if (clearSearch && searchInput) {
+    searchInput.addEventListener(
+        "input",
+        filterGames
+    );
 
-        clearSearch.addEventListener("click", () => {
+
+    clearSearch.addEventListener(
+        "click",
+        () => {
 
             searchInput.value = "";
 
@@ -186,131 +147,82 @@ document.addEventListener("DOMContentLoaded", () => {
 
             searchInput.focus();
 
-        });
-
-    }
-
-
-    /* =========================
-       SMOOTH ACTIVE NAVIGATION
-    ========================== */
-
-    const navLinks =
-        document.querySelectorAll(".nav a");
+        }
+    );
 
 
-    navLinks.forEach(link => {
+    /* ================= CATEGORY ================= */
 
-        link.addEventListener("click", function () {
+    categoryButtons.forEach(button => {
 
-            const href =
-                this.getAttribute("href");
+        button.addEventListener(
+            "click",
+            () => {
 
-
-            if (
-                href &&
-                href.startsWith("#")
-            ) {
-
-                navLinks.forEach(navLink => {
-
-                    navLink.classList.remove(
-                        "active"
+                categoryButtons
+                    .forEach(btn =>
+                        btn.classList.remove("active")
                     );
 
-                });
+                button.classList.add("active");
 
+                activeCategory =
+                    button.dataset.category;
 
-                this.classList.add(
-                    "active"
-                );
+                filterGames();
 
             }
-
-        });
+        );
 
     });
 
 
-    /* =========================
-       ACTIVE NAV ON SCROLL
-    ========================== */
+    /* ================= CARD ANIMATION ================= */
 
-    const sections =
-        document.querySelectorAll(
-            "section[id]"
-        );
+    const observer =
+        new IntersectionObserver(
+            entries => {
 
+                entries.forEach(entry => {
 
-    window.addEventListener(
-        "scroll",
-        () => {
+                    if (entry.isIntersecting) {
 
-            let current = "";
+                        entry.target.style.opacity = "1";
 
-            sections.forEach(section => {
+                        entry.target.style.transform =
+                            "translateY(0)";
 
-                const sectionTop =
-                    section.offsetTop - 150;
-
-                const sectionHeight =
-                    section.offsetHeight;
-
-
-                if (
-
-                    window.scrollY >=
-                    sectionTop
-
-                    &&
-
-                    window.scrollY <
-                    sectionTop + sectionHeight
-
-                ) {
-
-                    current =
-                        section.getAttribute("id");
-
-                }
-
-            });
-
-
-            if (current) {
-
-                navLinks.forEach(link => {
-
-                    link.classList.remove(
-                        "active"
-                    );
-
-
-                    if (
-
-                        link.getAttribute(
-                            "href"
-                        ) === "#" + current
-
-                    ) {
-
-                        link.classList.add(
-                            "active"
+                        observer.unobserve(
+                            entry.target
                         );
 
                     }
 
                 });
 
+            },
+            {
+                threshold: 0.08
             }
-
-        }
-    );
+        );
 
 
-    /* =========================
-       INITIAL FILTER
-    ========================== */
+    gameCards.forEach(card => {
+
+        card.style.opacity = "0";
+
+        card.style.transform =
+            "translateY(18px)";
+
+        card.style.transition =
+            "opacity .5s ease, transform .5s ease";
+
+        observer.observe(card);
+
+    });
+
+
+    /* ================= INITIAL ================= */
 
     filterGames();
 
