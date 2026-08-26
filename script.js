@@ -1,156 +1,317 @@
-const categories = document.querySelectorAll(".category");
+document.addEventListener("DOMContentLoaded", () => {
 
-const games = document.querySelectorAll(".game-card");
+    const menuBtn = document.getElementById("menuBtn");
+    const nav = document.getElementById("nav");
 
-const searchInput =
-    document.getElementById("searchInput");
+    const searchInput = document.getElementById("searchInput");
+    const clearSearch = document.getElementById("clearSearch");
 
-const noResults =
-    document.getElementById("noResults");
+    const categoryButtons =
+        document.querySelectorAll(".category");
 
-const menuBtn =
-    document.getElementById("menuBtn");
+    const gameCards =
+        document.querySelectorAll(".game-card");
 
-const navLinks =
-    document.querySelector(".nav-links");
-
-
-let currentCategory = "all";
+    const noGames =
+        document.getElementById("noGames");
 
 
-function filterGames() {
-
-    const searchText =
-        searchInput.value
-        .toLowerCase()
-        .trim();
-
-    let visibleGames = 0;
+    let currentCategory = "all";
 
 
-    games.forEach(game => {
+    /* =========================
+       MOBILE MENU
+    ========================== */
 
-        const category =
-            game.dataset.category;
+    if (menuBtn && nav) {
 
-        const name =
-            game.dataset.name;
+        menuBtn.addEventListener("click", () => {
 
+            nav.classList.toggle("show");
 
-        const categoryMatch =
-            currentCategory === "all" ||
-            category === currentCategory;
+            menuBtn.classList.toggle("active");
 
-
-        const searchMatch =
-            name.includes(searchText);
+        });
 
 
-        if (
-            categoryMatch &&
-            searchMatch
-        ) {
+        nav.querySelectorAll("a")
+        .forEach(link => {
 
-            game.style.display =
-                "block";
+            link.addEventListener("click", () => {
 
-            visibleGames++;
+                nav.classList.remove("show");
 
-        } else {
+                menuBtn.classList.remove("active");
 
-            game.style.display =
-                "none";
+            });
 
-        }
-
-    });
-
-
-    if (visibleGames === 0) {
-
-        noResults.style.display =
-            "block";
-
-    } else {
-
-        noResults.style.display =
-            "none";
+        });
 
     }
 
-}
+
+    /* =========================
+       GAME FILTER FUNCTION
+    ========================== */
+
+    function filterGames() {
+
+        const searchText =
+            searchInput
+            ? searchInput.value
+                .toLowerCase()
+                .trim()
+            : "";
+
+        let visibleCount = 0;
 
 
-/* CATEGORY */
+        gameCards.forEach(card => {
 
-categories.forEach(button => {
+            const gameCategory =
+                card.dataset.category
+                ? card.dataset.category.toLowerCase()
+                : "";
 
-    button.addEventListener(
-        "click",
-        () => {
+            const gameName =
+                card.dataset.name
+                ? card.dataset.name.toLowerCase()
+                : card.textContent.toLowerCase();
 
-            categories.forEach(btn => {
 
-                btn.classList.remove(
-                    "active"
-                );
+            const categoryMatch =
+                currentCategory === "all" ||
+                gameCategory === currentCategory;
+
+
+            const searchMatch =
+                gameName.includes(searchText);
+
+
+            if (categoryMatch && searchMatch) {
+
+                card.style.display = "";
+
+                card.classList.remove("hidden");
+
+                visibleCount++;
+
+            } else {
+
+                card.style.display = "none";
+
+                card.classList.add("hidden");
+
+            }
+
+        });
+
+
+        /* NO GAMES MESSAGE */
+
+        if (noGames) {
+
+            if (visibleCount === 0) {
+
+                noGames.style.display = "block";
+
+            } else {
+
+                noGames.style.display = "none";
+
+            }
+
+        }
+
+    }
+
+
+    /* =========================
+       CATEGORY BUTTONS
+    ========================== */
+
+    categoryButtons.forEach(button => {
+
+        button.addEventListener("click", () => {
+
+            categoryButtons.forEach(btn => {
+
+                btn.classList.remove("active");
 
             });
 
 
-            button.classList.add(
-                "active"
-            );
+            button.classList.add("active");
 
 
             currentCategory =
-                button.dataset.category;
+                button.dataset.category
+                ? button.dataset.category.toLowerCase()
+                : "all";
 
 
             filterGames();
 
-        }
-    );
+        });
 
-});
-
-
-/* SEARCH */
-
-searchInput.addEventListener(
-    "input",
-    filterGames
-);
+    });
 
 
-/* MOBILE MENU */
+    /* =========================
+       SEARCH
+    ========================== */
 
-menuBtn.addEventListener(
-    "click",
-    () => {
+    if (searchInput) {
 
-        navLinks.classList.toggle(
-            "show-menu"
-        );
+        searchInput.addEventListener("input", () => {
+
+            filterGames();
+
+        });
 
     }
-);
 
 
-/* CLOSE MENU AFTER CLICK */
+    /* =========================
+       CLEAR SEARCH
+    ========================== */
 
-navLinks.querySelectorAll("a")
-.forEach(link => {
+    if (clearSearch && searchInput) {
 
-    link.addEventListener(
-        "click",
+        clearSearch.addEventListener("click", () => {
+
+            searchInput.value = "";
+
+            filterGames();
+
+            searchInput.focus();
+
+        });
+
+    }
+
+
+    /* =========================
+       SMOOTH ACTIVE NAVIGATION
+    ========================== */
+
+    const navLinks =
+        document.querySelectorAll(".nav a");
+
+
+    navLinks.forEach(link => {
+
+        link.addEventListener("click", function () {
+
+            const href =
+                this.getAttribute("href");
+
+
+            if (
+                href &&
+                href.startsWith("#")
+            ) {
+
+                navLinks.forEach(navLink => {
+
+                    navLink.classList.remove(
+                        "active"
+                    );
+
+                });
+
+
+                this.classList.add(
+                    "active"
+                );
+
+            }
+
+        });
+
+    });
+
+
+    /* =========================
+       ACTIVE NAV ON SCROLL
+    ========================== */
+
+    const sections =
+        document.querySelectorAll(
+            "section[id]"
+        );
+
+
+    window.addEventListener(
+        "scroll",
         () => {
 
-            navLinks.classList.remove(
-                "show-menu"
-            );
+            let current = "";
+
+            sections.forEach(section => {
+
+                const sectionTop =
+                    section.offsetTop - 150;
+
+                const sectionHeight =
+                    section.offsetHeight;
+
+
+                if (
+
+                    window.scrollY >=
+                    sectionTop
+
+                    &&
+
+                    window.scrollY <
+                    sectionTop + sectionHeight
+
+                ) {
+
+                    current =
+                        section.getAttribute("id");
+
+                }
+
+            });
+
+
+            if (current) {
+
+                navLinks.forEach(link => {
+
+                    link.classList.remove(
+                        "active"
+                    );
+
+
+                    if (
+
+                        link.getAttribute(
+                            "href"
+                        ) === "#" + current
+
+                    ) {
+
+                        link.classList.add(
+                            "active"
+                        );
+
+                    }
+
+                });
+
+            }
 
         }
     );
+
+
+    /* =========================
+       INITIAL FILTER
+    ========================== */
+
+    filterGames();
 
 });
