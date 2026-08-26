@@ -1,13 +1,16 @@
 document.addEventListener("DOMContentLoaded", () => {
 
-    const searchInput =
-        document.getElementById("gameSearch");
+    /* =========================
+       ELEMENTS
+    ========================= */
 
-    const clearSearch =
-        document.getElementById("clearSearch");
+    const menuBtn = document.getElementById("menuBtn");
+    const nav = document.querySelector(".nav-links");
+
+    const searchInput = document.getElementById("searchInput");
 
     const categoryButtons =
-        document.querySelectorAll(".category-btn");
+        document.querySelectorAll(".category");
 
     const gameCards =
         document.querySelectorAll(".game-card");
@@ -15,39 +18,37 @@ document.addEventListener("DOMContentLoaded", () => {
     const noResults =
         document.getElementById("noResults");
 
-    const gameCount =
-        document.getElementById("gameCount");
 
-    const menuBtn =
-        document.getElementById("menuBtn");
-
-    const nav =
-        document.getElementById("nav");
+    let currentCategory = "all";
 
 
-    let activeCategory = "all";
+    /* =========================
+       MOBILE MENU
+    ========================= */
+
+    if (menuBtn && nav) {
+
+        menuBtn.addEventListener("click", () => {
+
+            nav.classList.toggle("show-menu");
+
+            menuBtn.classList.toggle("active");
+
+            menuBtn.textContent =
+                nav.classList.contains("show-menu")
+                    ? "✕"
+                    : "☰";
+
+        });
 
 
-    /* ================= MOBILE MENU ================= */
-
-    menuBtn.addEventListener("click", () => {
-
-        nav.classList.toggle("show");
-
-        menuBtn.textContent =
-            nav.classList.contains("show")
-                ? "✕"
-                : "☰";
-
-    });
-
-
-    document.querySelectorAll(".nav a")
-        .forEach(link => {
+        nav.querySelectorAll("a").forEach(link => {
 
             link.addEventListener("click", () => {
 
-                nav.classList.remove("show");
+                nav.classList.remove("show-menu");
+
+                menuBtn.classList.remove("active");
 
                 menuBtn.textContent = "☰";
 
@@ -55,174 +56,244 @@ document.addEventListener("DOMContentLoaded", () => {
 
         });
 
+    }
 
-    /* ================= FILTER ================= */
+
+    /* =========================
+       FILTER GAMES
+    ========================= */
 
     function filterGames() {
 
-        const search =
-            searchInput.value
-                .trim()
-                .toLowerCase();
+        const searchText =
+            searchInput
+                ? searchInput.value
+                    .toLowerCase()
+                    .trim()
+                : "";
 
-        let visible = 0;
+
+        let visibleCount = 0;
 
 
         gameCards.forEach(card => {
 
-            const name =
-                card.dataset.name
-                    .toLowerCase();
-
             const category =
-                card.dataset.category
+                (card.dataset.category || "")
                     .toLowerCase();
 
 
-            const matchesSearch =
-                name.includes(search);
+            const name =
+                (card.dataset.name ||
+                    card.textContent ||
+                    "")
+                    .toLowerCase();
 
-            const matchesCategory =
-                activeCategory === "all" ||
-                category === activeCategory;
+
+            const categoryMatch =
+                currentCategory === "all" ||
+                category === currentCategory;
 
 
-            if (
-                matchesSearch &&
-                matchesCategory
-            ) {
+            const searchMatch =
+                name.includes(searchText);
+
+
+            const shouldShow =
+                categoryMatch &&
+                searchMatch;
+
+
+            if (shouldShow) {
 
                 card.style.display = "";
 
-                visible++;
+                card.classList.remove("hidden");
+
+                visibleCount++;
 
             } else {
 
                 card.style.display = "none";
+
+                card.classList.add("hidden");
 
             }
 
         });
 
 
-        /* GAME COUNT */
+        /* =========================
+           NO RESULTS
+        ========================= */
 
-        gameCount.textContent =
-            `${visible} ${visible === 1 ? "Game" : "Games"}`;
+        if (noResults) {
 
+            noResults.style.display =
+                visibleCount === 0
+                    ? "block"
+                    : "none";
 
-        /* NO RESULTS */
-
-        noResults.style.display =
-            visible === 0
-                ? "block"
-                : "none";
-
-
-        /* CLEAR BUTTON */
-
-        clearSearch.style.display =
-            search.length > 0
-                ? "block"
-                : "none";
+        }
 
     }
 
 
-    /* ================= SEARCH ================= */
-
-    searchInput.addEventListener(
-        "input",
-        filterGames
-    );
-
-
-    clearSearch.addEventListener(
-        "click",
-        () => {
-
-            searchInput.value = "";
-
-            filterGames();
-
-            searchInput.focus();
-
-        }
-    );
-
-
-    /* ================= CATEGORY ================= */
+    /* =========================
+       CATEGORY BUTTONS
+    ========================= */
 
     categoryButtons.forEach(button => {
 
-        button.addEventListener(
-            "click",
-            () => {
+        button.addEventListener("click", () => {
 
-                categoryButtons
-                    .forEach(btn =>
-                        btn.classList.remove("active")
-                    );
+            categoryButtons.forEach(btn => {
 
-                button.classList.add("active");
+                btn.classList.remove("active");
 
-                activeCategory =
-                    button.dataset.category;
-
-                filterGames();
-
-            }
-        );
-
-    });
+            });
 
 
-    /* ================= CARD ANIMATION ================= */
-
-    const observer =
-        new IntersectionObserver(
-            entries => {
-
-                entries.forEach(entry => {
-
-                    if (entry.isIntersecting) {
-
-                        entry.target.style.opacity = "1";
-
-                        entry.target.style.transform =
-                            "translateY(0)";
-
-                        observer.unobserve(
-                            entry.target
-                        );
-
-                    }
-
-                });
-
-            },
-            {
-                threshold: 0.08
-            }
-        );
+            button.classList.add("active");
 
 
-    gameCards.forEach(card => {
+            currentCategory =
+                (
+                    button.dataset.category ||
+                    "all"
+                ).toLowerCase();
 
-        card.style.opacity = "0";
 
-        card.style.transform =
-            "translateY(18px)";
+            filterGames();
 
-        card.style.transition =
-            "opacity .5s ease, transform .5s ease";
-
-        observer.observe(card);
+        });
 
     });
 
 
-    /* ================= INITIAL ================= */
+    /* =========================
+       SEARCH
+    ========================= */
+
+    if (searchInput) {
+
+        searchInput.addEventListener("input", () => {
+
+            filterGames();
+
+        });
+
+    }
+
+
+    /* =========================
+       NAVIGATION ACTIVE STATE
+    ========================= */
+
+    const navLinks =
+        document.querySelectorAll(".nav-links a");
+
+
+    navLinks.forEach(link => {
+
+        link.addEventListener("click", () => {
+
+            navLinks.forEach(item => {
+
+                item.classList.remove("active");
+
+            });
+
+            link.classList.add("active");
+
+        });
+
+    });
+
+
+    /* =========================
+       SCROLL ACTIVE NAV
+    ========================= */
+
+    const sections =
+        document.querySelectorAll("section[id]");
+
+
+    window.addEventListener("scroll", () => {
+
+        let current = "";
+
+
+        sections.forEach(section => {
+
+            const top =
+                section.offsetTop - 160;
+
+            const bottom =
+                top + section.offsetHeight;
+
+
+            if (
+                window.scrollY >= top &&
+                window.scrollY < bottom
+            ) {
+
+                current =
+                    section.getAttribute("id");
+
+            }
+
+        });
+
+
+        if (current) {
+
+            navLinks.forEach(link => {
+
+                link.classList.remove("active");
+
+
+                if (
+                    link.getAttribute("href") ===
+                    "#" + current
+                ) {
+
+                    link.classList.add("active");
+
+                }
+
+            });
+
+        }
+
+    });
+
+
+    /* =========================
+       CARD IMAGE FALLBACK
+       Prevent broken-image look
+    ========================= */
+
+    document
+        .querySelectorAll(".game-image img")
+        .forEach(img => {
+
+            img.addEventListener("error", () => {
+
+                img.style.display = "none";
+
+                img.parentElement.classList.add(
+                    "image-error"
+                );
+
+            });
+
+        });
+
+
+    /* =========================
+       INITIAL LOAD
+    ========================= */
 
     filterGames();
 
