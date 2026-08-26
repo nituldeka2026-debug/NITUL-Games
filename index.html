@@ -1,104 +1,152 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
 
     <meta name="viewport"
           content="width=device-width, initial-scale=1.0">
 
-    <meta name="theme-color" content="#070b16">
+    <meta name="theme-color"
+          content="#070b16">
 
     <meta name="description"
-          content="NITUL Games - Play free online games instantly. Racing, puzzle, action and adventure games.">
+          content="NITUL Games - Play free online games. Racing, Puzzle, Action and Adventure games.">
 
-    <title>NITUL Games | Free Online Games</title>
+    <title>NITUL Games | Play Free Games</title>
 
-    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet"
+          href="style.css?v=5">
 </head>
+
 
 <body>
 
-<!-- ================= HEADER ================= -->
+<!-- HEADER -->
 
 <header class="header">
 
     <a href="#home" class="logo">
+
         <span class="logo-icon">🎮</span>
+
         <span class="logo-nitul">NITUL</span>
+
         <span class="logo-games">Games</span>
+
     </a>
 
+
     <nav class="nav" id="nav">
+
         <a href="#home">Home</a>
+
         <a href="#games">Games</a>
+
         <a href="#categories">Categories</a>
+
         <a href="#about">About</a>
+
     </nav>
+
 
     <button class="menu-btn"
             id="menuBtn"
-            aria-label="Open menu">
+            aria-label="Open Menu">
+
         ☰
+
     </button>
 
 </header>
 
 
-<!-- ================= HERO ================= -->
 
 <main>
 
+<!-- HERO -->
+
 <section class="hero" id="home">
 
-    <div class="hero-bg"></div>
+    <div class="hero-glow glow-one"></div>
+
+    <div class="hero-glow glow-two"></div>
+
 
     <div class="hero-content">
 
-        <div class="hero-pill">
-            <span>🔥</span>
-            WELCOME TO NITUL GAMES
+        <div class="hero-badge">
+
+            🔥 WELCOME TO NITUL GAMES
+
         </div>
 
+
         <h1>
+
             PLAY.
+
             <span>ENJOY.</span>
+
             REPEAT.
+
         </h1>
 
+
         <p>
+
             Discover fun, exciting and free browser games.
             No download. No installation. Just play.
+
         </p>
+
 
         <div class="hero-buttons">
 
             <a href="#games"
                class="primary-btn">
+
                 🎮 PLAY GAMES
+
             </a>
+
 
             <a href="#categories"
                class="secondary-btn">
+
                 EXPLORE →
+
             </a>
 
         </div>
 
+
         <div class="hero-stats">
 
             <div>
+
                 <strong>05+</strong>
-                <small>Games</small>
+
+                <small>GAMES</small>
+
             </div>
 
+
             <div>
+
                 <strong>100%</strong>
-                <small>Free</small>
+
+                <small>FREE</small>
+
             </div>
 
+
             <div>
+
                 <strong>24/7</strong>
-                <small>Play</small>
+
+                <small>PLAY</small>
+
             </div>
 
         </div>
@@ -108,27 +156,35 @@
 </section>
 
 
-<!-- ================= SEARCH ================= -->
 
-<section class="discover" id="categories">
+<!-- SEARCH -->
+
+<section class="discover"
+         id="categories">
 
     <div class="section-title">
 
         <span>DISCOVER</span>
 
         <h2>
+
             Find Your <b>Game</b>
+
         </h2>
 
+
         <p>
+
             Search your favourite game or browse by category.
+
         </p>
 
     </div>
 
-    <div class="search-wrap">
 
-        <span class="search-icon">🔍</span>
+    <div class="search-box">
+
+        <span>🔍</span>
 
         <input
             type="text"
@@ -137,10 +193,10 @@
             autocomplete="off"
         >
 
-        <button
-            id="clearSearch"
-            class="clear-btn">
+        <button id="clearSearch">
+
             ×
+
         </button>
 
     </div>
@@ -148,34 +204,43 @@
 
     <div class="categories">
 
-        <button
-            class="category-btn active"
-            data-category="all">
+        <button class="category-btn active"
+                data-category="all">
+
             🎮 All
+
         </button>
 
-        <button
-            class="category-btn"
-            data-category="racing">
+
+        <button class="category-btn"
+                data-category="racing">
+
             🏎️ Racing
+
         </button>
 
-        <button
-            class="category-btn"
-            data-category="puzzle">
+
+        <button class="category-btn"
+                data-category="puzzle">
+
             🧩 Puzzle
+
         </button>
 
-        <button
-            class="category-btn"
-            data-category="action">
+
+        <button class="category-btn"
+                data-category="action">
+
             🚀 Action
+
         </button>
 
-        <button
-            class="category-btn"
-            data-category="runner">
+
+        <button class="category-btn"
+                data-category="runner">
+
             🏃 Runner
+
         </button>
 
     </div>
@@ -183,7 +248,8 @@
 </section>
 
 
-<!-- ================= GAMES ================= -->
+
+<!-- GAMES -->
 
 <section class="games-section"
          id="games">
@@ -191,411 +257,361 @@
     <div class="section-heading">
 
         <div>
+
             <span>OUR COLLECTION</span>
 
             <h2>
+
                 Featured <b>Games</b>
+
             </h2>
+
         </div>
+
 
         <div class="game-count"
              id="gameCount">
+
             5 Games
+
         </div>
 
     </div>
+
 
 
     <div class="games-grid"
          id="gamesGrid">
 
 
-        <!-- RACING -->
+        <!-- RACING GAME -->
 
-        <article
-            class="game-card"
-            data-category="racing"
-            data-name="racing game street racer">
+        <article class="game-card"
+                 data-category="racing"
+                 data-name="racing game street racer">
 
-            <div class="game-image-box">
+            <div class="game-image">
 
                 <img
-                    src="image/street%20racer.png"
+                    src="assets/images/games/street%20racer.png"
                     alt="Racing Game"
-                    loading="lazy">
+                >
 
-                <span class="badge">
+                <span class="game-badge">
+
                     🏎️ RACING
-                </span>
 
-                <span class="card-glow"></span>
+                </span>
 
             </div>
 
-            <div class="game-body">
+
+            <div class="game-content">
 
                 <div class="game-meta">
+
                     <span>🏁 Arcade</span>
+
                     <span>⭐ 4.8</span>
+
                 </div>
 
-                <h3>Racing Game</h3>
+
+                <h3>
+
+                    Racing Game
+
+                </h3>
+
 
                 <p>
-                    Drive fast, avoid obstacles and
-                    beat your highest score.
+
+                    Drive fast, avoid obstacles and beat your highest score.
+
                 </p>
 
-                <a
-                    href="racing.html"
-                    class="play-btn">
+
+                <a href="games/racing/index.html"
+                   class="play-btn">
+
                     PLAY NOW
+
                     <span>→</span>
+
                 </a>
 
             </div>
 
         </article>
+
 
 
         <!-- BRAIN PUZZLE -->
 
-        <article
-            class="game-card"
-            data-category="puzzle"
-            data-name="brain puzzle">
+        <article class="game-card"
+                 data-category="puzzle"
+                 data-name="brain puzzle">
 
-            <div class="game-image-box">
+            <div class="game-image">
 
                 <img
-                    src="image/brain%20puzzle.png"
+                    src="assets/images/games/brain%20puzzle.png"
                     alt="Brain Puzzle"
-                    loading="lazy">
+                >
 
-                <span class="badge">
+                <span class="game-badge">
+
                     🧩 PUZZLE
+
                 </span>
 
             </div>
 
-            <div class="game-body">
+
+            <div class="game-content">
 
                 <div class="game-meta">
+
                     <span>🧠 Brain</span>
+
                     <span>⭐ 4.7</span>
+
                 </div>
 
-                <h3>Brain Puzzle</h3>
+
+                <h3>
+
+                    Brain Puzzle
+
+                </h3>
+
 
                 <p>
-                    Challenge your mind with
-                    exciting puzzles and levels.
+
+                    Challenge your mind with exciting puzzles and levels.
+
                 </p>
 
-                <a
-                    href="brain-puzzle.html"
-                    class="play-btn">
+
+                <a href="games/brain-puzzle/index.html"
+                   class="play-btn">
+
                     PLAY NOW
+
                     <span>→</span>
+
                 </a>
 
             </div>
 
         </article>
+
 
 
         <!-- SPACE ATTACK -->
 
-        <article
-            class="game-card"
-            data-category="action"
-            data-name="space attack">
+        <article class="game-card"
+                 data-category="action"
+                 data-name="space attack">
 
-            <div class="game-image-box">
+            <div class="game-image">
 
                 <img
-                    src="image/space%20attack.png"
+                    src="assets/images/games/space%20attack.png"
                     alt="Space Attack"
-                    loading="lazy">
+                >
 
-                <span class="badge">
+                <span class="game-badge">
+
                     🚀 ACTION
+
                 </span>
 
             </div>
 
-            <div class="game-body">
+
+            <div class="game-content">
 
                 <div class="game-meta">
+
                     <span>⚔️ Action</span>
+
                     <span>⭐ 4.9</span>
+
                 </div>
 
-                <h3>Space Attack</h3>
+
+                <h3>
+
+                    Space Attack
+
+                </h3>
+
 
                 <p>
-                    Fight enemies, survive the attack
-                    and reach the highest score.
+
+                    Fight enemies, survive the attack and reach a high score.
+
                 </p>
 
-                <a
-                    href="space-attack.html"
-                    class="play-btn">
+
+                <a href="games/space-attack/index.html"
+                   class="play-btn">
+
                     PLAY NOW
+
                     <span>→</span>
+
                 </a>
 
             </div>
 
         </article>
+
 
 
         <!-- RUN MASTER -->
 
-        <article
-            class="game-card"
-            data-category="runner"
-            data-name="run master">
+        <article class="game-card"
+                 data-category="runner"
+                 data-name="run master">
 
-            <div class="game-image-box">
+            <div class="game-image">
 
                 <img
-                    src="image/run%20master.png"
+                    src="assets/images/games/run%20master.png"
                     alt="Run Master"
-                    loading="lazy">
+                >
 
-                <span class="badge">
+                <span class="game-badge">
+
                     🏃 RUNNER
+
                 </span>
 
             </div>
 
-            <div class="game-body">
+
+            <div class="game-content">
 
                 <div class="game-meta">
+
                     <span>🏃 Adventure</span>
+
                     <span>⭐ 4.8</span>
+
                 </div>
 
-                <h3>Run Master</h3>
+
+                <h3>
+
+                    Run Master
+
+                </h3>
+
 
                 <p>
-                    Run, jump and avoid obstacles
-                    while beating your best score.
+
+                    Run, jump and avoid obstacles while beating your best score.
+
                 </p>
 
-                <a
-                    href="run-master.html"
-                    class="play-btn">
+
+                <a href="games/run-master/index.html"
+                   class="play-btn">
+
                     PLAY NOW
+
                     <span>→</span>
+
                 </a>
 
             </div>
 
         </article>
+
 
 
         <!-- PUKU BLAST -->
 
-        <article
-            class="game-card"
-            data-category="puzzle"
-            data-name="puku blast match 3">
+        <article class="game-card"
+                 data-category="puzzle"
+                 data-name="puku blast match 3">
 
-            <div class="game-image-box">
+            <div class="game-image">
 
                 <img
-                    src="image/puku-blast.png"
+                    src="assets/images/games/puku-blast.png"
                     alt="Puku Blast"
-                    loading="lazy">
+                >
 
-                <span class="badge">
+                <span class="game-badge">
+
                     🍬 PUZZLE
+
                 </span>
 
             </div>
 
-            <div class="game-body">
+
+            <div class="game-content">
 
                 <div class="game-meta">
+
                     <span>🍬 Match 3</span>
+
                     <span>⭐ 4.9</span>
+
                 </div>
 
-                <h3>Puku Blast</h3>
+
+                <h3>
+
+                    Puku Blast
+
+                </h3>
+
 
                 <p>
-                    Match colourful Puku blocks,
-                    create combos and clear levels.
+
+                    Match colourful Puku blocks and create amazing combos.
+
                 </p>
 
-                <a
-                    href="puku-blast/index.html"
-                    class="play-btn">
+
+                <a href="games/puku-blast/index.html"
+                   class="play-btn">
+
                     PLAY NOW
+
                     <span>→</span>
+
                 </a>
 
             </div>
 
         </article>
 
+
     </div>
 
 
-    <!-- NO RESULTS -->
 
-    <div
-        id="noResults"
-        class="no-results">
+    <div class="no-results"
+         id="noResults">
 
         <div>🎮</div>
 
-        <h3>
-            No Games Found
-        </h3>
+        <h3>No Games Found</h3>
 
-        <p>
-            Try another game name or category.
-        </p>
+        <p>Try another game name or category.</p>
 
     </div>
 
 </section>
 
 
-<!-- ================= WHY NITUL GAMES ================= -->
 
-<section class="why-section"
-         id="about">
+<!-- FEATURES -->
 
-    <div class="section-title">
-
-        <span>WHY NITUL GAMES</span>
-
-        <h2>
-            Gaming Made <b>Simple</b>
-        </h2>
-
-        <p>
-            Everything you need for quick and fun gaming.
-        </p>
-
-    </div>
-
-
-    <div class="feature-grid">
-
-        <div class="feature-card">
-
-            <div class="feature-icon">
-                🆓
-            </div>
-
-            <h3>100% Free</h3>
-
-            <p>
-                Enjoy our games without
-                subscription or payment.
-            </p>
-
-        </div>
-
-
-        <div class="feature-card">
-
-            <div class="feature-icon">
-                📱
-            </div>
-
-            <h3>Mobile Friendly</h3>
-
-            <p>
-                Play comfortably on mobile,
-                tablet or computer.
-            </p>
-
-        </div>
-
-
-        <div class="feature-card">
-
-            <div class="feature-icon">
-                ⚡
-            </div>
-
-            <h3>Fast Loading</h3>
-
-            <p>
-                Lightweight website designed
-                for a smooth experience.
-            </p>
-
-        </div>
-
-
-        <div class="feature-card">
-
-            <div class="feature-icon">
-                🌐
-            </div>
-
-            <h3>Play Online</h3>
-
-            <p>
-                No software installation.
-                Open and start playing.
-            </p>
-
-        </div>
-
-    </div>
-
-</section>
-
-</main>
-
-
-<!-- ================= FOOTER ================= -->
-
-<footer class="footer">
-
-    <div class="footer-logo">
-        🎮 <strong>NITUL</strong> Games
-    </div>
-
-    <p>
-        Play. Enjoy. Repeat.
-    </p>
-
-    <div class="footer-links">
-
-        <a href="#home">Home</a>
-
-        <a href="#games">Games</a>
-
-        <a href="#categories">
-            Categories
-        </a>
-
-        <a href="#about">
-            About
-        </a>
-
-    </div>
-
-    <div class="footer-line"></div>
-
-    <p class="copyright">
-        © 2026 NITUL Games.
-        All Rights Reserved.
-    </p>
-
-</footer>
-
-
-<script src="script.js"></script>
-
-</body>
-</html>
+<section class="features-section
