@@ -1,39 +1,109 @@
-document.addEventListener("DOMContentLoaded", function () {
+document.addEventListener("DOMContentLoaded", () => {
 
-    const cards = document.querySelectorAll(".game-card");
-    const search = document.getElementById("searchInput");
-    const categories = document.querySelectorAll(".category");
-    const noResults = document.getElementById("noResults");
+    const menuBtn =
+        document.getElementById("menuBtn");
 
-    let selectedCategory = "all";
+    const nav =
+        document.getElementById("nav");
 
-    function showGames() {
+    const searchInput =
+        document.getElementById("gameSearch");
 
-        const text = search
-            ? search.value.toLowerCase().trim()
-            : "";
+    const clearSearch =
+        document.getElementById("clearSearch");
 
-        let count = 0;
+    const categoryButtons =
+        document.querySelectorAll(".category-btn");
 
-        cards.forEach(function (card) {
+    const gameCards =
+        document.querySelectorAll(".game-card");
 
-            const name =
-                (card.dataset.name || "").toLowerCase();
+    const noResults =
+        document.getElementById("noResults");
 
-            const category =
-                (card.dataset.category || "").toLowerCase();
+    const gameCount =
+        document.getElementById("gameCount");
 
-            const categoryOK =
-                selectedCategory === "all" ||
-                category === selectedCategory;
 
-            const searchOK =
-                name.includes(text);
+    let activeCategory = "all";
 
-            if (categoryOK && searchOK) {
 
-                card.style.display = "block";
-                count++;
+    /* MOBILE MENU */
+
+    if (menuBtn && nav) {
+
+        menuBtn.addEventListener("click", () => {
+
+            nav.classList.toggle("show");
+
+            if (
+                nav.classList.contains("show")
+            ) {
+                menuBtn.textContent = "✕";
+            } else {
+                menuBtn.textContent = "☰";
+            }
+
+        });
+
+
+        nav.querySelectorAll("a")
+            .forEach(link => {
+
+                link.addEventListener("click", () => {
+
+                    nav.classList.remove("show");
+
+                    menuBtn.textContent = "☰";
+
+                });
+
+            });
+
+    }
+
+
+    /* FILTER GAMES */
+
+    function filterGames() {
+
+        const searchText =
+            searchInput.value
+                .trim()
+                .toLowerCase();
+
+
+        let visibleGames = 0;
+
+
+        gameCards.forEach(card => {
+
+            const gameName =
+                card.dataset.name
+                    .toLowerCase();
+
+            const gameCategory =
+                card.dataset.category
+                    .toLowerCase();
+
+
+            const searchMatch =
+                gameName.includes(searchText);
+
+
+            const categoryMatch =
+                activeCategory === "all" ||
+                gameCategory === activeCategory;
+
+
+            if (
+                searchMatch &&
+                categoryMatch
+            ) {
+
+                card.style.display = "flex";
+
+                visibleGames++;
 
             } else {
 
@@ -43,50 +113,130 @@ document.addEventListener("DOMContentLoaded", function () {
 
         });
 
-        if (noResults) {
-            noResults.style.display =
-                count === 0 ? "block" : "none";
+
+        /* GAME COUNT */
+
+        if (gameCount) {
+
+            gameCount.textContent =
+                visibleGames +
+                (
+                    visibleGames === 1
+                        ? " Game"
+                        : " Games"
+                );
+
         }
+
+
+        /* NO RESULT */
+
+        if (noResults) {
+
+            if (visibleGames === 0) {
+
+                noResults.style.display =
+                    "block";
+
+            } else {
+
+                noResults.style.display =
+                    "none";
+
+            }
+
+        }
+
+
+        /* CLEAR BUTTON */
+
+        if (clearSearch) {
+
+            if (searchText.length > 0) {
+
+                clearSearch.style.display =
+                    "block";
+
+            } else {
+
+                clearSearch.style.display =
+                    "none";
+
+            }
+
+        }
+
     }
 
 
     /* SEARCH */
 
-    if (search) {
-        search.addEventListener("input", showGames);
+    if (searchInput) {
+
+        searchInput.addEventListener(
+            "input",
+            filterGames
+        );
+
     }
 
 
-    /* CATEGORIES */
+    /* CLEAR SEARCH */
 
-    categories.forEach(function (button) {
+    if (clearSearch) {
 
-        button.addEventListener("click", function () {
+        clearSearch.addEventListener(
+            "click",
+            () => {
 
-            categories.forEach(function (btn) {
-                btn.classList.remove("active");
-            });
+                searchInput.value = "";
 
-            button.classList.add("active");
+                filterGames();
 
-            selectedCategory =
-                button.dataset.category || "all";
+                searchInput.focus();
 
-            showGames();
+            }
+        );
 
-        });
+    }
+
+
+    /* CATEGORY BUTTONS */
+
+    categoryButtons.forEach(button => {
+
+        button.addEventListener(
+            "click",
+            () => {
+
+                categoryButtons.forEach(btn => {
+
+                    btn.classList.remove(
+                        "active"
+                    );
+
+                });
+
+
+                button.classList.add(
+                    "active"
+                );
+
+
+                activeCategory =
+                    button.dataset.category;
+
+
+                filterGames();
+
+            }
+        );
 
     });
 
 
-    /* SHOW ALL GAMES ON START */
+    /* INITIAL LOAD */
 
-    cards.forEach(function (card) {
-        card.style.display = "block";
-    });
-
-    if (noResults) {
-        noResults.style.display = "none";
-    }
+    filterGames();
 
 });
