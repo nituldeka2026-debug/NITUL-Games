@@ -1,72 +1,39 @@
-document.addEventListener("DOMContentLoaded", () => {
+document.addEventListener("DOMContentLoaded", function () {
 
-    const menuBtn = document.getElementById("menuBtn");
-    const nav = document.querySelector(".nav-links");
+    const cards = document.querySelectorAll(".game-card");
+    const search = document.getElementById("searchInput");
+    const categories = document.querySelectorAll(".category");
+    const noResults = document.getElementById("noResults");
 
-    const searchInput = document.getElementById("searchInput");
+    let selectedCategory = "all";
 
-    const categoryButtons =
-        document.querySelectorAll(".category");
+    function showGames() {
 
-    const gameCards =
-        document.querySelectorAll(".game-card");
-
-    const noResults =
-        document.getElementById("noResults");
-
-    let currentCategory = "all";
-
-
-    /* MOBILE MENU */
-
-    if (menuBtn && nav) {
-
-        menuBtn.addEventListener("click", () => {
-
-            nav.classList.toggle("show");
-
-            menuBtn.classList.toggle("active");
-
-        });
-
-    }
-
-
-    /* GAME FILTER */
-
-    function filterGames() {
-
-        const searchText = searchInput
-            ? searchInput.value.toLowerCase().trim()
+        const text = search
+            ? search.value.toLowerCase().trim()
             : "";
 
-        let visibleCount = 0;
+        let count = 0;
 
-
-        gameCards.forEach(card => {
-
-            const category =
-                (card.dataset.category || "")
-                .toLowerCase();
+        cards.forEach(function (card) {
 
             const name =
-                (card.dataset.name || "")
-                .toLowerCase();
+                (card.dataset.name || "").toLowerCase();
 
+            const category =
+                (card.dataset.category || "").toLowerCase();
 
-            const categoryMatch =
-                currentCategory === "all" ||
-                category === currentCategory;
+            const categoryOK =
+                selectedCategory === "all" ||
+                category === selectedCategory;
 
-            const searchMatch =
-                name.includes(searchText);
+            const searchOK =
+                name.includes(text);
 
+            if (categoryOK && searchOK) {
 
-            if (categoryMatch && searchMatch) {
-
-                card.style.display = "flex";
-
-                visibleCount++;
+                card.style.display = "block";
+                count++;
 
             } else {
 
@@ -76,57 +43,50 @@ document.addEventListener("DOMContentLoaded", () => {
 
         });
 
-
         if (noResults) {
-
             noResults.style.display =
-                visibleCount === 0
-                    ? "block"
-                    : "none";
-
+                count === 0 ? "block" : "none";
         }
-
     }
 
 
-    /* CATEGORY */
+    /* SEARCH */
 
-    categoryButtons.forEach(button => {
+    if (search) {
+        search.addEventListener("input", showGames);
+    }
 
-        button.addEventListener("click", () => {
 
-            categoryButtons.forEach(btn => {
+    /* CATEGORIES */
+
+    categories.forEach(function (button) {
+
+        button.addEventListener("click", function () {
+
+            categories.forEach(function (btn) {
                 btn.classList.remove("active");
             });
 
             button.classList.add("active");
 
-            currentCategory =
-                (
-                    button.dataset.category ||
-                    "all"
-                ).toLowerCase();
+            selectedCategory =
+                button.dataset.category || "all";
 
-            filterGames();
+            showGames();
 
         });
 
     });
 
 
-    /* SEARCH */
+    /* SHOW ALL GAMES ON START */
 
-    if (searchInput) {
+    cards.forEach(function (card) {
+        card.style.display = "block";
+    });
 
-        searchInput.addEventListener("input", () => {
-            filterGames();
-        });
-
+    if (noResults) {
+        noResults.style.display = "none";
     }
-
-
-    /* INITIAL */
-
-    filterGames();
 
 });
