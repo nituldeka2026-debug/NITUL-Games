@@ -1,13 +1,15 @@
 document.addEventListener("DOMContentLoaded", () => {
 
-    const menuBtn =
-        document.getElementById("menuBtn");
 
-    const nav =
-        document.getElementById("nav");
+    /* =========================
+       ELEMENTS
+    ========================= */
 
-    const searchInput =
+    const gameSearch =
         document.getElementById("gameSearch");
+
+    const topSearch =
+        document.getElementById("topSearch");
 
     const clearSearch =
         document.getElementById("clearSearch");
@@ -21,210 +23,151 @@ document.addEventListener("DOMContentLoaded", () => {
     const noResults =
         document.getElementById("noResults");
 
-    const gameCount =
-        document.getElementById("gameCount");
+    const menuBtn =
+        document.getElementById("menuBtn");
+
+    const nav =
+        document.getElementById("nav");
+
+    const viewAllGames =
+        document.getElementById("viewAllGames");
 
 
     let activeCategory = "all";
 
 
-    /* MOBILE MENU */
-
-    if (menuBtn && nav) {
-
-        menuBtn.addEventListener("click", () => {
-
-            nav.classList.toggle("show");
-
-            if (
-                nav.classList.contains("show")
-            ) {
-                menuBtn.textContent = "✕";
-            } else {
-                menuBtn.textContent = "☰";
-            }
-
-        });
-
-
-        nav.querySelectorAll("a")
-            .forEach(link => {
-
-                link.addEventListener("click", () => {
-
-                    nav.classList.remove("show");
-
-                    menuBtn.textContent = "☰";
-
-                });
-
-            });
-
-    }
-
-
-    /* FILTER GAMES */
+    /* =========================
+       SEARCH FUNCTION
+    ========================= */
 
     function filterGames() {
 
-        const searchText =
-            searchInput.value
-                .trim()
-                .toLowerCase();
-
+        const searchValue =
+            gameSearch.value
+                .toLowerCase()
+                .trim();
 
         let visibleGames = 0;
 
 
-        gameCards.forEach(card => {
+        gameCards.forEach((card) => {
 
             const gameName =
                 card.dataset.name
                     .toLowerCase();
 
             const gameCategory =
-                card.dataset.category
-                    .toLowerCase();
+                card.dataset.category;
 
+            const matchesSearch =
+                gameName.includes(searchValue);
 
-            const searchMatch =
-                gameName.includes(searchText);
-
-
-            const categoryMatch =
+            const matchesCategory =
                 activeCategory === "all" ||
                 gameCategory === activeCategory;
 
 
             if (
-                searchMatch &&
-                categoryMatch
+                matchesSearch &&
+                matchesCategory
             ) {
 
-                card.style.display = "flex";
+                card.style.display =
+                    "flex";
 
                 visibleGames++;
 
             } else {
 
-                card.style.display = "none";
+                card.style.display =
+                    "none";
 
             }
 
         });
 
 
-        /* GAME COUNT */
+        if (visibleGames === 0) {
 
-        if (gameCount) {
+            noResults.style.display =
+                "block";
 
-            gameCount.textContent =
-                visibleGames +
-                (
-                    visibleGames === 1
-                        ? " Game"
-                        : " Games"
+        } else {
+
+            noResults.style.display =
+                "none";
+
+        }
+
+
+        if (
+            gameSearch.value.length > 0
+        ) {
+
+            clearSearch.style.display =
+                "block";
+
+        } else {
+
+            clearSearch.style.display =
+                "none";
+
+        }
+
+    }
+
+
+    /* =========================
+       MAIN SEARCH
+    ========================= */
+
+    gameSearch.addEventListener(
+        "input",
+        filterGames
+    );
+
+
+    /* =========================
+       TOP HEADER SEARCH
+    ========================= */
+
+    if (topSearch) {
+
+        topSearch.addEventListener(
+            "input",
+            () => {
+
+                gameSearch.value =
+                    topSearch.value;
+
+                activeCategory =
+                    "all";
+
+
+                categoryButtons.forEach(
+                    (button) => {
+
+                        button.classList.remove(
+                            "active"
+                        );
+
+                    }
                 );
 
-        }
+
+                const allButton =
+                    document.querySelector(
+                        '[data-category="all"]'
+                    );
 
 
-        /* NO RESULT */
+                if (allButton) {
 
-        if (noResults) {
-
-            if (visibleGames === 0) {
-
-                noResults.style.display =
-                    "block";
-
-            } else {
-
-                noResults.style.display =
-                    "none";
-
-            }
-
-        }
-
-
-        /* CLEAR BUTTON */
-
-        if (clearSearch) {
-
-            if (searchText.length > 0) {
-
-                clearSearch.style.display =
-                    "block";
-
-            } else {
-
-                clearSearch.style.display =
-                    "none";
-
-            }
-
-        }
-
-    }
-
-
-    /* SEARCH */
-
-    if (searchInput) {
-
-        searchInput.addEventListener(
-            "input",
-            filterGames
-        );
-
-    }
-
-
-    /* CLEAR SEARCH */
-
-    if (clearSearch) {
-
-        clearSearch.addEventListener(
-            "click",
-            () => {
-
-                searchInput.value = "";
-
-                filterGames();
-
-                searchInput.focus();
-
-            }
-        );
-
-    }
-
-
-    /* CATEGORY BUTTONS */
-
-    categoryButtons.forEach(button => {
-
-        button.addEventListener(
-            "click",
-            () => {
-
-                categoryButtons.forEach(btn => {
-
-                    btn.classList.remove(
+                    allButton.classList.add(
                         "active"
                     );
 
-                });
-
-
-                button.classList.add(
-                    "active"
-                );
-
-
-                activeCategory =
-                    button.dataset.category;
+                }
 
 
                 filterGames();
@@ -232,11 +175,192 @@ document.addEventListener("DOMContentLoaded", () => {
             }
         );
 
-    });
+    }
 
 
-    /* INITIAL LOAD */
+    /* =========================
+       CLEAR SEARCH
+    ========================= */
 
-    filterGames();
+    clearSearch.addEventListener(
+        "click",
+        () => {
+
+            gameSearch.value = "";
+
+
+            if (topSearch) {
+
+                topSearch.value = "";
+
+            }
+
+
+            filterGames();
+
+            gameSearch.focus();
+
+        }
+    );
+
+
+    /* =========================
+       CATEGORY FILTER
+    ========================= */
+
+    categoryButtons.forEach(
+        (button) => {
+
+            button.addEventListener(
+                "click",
+                () => {
+
+                    activeCategory =
+                        button.dataset.category;
+
+
+                    categoryButtons.forEach(
+                        (item) => {
+
+                            item.classList.remove(
+                                "active"
+                            );
+
+                        }
+                    );
+
+
+                    button.classList.add(
+                        "active"
+                    );
+
+
+                    filterGames();
+
+                }
+            );
+
+        }
+    );
+
+
+    /* =========================
+       VIEW ALL GAMES
+    ========================= */
+
+    if (viewAllGames) {
+
+        viewAllGames.addEventListener(
+            "click",
+            () => {
+
+                activeCategory = "all";
+
+                gameSearch.value = "";
+
+
+                if (topSearch) {
+
+                    topSearch.value = "";
+
+                }
+
+
+                categoryButtons.forEach(
+                    (button) => {
+
+                        button.classList.remove(
+                            "active"
+                        );
+
+                    }
+                );
+
+
+                document
+                    .querySelector(
+                        '[data-category="all"]'
+                    )
+                    .classList.add(
+                        "active"
+                    );
+
+
+                filterGames();
+
+
+                document
+                    .getElementById("games")
+                    .scrollIntoView({
+                        behavior: "smooth"
+                    });
+
+            }
+        );
+
+    }
+
+
+    /* =========================
+       MOBILE MENU
+    ========================= */
+
+    if (menuBtn) {
+
+        menuBtn.addEventListener(
+            "click",
+            () => {
+
+                nav.classList.toggle(
+                    "show"
+                );
+
+
+                if (
+                    nav.classList.contains(
+                        "show"
+                    )
+                ) {
+
+                    menuBtn.textContent =
+                        "✕";
+
+                } else {
+
+                    menuBtn.textContent =
+                        "☰";
+
+                }
+
+            }
+        );
+
+    }
+
+
+    /* =========================
+       CLOSE MOBILE MENU
+    ========================= */
+
+    document
+        .querySelectorAll(".nav a")
+        .forEach((link) => {
+
+            link.addEventListener(
+                "click",
+                () => {
+
+                    nav.classList.remove(
+                        "show"
+                    );
+
+                    menuBtn.textContent =
+                        "☰";
+
+                }
+            );
+
+        });
+
 
 });
