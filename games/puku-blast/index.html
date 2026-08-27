@@ -1,139 +1,277 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport"
-          content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
 
-    <title>Puku Blast - NITUL Games</title>
+    <meta name="viewport"
+        content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+
+    <meta name="theme-color" content="#4a1d6f">
+
+    <title>Puku Blast | NITUL Games</title>
 
     <link rel="stylesheet" href="style.css">
 </head>
 
 <body>
 
-<div id="game">
+    <div class="game-shell">
 
-    <!-- TOP BAR -->
-    <header class="topbar">
+        <!-- BACKGROUND -->
 
-        <div class="game-title">
-            🍬 PUKU BLAST
-        </div>
+        <div class="bg-candy candy-bg-1"></div>
+        <div class="bg-candy candy-bg-2"></div>
+        <div class="bg-candy candy-bg-3"></div>
 
-        <button id="menuBtn" class="menu-btn">
-            ☰
-        </button>
 
-        <div class="stats">
+        <!-- HEADER -->
 
-            <div class="stat">
-                <span>SCORE</span>
-                <strong id="score">0</strong>
+        <header class="topbar">
+
+            <button id="homeBtn" class="icon-btn" title="Back to Games">
+                ←
+            </button>
+
+
+            <div class="brand">
+
+                <div class="brand-small">
+                    NITUL GAMES
+                </div>
+
+                <div class="brand-title">
+                    <span>🍫</span>
+                    PUKU BLAST
+                </div>
+
             </div>
 
-            <div class="stat">
-                <span>MOVES</span>
-                <strong id="moves">25</strong>
+
+            <button id="menuBtn" class="icon-btn">
+                ☰
+            </button>
+
+        </header>
+
+
+        <!-- LEVEL -->
+
+        <section class="level-panel">
+
+            <div class="level-info">
+
+                <div class="level-number">
+                    LEVEL
+                    <strong id="level">1</strong>
+                </div>
+
+
+                <div class="star-box">
+
+                    <span id="star1">★</span>
+                    <span id="star2">★</span>
+                    <span id="star3">★</span>
+
+                </div>
+
             </div>
 
-            <div class="stat">
-                <span>GOAL</span>
-                <strong id="goal">0/30</strong>
+
+            <div class="progress-track">
+
+                <div id="progress" class="progress-fill"></div>
+
+            </div>
+
+        </section>
+
+
+        <!-- STATS -->
+
+        <section class="stats">
+
+            <div class="stat-card">
+
+                <span class="stat-icon">🏆</span>
+
+                <div>
+                    <small>SCORE</small>
+                    <strong id="score">0</strong>
+                </div>
+
+            </div>
+
+
+            <div class="stat-card moves-card">
+
+                <span class="stat-icon">👣</span>
+
+                <div>
+                    <small>MOVES</small>
+                    <strong id="moves">25</strong>
+                </div>
+
+            </div>
+
+
+            <div class="stat-card">
+
+                <span class="stat-icon">🎯</span>
+
+                <div>
+                    <small>GOAL</small>
+                    <strong id="goal">0/30</strong>
+                </div>
+
+            </div>
+
+        </section>
+
+
+        <!-- OBJECTIVE -->
+
+        <div class="objective">
+
+            <span>🍬</span>
+
+            <p>
+                Match <strong>3 or more</strong> chocolates!
+            </p>
+
+        </div>
+
+
+        <!-- GAME BOARD -->
+
+        <main class="board-wrap">
+
+            <div id="board" class="board"></div>
+
+            <div id="comboText" class="combo-text"></div>
+
+        </main>
+
+
+        <!-- BOOSTERS -->
+
+        <section class="boosters">
+
+            <button class="booster" data-type="hammer">
+
+                <span class="booster-icon">🔨</span>
+
+                <small>HAMMER</small>
+
+                <b>3</b>
+
+            </button>
+
+
+            <button class="booster" data-type="rocket">
+
+                <span class="booster-icon">🚀</span>
+
+                <small>ROCKET</small>
+
+                <b>3</b>
+
+            </button>
+
+
+            <button class="booster" data-type="bomb">
+
+                <span class="booster-icon">💣</span>
+
+                <small>BOMB</small>
+
+                <b>2</b>
+
+            </button>
+
+
+            <button class="booster" data-type="rainbow">
+
+                <span class="booster-icon">🌈</span>
+
+                <small>RAINBOW</small>
+
+                <b>2</b>
+
+            </button>
+
+        </section>
+
+
+        <!-- MENU PANEL -->
+
+        <div id="menuPanel" class="side-menu">
+
+            <div class="menu-card">
+
+                <button id="closeMenu" class="close-menu">
+                    ×
+                </button>
+
+                <h2>PAUSE MENU</h2>
+
+                <button id="restartBtn">
+                    🔄 Restart Level
+                </button>
+
+                <button id="soundBtn">
+                    🔊 Sound On
+                </button>
+
+                <button id="menuHomeBtn">
+                    🏠 Game Home
+                </button>
+
             </div>
 
         </div>
 
-    </header>
 
+        <!-- MODAL -->
 
-    <!-- LEVEL -->
-    <section class="level-bar">
+        <div id="modal" class="modal show">
 
-        <div class="stars">
-            ★ ★ ★
+            <div class="modal-card">
+
+                <div id="modalIcon" class="modal-icon">
+                    🍫
+                </div>
+
+                <h1 id="modalTitle">
+                    PUKU BLAST
+                </h1>
+
+                <p id="modalText">
+                    Match delicious chocolates and create powerful combos!
+                </p>
+
+                <div id="modalStars" class="modal-stars">
+                    ★ ★ ★
+                </div>
+
+                <button id="playBtn" class="main-btn">
+                    PLAY NOW
+                </button>
+
+            </div>
+
         </div>
 
-        <div class="level-title">
-            LEVEL <span id="level">1</span>
-        </div>
 
-        <div class="progress">
-            <div id="progress"></div>
-        </div>
+        <!-- PARTICLES -->
 
-    </section>
-
-
-    <!-- GAME BOARD -->
-    <main class="game-area">
-
-        <div id="board" class="board"></div>
-
-    </main>
-
-
-    <!-- BOOSTERS -->
-    <section class="boosters">
-
-        <button class="booster" data-type="hammer">
-            🔨
-            <span>6</span>
-        </button>
-
-        <button class="booster" data-type="rocket">
-            🚀
-            <span>4</span>
-        </button>
-
-        <button class="booster" data-type="bomb">
-            💣
-            <span>3</span>
-        </button>
-
-        <button class="booster" data-type="rainbow">
-            🌈
-            <span>2</span>
-        </button>
-
-        <button class="booster" data-type="shuffle">
-            🔄
-            <span>+</span>
-        </button>
-
-    </section>
-
-</div>
-
-
-<!-- POPUP -->
-<div id="modal" class="modal show">
-
-    <div class="popup">
-
-        <div class="popup-icon">
-            🧸
-        </div>
-
-        <h1 id="modalTitle">
-            PUKU BLAST
-        </h1>
-
-        <p id="modalText">
-            Match 3 or more candies, create powerful blasts
-            and complete the level!
-        </p>
-
-        <button id="playBtn" class="play-btn">
-            PLAY!
-        </button>
+        <div id="particles"></div>
 
     </div>
 
-</div>
 
-
-<script src="script.js"></script>
+    <script src="script.js"></script>
 
 </body>
+
 </html>
