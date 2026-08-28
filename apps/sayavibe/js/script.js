@@ -28,7 +28,7 @@ const songs = [
     {
         title: "SayaVibe Demo",
         artist: "SayaVibe",
-        audio: "music/demo-song.mp3",
+        audio: "/NITUL-Games/apps/sayavibe/music/demo-song.mp3",
         cover: "assets/covers/default-cover.jpg",
 
         lyrics: [
@@ -42,7 +42,7 @@ const songs = [
     {
         title: "My First Song",
         artist: "SayaVibe",
-        audio: "music/my-first-song.mp3",
+        audio: "/NITUL-Games/apps/sayavibe/music/my-first-song.mp3",
         cover: "assets/covers/default-cover.jpg",
 
         lyrics: [
