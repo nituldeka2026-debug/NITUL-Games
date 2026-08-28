@@ -4,322 +4,355 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-    <meta name="theme-color" content="#0b0b12">
+    <meta name="theme-color" content="#08080d">
     <meta name="description" content="SayaVibe - Music, Lyrics & Perfect Sync">
 
     <title>SayaVibe — Music & Lyrics</title>
 
-    <!-- Google Font -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
 
-    <!-- SayaVibe CSS -->
+    <link
+        href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap"
+        rel="stylesheet"
+    >
+
     <link rel="stylesheet" href="css/style.css">
 </head>
 
 <body>
 
-    <!-- ================= HEADER ================= -->
-    <header class="topbar">
+<header class="topbar">
 
-        <div class="brand">
-            <div class="brand-icon">♪</div>
+    <div class="brand">
 
-            <div class="brand-text">
-                <h1>SayaVibe</h1>
-                <span>Feel Every Lyric</span>
-            </div>
+        <div class="brand-icon">
+            <img
+                src="assets/logo/sayavibe-logo.png"
+                alt="SayaVibe Logo"
+            >
         </div>
 
-        <button class="icon-btn" id="searchBtn" aria-label="Search">
-            🔍
+        <div class="brand-text">
+            <h1>SayaVibe</h1>
+            <span>Feel Every Lyric</span>
+        </div>
+
+    </div>
+
+    <button
+        class="icon-btn"
+        id="searchBtn"
+        aria-label="Search"
+    >
+        🔍
+    </button>
+
+</header>
+
+
+<section class="search-section" id="searchSection">
+
+    <div class="search-box">
+
+        <span>🔍</span>
+
+        <input
+            type="text"
+            id="searchInput"
+            placeholder="Search songs, artists..."
+            autocomplete="off"
+        >
+
+        <button id="closeSearch">
+            ✕
         </button>
 
-    </header>
+    </div>
+
+</section>
 
 
-    <!-- ================= SEARCH ================= -->
-    <section class="search-section" id="searchSection">
+<main class="main-content">
 
-        <div class="search-box">
+    <section class="welcome">
 
-            <span>🔍</span>
+        <p>WELCOME TO</p>
 
-            <input
-                type="text"
-                id="searchInput"
-                placeholder="Search songs, artists..."
-                autocomplete="off"
+        <h2>SayaVibe 🎵</h2>
+
+        <span>
+            Music • Lyrics • Sync
+        </span>
+
+    </section>
+
+
+    <section class="player-card">
+
+        <div class="cover-wrapper">
+
+            <img
+                id="coverImage"
+                src="assets/covers/default-cover.jpg"
+                alt="Album Cover"
             >
 
-            <button id="closeSearch">✕</button>
+            <div class="cover-overlay">
+                <span>♪</span>
+            </div>
+
+        </div>
+
+
+        <div class="song-info">
+
+            <h2 id="songTitle">
+                SayaVibe Demo
+            </h2>
+
+            <p id="artistName">
+                SayaVibe Artist
+            </p>
+
+        </div>
+
+
+        <div class="progress-area">
+
+            <div class="time-row">
+
+                <span id="currentTime">
+                    0:00
+                </span>
+
+                <span id="duration">
+                    0:00
+                </span>
+
+            </div>
+
+            <input
+                type="range"
+                id="progressBar"
+                min="0"
+                max="100"
+                value="0"
+            >
+
+        </div>
+
+
+        <div class="controls">
+
+            <button
+                class="control-btn"
+                id="previousBtn"
+                aria-label="Previous"
+            >
+                ⏮
+            </button>
+
+            <button
+                class="play-btn"
+                id="playBtn"
+                aria-label="Play"
+            >
+                ▶
+            </button>
+
+            <button
+                class="control-btn"
+                id="nextBtn"
+                aria-label="Next"
+            >
+                ⏭
+            </button>
+
+        </div>
+
+
+        <div class="volume-area">
+
+            <span>🔊</span>
+
+            <input
+                type="range"
+                id="volumeBar"
+                min="0"
+                max="1"
+                step="0.01"
+                value="1"
+            >
 
         </div>
 
     </section>
 
 
-    <!-- ================= MAIN ================= -->
-    <main class="main-content">
+    <section class="lyrics-card">
 
-        <!-- Greeting -->
-        <section class="welcome">
+        <div class="section-title">
 
-            <p>WELCOME TO</p>
+            <div>
 
-            <h2>SayaVibe 🎵</h2>
+                <span class="small-title">
+                    LIVE
+                </span>
 
-            <span>
-                Music • Lyrics • Sync
-            </span>
+                <h2>Lyrics</h2>
 
-        </section>
+            </div>
+
+            <button
+                id="syncBtn"
+                class="sync-btn"
+            >
+                ✨ Auto Sync
+            </button>
+
+        </div>
 
 
-        <!-- ================= NOW PLAYING ================= -->
-        <section class="player-card">
+        <div
+            class="lyrics-container"
+            id="lyricsContainer"
+        >
 
-            <div class="cover-wrapper">
+            <p class="lyrics-line active">
+                Welcome to SayaVibe
+            </p>
+
+            <p class="lyrics-line">
+                Feel the music...
+            </p>
+
+            <p class="lyrics-line">
+                Read every lyric...
+            </p>
+
+            <p class="lyrics-line">
+                And enjoy the vibe 🎵
+            </p>
+
+        </div>
+
+    </section>
+
+
+    <section class="songs-section">
+
+        <div class="section-heading">
+
+            <h2>Your Music</h2>
+
+            <button id="viewAllBtn">
+                View All
+            </button>
+
+        </div>
+
+
+        <div class="song-list">
+
+            <article class="song-item">
 
                 <img
-                    id="coverImage"
                     src="assets/covers/default-cover.jpg"
-                    alt="Album Cover"
+                    alt="SayaVibe Demo"
                 >
 
-                <div class="cover-overlay">
-                    <span>♪</span>
+                <div class="song-details">
+
+                    <h3>
+                        SayaVibe Demo
+                    </h3>
+
+                    <p>
+                        SayaVibe Artist
+                    </p>
+
                 </div>
 
-            </div>
-
-
-            <div class="song-info">
-
-                <h2 id="songTitle">
-                    SayaVibe Demo
-                </h2>
-
-                <p id="artistName">
-                    SayaVibe Artist
-                </p>
-
-            </div>
-
-
-            <!-- Progress -->
-            <div class="progress-area">
-
-                <div class="time-row">
-                    <span id="currentTime">0:00</span>
-                    <span id="duration">0:00</span>
-                </div>
-
-                <input
-                    type="range"
-                    id="progressBar"
-                    min="0"
-                    max="100"
-                    value="0"
-                >
-
-            </div>
-
-
-            <!-- Controls -->
-            <div class="controls">
-
-                <button class="control-btn" id="previousBtn">
-                    ⏮
-                </button>
-
-                <button
-                    class="play-btn"
-                    id="playBtn"
-                    aria-label="Play"
-                >
+                <button class="song-play">
                     ▶
                 </button>
 
-                <button class="control-btn" id="nextBtn">
-                    ⏭
-                </button>
-
-            </div>
+            </article>
 
 
-            <!-- Volume -->
-            <div class="volume-area">
+            <article class="song-item">
 
-                <span>🔊</span>
-
-                <input
-                    type="range"
-                    id="volumeBar"
-                    min="0"
-                    max="1"
-                    step="0.01"
-                    value="1"
+                <img
+                    src="assets/covers/default-cover.jpg"
+                    alt="My First Song"
                 >
 
-            </div>
+                <div class="song-details">
 
-        </section>
+                    <h3>
+                        My First Song
+                    </h3>
 
+                    <p>
+                        SayaVibe
+                    </p>
 
-        <!-- ================= LYRICS ================= -->
-        <section class="lyrics-card">
-
-            <div class="section-title">
-
-                <div>
-                    <span class="small-title">LIVE</span>
-                    <h2>Lyrics</h2>
                 </div>
 
-                <button id="syncBtn" class="sync-btn">
-                    ✨ Auto Sync
+                <button class="song-play">
+                    ▶
                 </button>
 
-            </div>
+            </article>
+
+        </div>
+
+    </section>
+
+</main>
 
 
-            <div
-                class="lyrics-container"
-                id="lyricsContainer"
-            >
+<nav class="bottom-nav">
 
-                <p class="lyrics-line active">
-                    Welcome to SayaVibe
-                </p>
+    <button class="nav-item active">
 
-                <p class="lyrics-line">
-                    Feel the music...
-                </p>
+        <span>⌂</span>
+        <small>Home</small>
 
-                <p class="lyrics-line">
-                    Read every lyric...
-                </p>
+    </button>
 
-                <p class="lyrics-line">
-                    And enjoy the vibe 🎵
-                </p>
+    <button class="nav-item">
 
-            </div>
+        <span>🎵</span>
+        <small>Music</small>
 
-        </section>
+    </button>
 
+    <button class="nav-item">
 
-        <!-- ================= SONG LIST ================= -->
-        <section class="songs-section">
+        <span>🎤</span>
+        <small>Lyrics</small>
 
-            <div class="section-heading">
+    </button>
 
-                <h2>Your Music</h2>
+    <button class="nav-item">
 
-                <button id="viewAllBtn">
-                    View All
-                </button>
+        <span>♡</span>
+        <small>Favorites</small>
 
-            </div>
+    </button>
+
+</nav>
 
 
-            <div class="song-list">
-
-                <article class="song-item">
-
-                    <img
-                        src="assets/covers/default-cover.jpg"
-                        alt="Song"
-                    >
-
-                    <div class="song-details">
-
-                        <h3>SayaVibe Demo</h3>
-
-                        <p>SayaVibe Artist</p>
-
-                    </div>
-
-                    <button class="song-play">
-                        ▶
-                    </button>
-
-                </article>
+<audio
+    id="audioPlayer"
+    preload="metadata"
+></audio>
 
 
-                <article class="song-item">
-
-                    <img
-                        src="assets/covers/default-cover.jpg"
-                        alt="Song"
-                    >
-
-                    <div class="song-details">
-
-                        <h3>My First Song</h3>
-
-                        <p>SayaVibe</p>
-
-                    </div>
-
-                    <button class="song-play">
-                        ▶
-                    </button>
-
-                </article>
-
-            </div>
-
-        </section>
-
-    </main>
-
-
-    <!-- ================= BOTTOM NAV ================= -->
-    <nav class="bottom-nav">
-
-        <button class="nav-item active">
-
-            <span>⌂</span>
-            <small>Home</small>
-
-        </button>
-
-
-        <button class="nav-item">
-
-            <span>🎵</span>
-            <small>Music</small>
-
-        </button>
-
-
-        <button class="nav-item">
-
-            <span>🎤</span>
-            <small>Lyrics</small>
-
-        </button>
-
-
-        <button class="nav-item">
-
-            <span>♡</span>
-            <small>Favorites</small>
-
-        </button>
-
-    </nav>
-
-
-    <!-- ================= AUDIO ================= -->
-    <audio id="audioPlayer" preload="metadata"></audio>
-
-
-    <!-- SayaVibe JavaScript -->
-    <script src="js/script.js"></script>
+<script src="js/script.js"></script>
 
 </body>
 </html>
