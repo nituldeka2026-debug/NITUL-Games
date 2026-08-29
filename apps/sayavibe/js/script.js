@@ -1,3 +1,4 @@
+```javascript
 // ========================================
 // SayaVibe Music Player
 // ========================================
@@ -18,17 +19,20 @@ const songTitle = document.getElementById("songTitle");
 const artistName = document.getElementById("artistName");
 const coverImage = document.getElementById("coverImage");
 
-const lyricsContainer = document.getElementById("lyricsContainer");
+const lyricsContainer =
+    document.getElementById("lyricsContainer");
+
 
 // ========================================
 // SONG DATA
 // ========================================
 
 const songs = [
+
     {
         title: "SayaVibe Demo",
         artist: "SayaVibe",
-        audio: "music/demo-song.mp3",
+        audio: "assets/music/demo-song.mp3",
         cover: "assets/covers/default-cover.jpg",
 
         lyrics: [
@@ -42,7 +46,7 @@ const songs = [
     {
         title: "My First Song",
         artist: "SayaVibe",
-        audio: "/NITUL-Games/apps/sayavibe/music/my-first-song.mp3",
+        audio: "assets/music/my-first-song.mp3",
         cover: "assets/covers/default-cover.jpg",
 
         lyrics: [
@@ -52,9 +56,12 @@ const songs = [
             "Feel every lyric 🎵"
         ]
     }
+
 ];
 
+
 let currentSong = 0;
+
 
 // ========================================
 // LOAD SONG
@@ -67,50 +74,91 @@ function loadSong(index) {
     const song = songs[currentSong];
 
     songTitle.textContent = song.title;
+
     artistName.textContent = song.artist;
 
     coverImage.src = song.cover;
 
     audio.src = song.audio;
 
-    renderLyrics(song.lyrics);
+    audio.load();
 
     progressBar.value = 0;
+
     currentTimeEl.textContent = "0:00";
+
     durationEl.textContent = "0:00";
 
     playBtn.textContent = "▶";
+
+    renderLyrics(song.lyrics);
+
 }
+
+
+// ========================================
+// PLAY
+// ========================================
+
+function playSong() {
+
+    audio.play()
+        .then(() => {
+
+            playBtn.textContent = "⏸";
+
+        })
+        .catch(error => {
+
+            console.error(
+                "Audio playback error:",
+                error
+            );
+
+            alert(
+                "MP3 fileটো load হোৱা নাই। GitHub-ত assets/music/demo-song.mp3 আছে নেকি check কৰক।"
+            );
+
+        });
+
+}
+
 
 // ========================================
 // PLAY / PAUSE
 // ========================================
 
-function togglePlay() {
+playBtn.addEventListener("click", () => {
 
     if (audio.paused) {
 
-        audio.play()
-            .then(() => {
-                playBtn.textContent = "⏸";
-            })
-            .catch(() => {
-                alert("Add an MP3 file inside the music folder first.");
-            });
+        playSong();
 
     } else {
 
         audio.pause();
 
-        playBtn.textContent = "▶";
     }
-}
 
-playBtn.addEventListener("click", togglePlay);
+});
+
+
+audio.addEventListener("play", () => {
+
+    playBtn.textContent = "⏸";
+
+});
+
+
+audio.addEventListener("pause", () => {
+
+    playBtn.textContent = "▶";
+
+});
 
 
 // ========================================
-// PREVIOUS SONG
+// PREVIOUS
 // ========================================
 
 previousBtn.addEventListener("click", () => {
@@ -118,15 +166,18 @@ previousBtn.addEventListener("click", () => {
     currentSong--;
 
     if (currentSong < 0) {
+
         currentSong = songs.length - 1;
+
     }
 
     loadSong(currentSong);
+
 });
 
 
 // ========================================
-// NEXT SONG
+// NEXT
 // ========================================
 
 nextBtn.addEventListener("click", () => {
@@ -134,15 +185,18 @@ nextBtn.addEventListener("click", () => {
     currentSong++;
 
     if (currentSong >= songs.length) {
+
         currentSong = 0;
+
     }
 
     loadSong(currentSong);
+
 });
 
 
 // ========================================
-// AUDIO TIME UPDATE
+// TIME UPDATE
 // ========================================
 
 audio.addEventListener("timeupdate", () => {
@@ -161,51 +215,82 @@ audio.addEventListener("timeupdate", () => {
         formatTime(audio.duration);
 
     updateLyrics();
+
 });
+
+
+// ========================================
+// METADATA
+// ========================================
+
+audio.addEventListener(
+    "loadedmetadata",
+    () => {
+
+        durationEl.textContent =
+            formatTime(audio.duration);
+
+    }
+);
 
 
 // ========================================
 // SEEK
 // ========================================
 
-progressBar.addEventListener("input", () => {
+progressBar.addEventListener(
+    "input",
+    () => {
 
-    if (!audio.duration) return;
+        if (!audio.duration) return;
 
-    audio.currentTime =
-        (progressBar.value / 100) * audio.duration;
-});
+        audio.currentTime =
+            (progressBar.value / 100) *
+            audio.duration;
+
+    }
+);
 
 
 // ========================================
 // VOLUME
 // ========================================
 
-volumeBar.addEventListener("input", () => {
+audio.volume = 1;
 
-    audio.volume = volumeBar.value;
-});
+volumeBar.addEventListener(
+    "input",
+    () => {
+
+        audio.volume =
+            Number(volumeBar.value);
+
+    }
+);
 
 
 // ========================================
 // SONG ENDED
 // ========================================
 
-audio.addEventListener("ended", () => {
+audio.addEventListener(
+    "ended",
+    () => {
 
-    currentSong++;
+        currentSong++;
 
-    if (currentSong >= songs.length) {
-        currentSong = 0;
+        if (currentSong >= songs.length) {
+
+            currentSong = 0;
+
+        }
+
+        loadSong(currentSong);
+
+        playSong();
+
     }
-
-    loadSong(currentSong);
-
-    audio.play()
-        .then(() => {
-            playBtn.textContent = "⏸";
-        });
-});
+);
 
 
 // ========================================
@@ -214,17 +299,22 @@ audio.addEventListener("ended", () => {
 
 function formatTime(seconds) {
 
-    if (isNaN(seconds)) {
+    if (!isFinite(seconds)) {
+
         return "0:00";
+
     }
 
-    const minutes = Math.floor(seconds / 60);
+    const minutes =
+        Math.floor(seconds / 60);
 
-    const secs = Math.floor(seconds % 60)
+    const secondsPart =
+        Math.floor(seconds % 60)
         .toString()
         .padStart(2, "0");
 
-    return `${minutes}:${secs}`;
+    return `${minutes}:${secondsPart}`;
+
 }
 
 
@@ -238,62 +328,104 @@ function renderLyrics(lyrics) {
 
     lyrics.forEach((line, index) => {
 
-        const p = document.createElement("p");
+        const p =
+            document.createElement("p");
 
-        p.className = "lyrics-line";
+        p.className =
+            "lyrics-line";
 
         if (index === 0) {
+
             p.classList.add("active");
+
         }
 
         p.textContent = line;
 
         lyricsContainer.appendChild(p);
+
     });
+
 }
 
 
 // ========================================
-// SIMPLE AUTO LYRICS
+// AUTO LYRICS
 // ========================================
 
 function updateLyrics() {
 
     const lines =
-        lyricsContainer.querySelectorAll(".lyrics-line");
+        lyricsContainer.querySelectorAll(
+            ".lyrics-line"
+        );
 
-    if (!lines.length || !audio.duration) return;
+    if (!lines.length || !audio.duration) {
 
-    const percentage =
-        audio.currentTime / audio.duration;
+        return;
 
-    let activeIndex =
-        Math.floor(percentage * lines.length);
-
-    if (activeIndex >= lines.length) {
-        activeIndex = lines.length - 1;
     }
 
-    lines.forEach((line, index) => {
+    const percentage =
+        audio.currentTime /
+        audio.duration;
 
-        line.classList.toggle(
-            "active",
-            index === activeIndex
+    let activeIndex =
+        Math.floor(
+            percentage * lines.length
+        );
+
+    if (
+        activeIndex >=
+        lines.length
+    ) {
+
+        activeIndex =
+            lines.length - 1;
+
+    }
+
+    lines.forEach(
+        (line, index) => {
+
+            line.classList.toggle(
+                "active",
+                index === activeIndex
+            );
+
+        }
+    );
+
+}
+
+
+// ========================================
+// SONG LIST
+// ========================================
+
+document
+    .querySelectorAll(".song-play")
+    .forEach(button => {
+
+        button.addEventListener(
+            "click",
+            () => {
+
+                const index =
+                    Number(
+                        button.dataset.index
+                    );
+
+                if (!songs[index]) return;
+
+                loadSong(index);
+
+                playSong();
+
+            }
         );
 
     });
-
-    const activeLine =
-        lines[activeIndex];
-
-    if (activeLine) {
-
-        activeLine.scrollIntoView({
-            behavior: "smooth",
-            block: "center"
-        });
-    }
-}
 
 
 // ========================================
@@ -301,68 +433,188 @@ function updateLyrics() {
 // ========================================
 
 const searchBtn =
-    document.getElementById("searchBtn");
+    document.getElementById(
+        "searchBtn"
+    );
 
 const searchSection =
-    document.getElementById("searchSection");
+    document.getElementById(
+        "searchSection"
+    );
 
 const closeSearch =
-    document.getElementById("closeSearch");
+    document.getElementById(
+        "closeSearch"
+    );
 
 const searchInput =
-    document.getElementById("searchInput");
+    document.getElementById(
+        "searchInput"
+    );
 
 
-searchBtn.addEventListener("click", () => {
+searchBtn.addEventListener(
+    "click",
+    () => {
 
-    searchSection.classList.add("show");
+        searchSection.classList.add(
+            "show"
+        );
 
-    searchInput.focus();
-});
+        searchInput.focus();
 
-
-closeSearch.addEventListener("click", () => {
-
-    searchSection.classList.remove("show");
-
-    searchInput.value = "";
-});
+    }
+);
 
 
-searchInput.addEventListener("input", () => {
+closeSearch.addEventListener(
+    "click",
+    () => {
 
-    const query =
-        searchInput.value.toLowerCase().trim();
+        searchSection.classList.remove(
+            "show"
+        );
 
-    const items =
-        document.querySelectorAll(".song-item");
+        searchInput.value = "";
 
-    items.forEach(item => {
+        document
+            .querySelectorAll(
+                ".song-item"
+            )
+            .forEach(item => {
 
-        const text =
-            item.textContent.toLowerCase();
+                item.style.display =
+                    "flex";
 
-        item.style.display =
-            text.includes(query)
-                ? "flex"
-                : "none";
-    });
-});
+            });
+
+    }
+);
+
+
+searchInput.addEventListener(
+    "input",
+    () => {
+
+        const query =
+            searchInput.value
+            .toLowerCase()
+            .trim();
+
+        document
+            .querySelectorAll(
+                ".song-item"
+            )
+            .forEach(item => {
+
+                const text =
+                    item.textContent
+                    .toLowerCase();
+
+                item.style.display =
+                    text.includes(query)
+                        ? "flex"
+                        : "none";
+
+            });
+
+    }
+);
 
 
 // ========================================
-// SYNC BUTTON
+// AUTO SYNC BUTTON
 // ========================================
 
 const syncBtn =
-    document.getElementById("syncBtn");
-
-syncBtn.addEventListener("click", () => {
-
-    alert(
-        "Auto Sync system will be connected to real synced lyrics in the next version."
+    document.getElementById(
+        "syncBtn"
     );
-});
+
+syncBtn.addEventListener(
+    "click",
+    () => {
+
+        alert(
+            "Real synced lyrics system will be added in the next version."
+        );
+
+    }
+);
+
+
+// ========================================
+// VIEW ALL
+// ========================================
+
+const viewAllBtn =
+    document.getElementById(
+        "viewAllBtn"
+    );
+
+viewAllBtn.addEventListener(
+    "click",
+    () => {
+
+        document
+            .querySelector(".songs-section")
+            .scrollIntoView({
+                behavior: "smooth"
+            });
+
+    }
+);
+
+
+// ========================================
+// NAVIGATION
+// ========================================
+
+document
+    .querySelectorAll(".nav-item")
+    .forEach(item => {
+
+        item.addEventListener(
+            "click",
+            () => {
+
+                document
+                    .querySelectorAll(
+                        ".nav-item"
+                    )
+                    .forEach(nav => {
+
+                        nav.classList.remove(
+                            "active"
+                        );
+
+                    });
+
+                item.classList.add(
+                    "active"
+                );
+
+            }
+        );
+
+    });
+
+
+// ========================================
+// AUDIO ERROR
+// ========================================
+
+audio.addEventListener(
+    "error",
+    () => {
+
+        console.error(
+            "Could not load:",
+            audio.src
+        );
+
+    }
+);
 
 
 // ========================================
@@ -371,4 +623,7 @@ syncBtn.addEventListener("click", () => {
 
 loadSong(0);
 
-console.log("🎵 SayaVibe initialized successfully!");
+console.log(
+    "🎵 SayaVibe initialized successfully!"
+);
+```
