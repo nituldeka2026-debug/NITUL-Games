@@ -1,44 +1,79 @@
+```html
 <!DOCTYPE html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-    <meta name="theme-color" content="#08080d">
-    <meta name="description" content="SayaVibe - Music, Lyrics & Perfect Sync">
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0"
+    >
+
+    <meta
+        name="theme-color"
+        content="#08080d"
+    >
+
+    <meta
+        name="description"
+        content="SayaVibe - Music, Lyrics & Perfect Sync"
+    >
 
     <title>SayaVibe — Music & Lyrics</title>
 
     <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+
+    <link
+        rel="preconnect"
+        href="https://fonts.gstatic.com"
+        crossorigin
+    >
 
     <link
         href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap"
         rel="stylesheet"
     >
 
-    <link rel="stylesheet" href="css/style.css">
+    <link
+        rel="stylesheet"
+        href="css/style.css"
+    >
+
 </head>
 
+
 <body>
+
+
+<!-- ================= TOP BAR ================= -->
 
 <header class="topbar">
 
     <div class="brand">
 
         <div class="brand-icon">
+
             <img
                 src="assets/logo/sayavibe-logo.png"
                 alt="SayaVibe Logo"
             >
+
         </div>
 
         <div class="brand-text">
+
             <h1>SayaVibe</h1>
-            <span>Feel Every Lyric</span>
+
+            <span>
+                Feel Every Lyric
+            </span>
+
         </div>
 
     </div>
+
 
     <button
         class="icon-btn"
@@ -51,7 +86,13 @@
 </header>
 
 
-<section class="search-section" id="searchSection">
+
+<!-- ================= SEARCH ================= -->
+
+<section
+    class="search-section"
+    id="searchSection"
+>
 
     <div class="search-box">
 
@@ -73,13 +114,21 @@
 </section>
 
 
+
+<!-- ================= MAIN ================= -->
+
 <main class="main-content">
+
+
+    <!-- WELCOME -->
 
     <section class="welcome">
 
         <p>WELCOME TO</p>
 
-        <h2>SayaVibe 🎵</h2>
+        <h2>
+            SayaVibe 🎵
+        </h2>
 
         <span>
             Music • Lyrics • Sync
@@ -88,7 +137,11 @@
     </section>
 
 
+
+    <!-- ================= PLAYER ================= -->
+
     <section class="player-card">
+
 
         <div class="cover-wrapper">
 
@@ -105,6 +158,7 @@
         </div>
 
 
+
         <div class="song-info">
 
             <h2 id="songTitle">
@@ -112,11 +166,14 @@
             </h2>
 
             <p id="artistName">
-                SayaVibe Artist
+                SayaVibe
             </p>
 
         </div>
 
+
+
+        <!-- PROGRESS -->
 
         <div class="progress-area">
 
@@ -132,16 +189,21 @@
 
             </div>
 
+
             <input
                 type="range"
                 id="progressBar"
                 min="0"
                 max="100"
                 value="0"
+                step="0.1"
             >
 
         </div>
 
+
+
+        <!-- CONTROLS -->
 
         <div class="controls">
 
@@ -153,6 +215,7 @@
                 ⏮
             </button>
 
+
             <button
                 class="play-btn"
                 id="playBtn"
@@ -160,6 +223,7 @@
             >
                 ▶
             </button>
+
 
             <button
                 class="control-btn"
@@ -172,9 +236,14 @@
         </div>
 
 
+
+        <!-- VOLUME -->
+
         <div class="volume-area">
 
-            <span>🔊</span>
+            <span>
+                🔊
+            </span>
 
             <input
                 type="range"
@@ -187,10 +256,15 @@
 
         </div>
 
+
     </section>
 
 
+
+    <!-- ================= LYRICS ================= -->
+
     <section class="lyrics-card">
+
 
         <div class="section-title">
 
@@ -200,9 +274,12 @@
                     LIVE
                 </span>
 
-                <h2>Lyrics</h2>
+                <h2>
+                    Lyrics
+                </h2>
 
             </div>
+
 
             <button
                 id="syncBtn"
@@ -212,6 +289,7 @@
             </button>
 
         </div>
+
 
 
         <div
@@ -237,14 +315,21 @@
 
         </div>
 
+
     </section>
 
 
+
+    <!-- ================= SONG LIST ================= -->
+
     <section class="songs-section">
+
 
         <div class="section-heading">
 
-            <h2>Your Music</h2>
+            <h2>
+                Your Music
+            </h2>
 
             <button id="viewAllBtn">
                 View All
@@ -253,14 +338,22 @@
         </div>
 
 
+
         <div class="song-list">
 
-            <article class="song-item">
+
+            <!-- SONG 1 -->
+
+            <article
+                class="song-item"
+                data-song="0"
+            >
 
                 <img
                     src="assets/covers/default-cover.jpg"
                     alt="SayaVibe Demo"
                 >
+
 
                 <div class="song-details">
 
@@ -269,24 +362,36 @@
                     </h3>
 
                     <p>
-                        SayaVibe Artist
+                        SayaVibe
                     </p>
 
                 </div>
 
-                <button class="song-play">
+
+                <button
+                    class="song-play"
+                    data-index="0"
+                    aria-label="Play SayaVibe Demo"
+                >
                     ▶
                 </button>
 
             </article>
 
 
-            <article class="song-item">
+
+            <!-- SONG 2 -->
+
+            <article
+                class="song-item"
+                data-song="1"
+            >
 
                 <img
                     src="assets/covers/default-cover.jpg"
                     alt="My First Song"
                 >
+
 
                 <div class="song-details">
 
@@ -300,51 +405,81 @@
 
                 </div>
 
-                <button class="song-play">
+
+                <button
+                    class="song-play"
+                    data-index="1"
+                    aria-label="Play My First Song"
+                >
                     ▶
                 </button>
 
             </article>
 
+
         </div>
 
     </section>
 
+
 </main>
 
 
+
+<!-- ================= BOTTOM NAV ================= -->
+
 <nav class="bottom-nav">
+
 
     <button class="nav-item active">
 
         <span>⌂</span>
-        <small>Home</small>
+
+        <small>
+            Home
+        </small>
 
     </button>
+
 
     <button class="nav-item">
 
         <span>🎵</span>
-        <small>Music</small>
+
+        <small>
+            Music
+        </small>
 
     </button>
+
 
     <button class="nav-item">
 
         <span>🎤</span>
-        <small>Lyrics</small>
+
+        <small>
+            Lyrics
+        </small>
 
     </button>
+
 
     <button class="nav-item">
 
         <span>♡</span>
-        <small>Favorites</small>
+
+        <small>
+            Favorites
+        </small>
 
     </button>
 
+
 </nav>
 
+
+
+<!-- ================= AUDIO ================= -->
 
 <audio
     id="audioPlayer"
@@ -352,7 +487,10 @@
 ></audio>
 
 
+
 <script src="js/script.js"></script>
 
 </body>
+
 </html>
+```
