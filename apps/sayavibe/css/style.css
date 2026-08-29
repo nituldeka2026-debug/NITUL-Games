@@ -1,129 +1,188 @@
+```css
+/* ========================================
+   SayaVibe
+   Main Styles
+======================================== */
+
+
 * {
+    box-sizing: border-box;
     margin: 0;
     padding: 0;
-    box-sizing: border-box;
 }
+
 
 :root {
+
     --bg: #08080d;
-    --card: #12121a;
-    --card2: #181822;
+    --card: #111119;
+    --card2: #171722;
     --text: #ffffff;
-    --muted: #9292a3;
-    --accent: #b86cff;
-    --accent2: #6c5ce7;
+    --muted: #9999aa;
+    --accent: #a855f7;
+    --accent2: #ec4899;
     --border: rgba(255,255,255,0.08);
+
 }
+
 
 body {
-    font-family: "Inter", Arial, sans-serif;
+
+    font-family: "Inter", sans-serif;
+
     background:
         radial-gradient(
-            circle at top right,
-            rgba(184,108,255,0.15),
-            transparent 30%
-        ),
-        var(--bg);
+            circle at top,
+            #24103c 0%,
+            #08080d 45%
+        );
+
     color: var(--text);
+
     min-height: 100vh;
+
     padding-bottom: 90px;
+
 }
 
 
-/* ================= TOP BAR ================= */
+/* ========================================
+   TOP BAR
+======================================== */
 
 .topbar {
-    height: 76px;
-    padding: 15px 18px;
+
+    height: 75px;
 
     display: flex;
+
     align-items: center;
+
     justify-content: space-between;
 
-    position: sticky;
-    top: 0;
-    z-index: 100;
+    padding: 12px 20px;
 
     background: rgba(8,8,13,0.85);
-    backdrop-filter: blur(18px);
+
+    backdrop-filter: blur(15px);
 
     border-bottom: 1px solid var(--border);
+
+    position: sticky;
+
+    top: 0;
+
+    z-index: 100;
+
 }
+
 
 .brand {
+
     display: flex;
+
     align-items: center;
-    gap: 11px;
+
+    gap: 12px;
+
 }
 
+
 .brand-icon {
-    width: 43px;
-    height: 43px;
+
+    width: 46px;
+
+    height: 46px;
 
     border-radius: 14px;
 
     overflow: hidden;
 
-    background: linear-gradient(
-        135deg,
-        var(--accent),
-        var(--accent2)
-    );
+    background: var(--card2);
 
-    box-shadow:
-        0 8px 25px rgba(184,108,255,0.25);
 }
+
 
 .brand-icon img {
+
     width: 100%;
+
     height: 100%;
 
-    object-fit: contain;
+    object-fit: cover;
 
-    display: block;
 }
+
 
 .brand-text h1 {
-    font-size: 20px;
+
+    font-size: 21px;
+
     font-weight: 800;
+
 }
+
 
 .brand-text span {
+
+    font-size: 11px;
+
     color: var(--muted);
-    font-size: 10px;
+
 }
 
+
 .icon-btn {
+
     width: 42px;
+
     height: 42px;
 
     border: 1px solid var(--border);
 
+    border-radius: 50%;
+
     background: var(--card);
 
-    border-radius: 13px;
-
     color: white;
-    font-size: 17px;
+
+    font-size: 18px;
 
     cursor: pointer;
+
 }
 
 
-/* ================= SEARCH ================= */
+/* ========================================
+   SEARCH
+======================================== */
 
 .search-section {
+
     display: none;
-    padding: 12px 18px;
+
+    padding: 15px 20px;
+
 }
+
 
 .search-section.show {
+
     display: block;
+
 }
 
+
 .search-box {
+
+    max-width: 800px;
+
+    margin: auto;
+
     display: flex;
+
     align-items: center;
+
     gap: 10px;
 
     background: var(--card);
@@ -132,119 +191,159 @@ body {
 
     border-radius: 15px;
 
-    padding: 12px 14px;
+    padding: 10px 14px;
+
 }
 
+
 .search-box input {
+
     flex: 1;
 
+    background: transparent;
+
     border: none;
+
     outline: none;
+
+    color: white;
+
+    font-size: 15px;
+
+}
+
+
+.search-box button {
+
+    border: none;
 
     background: transparent;
 
     color: white;
 
-    font-size: 14px;
-}
-
-.search-box button {
-    border: none;
-
-    background: transparent;
-
-    color: var(--muted);
+    font-size: 18px;
 
     cursor: pointer;
+
 }
 
 
-/* ================= MAIN ================= */
+/* ========================================
+   MAIN
+======================================== */
 
 .main-content {
-    width: min(100%, 650px);
+
+    width: min(900px, 92%);
 
     margin: auto;
 
-    padding: 22px 18px;
 }
+
+
+/* ========================================
+   WELCOME
+======================================== */
 
 .welcome {
-    margin-bottom: 22px;
+
+    text-align: center;
+
+    padding: 45px 10px 30px;
+
 }
 
+
 .welcome p {
-    color: var(--accent);
+
+    color: var(--accent2);
 
     font-size: 11px;
 
     font-weight: 700;
 
-    letter-spacing: 2px;
+    letter-spacing: 3px;
+
 }
+
 
 .welcome h2 {
-    font-size: 30px;
 
-    margin: 5px 0;
+    font-size: clamp(30px, 7vw, 48px);
+
+    margin: 8px 0;
+
 }
+
 
 .welcome span {
+
     color: var(--muted);
 
-    font-size: 13px;
+    font-size: 14px;
+
 }
 
 
-/* ================= PLAYER ================= */
+/* ========================================
+   PLAYER
+======================================== */
 
 .player-card {
+
     background:
         linear-gradient(
             145deg,
-            rgba(184,108,255,0.13),
-            rgba(108,92,231,0.04)
+            rgba(168,85,247,0.16),
+            rgba(236,72,153,0.05)
         ),
         var(--card);
 
     border: 1px solid var(--border);
 
-    border-radius: 25px;
+    border-radius: 28px;
 
-    padding: 20px;
+    padding: 28px;
 
     box-shadow:
-        0 20px 50px rgba(0,0,0,0.25);
+        0 25px 70px rgba(0,0,0,0.45);
+
 }
 
-.cover-wrapper {
-    position: relative;
 
-    width: 100%;
+.cover-wrapper {
+
+    width: min(330px, 75vw);
 
     aspect-ratio: 1;
 
-    max-width: 390px;
-
     margin: auto;
+
+    border-radius: 24px;
 
     overflow: hidden;
 
-    border-radius: 22px;
+    position: relative;
 
-    background: var(--card2);
+    box-shadow:
+        0 20px 50px rgba(0,0,0,0.5);
+
 }
 
+
 .cover-wrapper img {
+
     width: 100%;
+
     height: 100%;
 
     object-fit: cover;
 
-    display: block;
 }
 
+
 .cover-overlay {
+
     position: absolute;
 
     inset: 0;
@@ -252,95 +351,133 @@ body {
     display: flex;
 
     align-items: center;
+
     justify-content: center;
 
-    pointer-events: none;
+    background: linear-gradient(
+        transparent 45%,
+        rgba(0,0,0,0.65)
+    );
+
 }
+
 
 .cover-overlay span {
-    font-size: 65px;
 
-    opacity: 0.12;
+    font-size: 60px;
+
+    opacity: 0.8;
+
 }
+
+
+/* ========================================
+   SONG INFO
+======================================== */
 
 .song-info {
+
     text-align: center;
 
-    margin: 20px 0 15px;
+    padding: 24px 0 18px;
+
 }
+
 
 .song-info h2 {
-    font-size: 22px;
+
+    font-size: 25px;
+
 }
 
+
 .song-info p {
+
     color: var(--muted);
+
+    margin-top: 6px;
+
+}
+
+
+/* ========================================
+   PROGRESS
+======================================== */
+
+.progress-area {
 
     margin-top: 5px;
 
-    font-size: 13px;
 }
 
-
-/* ================= PROGRESS ================= */
-
-.progress-area {
-    margin-top: 12px;
-}
 
 .time-row {
+
     display: flex;
 
     justify-content: space-between;
 
     color: var(--muted);
 
-    font-size: 10px;
+    font-size: 12px;
 
-    margin-bottom: 7px;
+    margin-bottom: 8px;
+
 }
 
+
 input[type="range"] {
+
     width: 100%;
 
     accent-color: var(--accent);
 
     cursor: pointer;
+
 }
 
 
-/* ================= CONTROLS ================= */
+/* ========================================
+   CONTROLS
+======================================== */
 
 .controls {
-    display: flex;
 
-    justify-content: center;
+    display: flex;
 
     align-items: center;
 
-    gap: 28px;
+    justify-content: center;
 
-    margin: 18px 0;
+    gap: 30px;
+
+    margin: 25px 0;
+
 }
 
-.control-btn,
-.play-btn {
+
+.control-btn {
+
     border: none;
+
+    background: transparent;
 
     color: white;
 
+    font-size: 27px;
+
     cursor: pointer;
+
 }
 
-.control-btn {
-    background: transparent;
-
-    font-size: 22px;
-}
 
 .play-btn {
-    width: 58px;
-    height: 58px;
+
+    width: 66px;
+
+    height: 66px;
+
+    border: none;
 
     border-radius: 50%;
 
@@ -351,243 +488,320 @@ input[type="range"] {
             var(--accent2)
         );
 
-    font-size: 20px;
-
-    box-shadow:
-        0 10px 30px rgba(184,108,255,0.35);
-}
-
-.volume-area {
-    display: flex;
-
-    align-items: center;
-
-    gap: 10px;
-
-    color: var(--muted);
-}
-
-.volume-area input {
-    flex: 1;
-}
-
-
-/* ================= LYRICS ================= */
-
-.lyrics-card {
-    margin-top: 20px;
-
-    padding: 20px;
-
-    background: var(--card);
-
-    border: 1px solid var(--border);
-
-    border-radius: 22px;
-}
-
-.section-title {
-    display: flex;
-
-    justify-content: space-between;
-
-    align-items: center;
-}
-
-.small-title {
-    color: var(--accent);
-
-    font-size: 9px;
-
-    font-weight: 800;
-
-    letter-spacing: 2px;
-}
-
-.section-title h2 {
-    font-size: 21px;
-
-    margin-top: 2px;
-}
-
-.sync-btn {
-    border: 1px solid rgba(184,108,255,0.35);
-
-    background: rgba(184,108,255,0.08);
-
-    color: #d8b8ff;
-
-    border-radius: 12px;
-
-    padding: 9px 11px;
-
-    font-size: 11px;
-
-    cursor: pointer;
-}
-
-.lyrics-container {
-    margin-top: 20px;
-
-    text-align: center;
-
-    max-height: 300px;
-
-    overflow-y: auto;
-
-    padding: 10px;
-}
-
-.lyrics-line {
-    color: #656575;
-
-    font-size: 17px;
-
-    line-height: 1.7;
-
-    padding: 8px 0;
-
-    transition: 0.3s;
-}
-
-.lyrics-line.active {
     color: white;
 
-    font-size: 20px;
-
-    font-weight: 700;
-
-    transform: scale(1.02);
-}
-
-
-/* ================= SONG LIST ================= */
-
-.songs-section {
-    margin-top: 25px;
-}
-
-.section-heading {
-    display: flex;
-
-    justify-content: space-between;
-
-    align-items: center;
-
-    margin-bottom: 12px;
-}
-
-.section-heading h2 {
-    font-size: 20px;
-}
-
-.section-heading button {
-    border: none;
-
-    background: transparent;
-
-    color: var(--accent);
+    font-size: 23px;
 
     cursor: pointer;
+
+    box-shadow:
+        0 10px 30px rgba(168,85,247,0.35);
+
 }
 
-.song-list {
-    display: flex;
 
-    flex-direction: column;
+.play-btn:active {
 
-    gap: 10px;
+    transform: scale(0.94);
+
 }
 
-.song-item {
+
+/* ========================================
+   VOLUME
+======================================== */
+
+.volume-area {
+
     display: flex;
 
     align-items: center;
 
     gap: 12px;
 
-    padding: 10px;
+    max-width: 300px;
 
-    border-radius: 15px;
+    margin: auto;
+
+}
+
+
+/* ========================================
+   LYRICS
+======================================== */
+
+.lyrics-card {
+
+    margin-top: 25px;
 
     background: var(--card);
 
     border: 1px solid var(--border);
+
+    border-radius: 24px;
+
+    padding: 24px;
+
 }
 
-.song-item img {
-    width: 52px;
-    height: 52px;
 
-    border-radius: 11px;
+.section-title {
 
-    object-fit: cover;
+    display: flex;
+
+    align-items: center;
+
+    justify-content: space-between;
+
+    gap: 15px;
+
+    margin-bottom: 20px;
+
 }
 
-.song-details {
-    flex: 1;
+
+.small-title {
+
+    font-size: 10px;
+
+    color: var(--accent2);
+
+    letter-spacing: 2px;
+
+    font-weight: 700;
+
 }
 
-.song-details h3 {
-    font-size: 14px;
-}
 
-.song-details p {
-    color: var(--muted);
-
-    font-size: 11px;
+.section-title h2 {
 
     margin-top: 3px;
+
 }
 
-.song-play {
-    width: 38px;
-    height: 38px;
 
-    border-radius: 50%;
+.sync-btn {
+
+    background: rgba(168,85,247,0.12);
+
+    color: white;
+
+    border: 1px solid rgba(168,85,247,0.3);
+
+    padding: 9px 13px;
+
+    border-radius: 12px;
+
+    cursor: pointer;
+
+}
+
+
+.lyrics-container {
+
+    max-height: 230px;
+
+    overflow-y: auto;
+
+    text-align: center;
+
+    padding: 20px 10px;
+
+}
+
+
+.lyrics-line {
+
+    color: #666675;
+
+    font-size: 18px;
+
+    line-height: 2.2;
+
+    transition: 0.3s;
+
+}
+
+
+.lyrics-line.active {
+
+    color: white;
+
+    font-size: 22px;
+
+    font-weight: 700;
+
+    transform: scale(1.02);
+
+}
+
+
+/* ========================================
+   SONG LIST
+======================================== */
+
+.songs-section {
+
+    margin-top: 30px;
+
+}
+
+
+.section-heading {
+
+    display: flex;
+
+    justify-content: space-between;
+
+    align-items: center;
+
+    margin-bottom: 15px;
+
+}
+
+
+.section-heading button {
+
+    border: none;
+
+    background: transparent;
+
+    color: var(--accent);
+
+    cursor: pointer;
+
+}
+
+
+.song-list {
+
+    display: grid;
+
+    gap: 12px;
+
+}
+
+
+.song-item {
+
+    display: flex;
+
+    align-items: center;
+
+    gap: 14px;
+
+    padding: 12px;
+
+    background: var(--card);
 
     border: 1px solid var(--border);
 
-    background: var(--card2);
+    border-radius: 18px;
+
+}
+
+
+.song-item img {
+
+    width: 58px;
+
+    height: 58px;
+
+    object-fit: cover;
+
+    border-radius: 12px;
+
+}
+
+
+.song-details {
+
+    flex: 1;
+
+}
+
+
+.song-details h3 {
+
+    font-size: 15px;
+
+}
+
+
+.song-details p {
+
+    color: var(--muted);
+
+    font-size: 12px;
+
+    margin-top: 4px;
+
+}
+
+
+.song-play {
+
+    width: 40px;
+
+    height: 40px;
+
+    border: none;
+
+    border-radius: 50%;
+
+    background: rgba(168,85,247,0.15);
 
     color: white;
 
     cursor: pointer;
+
 }
 
 
-/* ================= BOTTOM NAV ================= */
+/* ========================================
+   BOTTOM NAV
+======================================== */
 
 .bottom-nav {
+
     position: fixed;
 
     bottom: 0;
+
     left: 0;
+
     right: 0;
 
     height: 72px;
 
     display: flex;
 
-    justify-content: space-around;
+    justify-content: center;
+
+    gap: clamp(15px, 7vw, 70px);
 
     align-items: center;
 
-    background: rgba(12,12,18,0.92);
+    background: rgba(8,8,13,0.94);
 
     backdrop-filter: blur(18px);
 
     border-top: 1px solid var(--border);
 
     z-index: 200;
+
 }
 
+
 .nav-item {
+
     border: none;
 
     background: transparent;
 
     color: var(--muted);
+
+    cursor: pointer;
 
     display: flex;
 
@@ -595,43 +809,80 @@ input[type="range"] {
 
     align-items: center;
 
-    gap: 4px;
+    gap: 3px;
 
-    cursor: pointer;
 }
+
 
 .nav-item span {
-    font-size: 18px;
+
+    font-size: 20px;
+
 }
+
 
 .nav-item small {
-    font-size: 9px;
+
+    font-size: 10px;
+
 }
+
 
 .nav-item.active {
-    color: var(--accent);
+
+    color: white;
+
 }
 
 
-/* ================= DESKTOP ================= */
+/* ========================================
+   MOBILE
+======================================== */
 
-@media (min-width: 700px) {
+@media (max-width: 600px) {
 
-    .main-content {
-        padding-top: 35px;
+    .player-card {
+
+        padding: 20px;
+
+        border-radius: 22px;
+
     }
+
 
     .cover-wrapper {
-        max-width: 430px;
+
+        width: 70vw;
+
     }
 
-    .bottom-nav {
-        left: 50%;
 
-        transform: translateX(-50%);
+    .controls {
 
-        max-width: 650px;
+        gap: 25px;
 
-        border-radius: 20px 20px 0 0;
     }
+
+
+    .lyrics-card {
+
+        padding: 18px;
+
+    }
+
+
+    .section-title {
+
+        align-items: flex-start;
+
+    }
+
+
+    .sync-btn {
+
+        font-size: 11px;
+
+    }
+
 }
+```
