@@ -1,11 +1,16 @@
-```javascript
 // ========================================
-// SayaVibe - SIMPLE WORKING PLAYER
+// SayaVibe Music Player
+// FINAL FIXED VERSION
 // ========================================
 
 document.addEventListener("DOMContentLoaded", function () {
 
+    // ========================================
+    // ELEMENTS
+    // ========================================
+
     const audio = document.getElementById("audioPlayer");
+
     const playBtn = document.getElementById("playBtn");
     const previousBtn = document.getElementById("previousBtn");
     const nextBtn = document.getElementById("nextBtn");
@@ -25,18 +30,20 @@ document.addEventListener("DOMContentLoaded", function () {
 
 
     // ========================================
-    // SONGS
+    // SONG DATABASE
     // ========================================
 
     const songs = [
+
         {
             title: "SayaVibe Demo",
             artist: "SayaVibe",
 
-            // EXACT FILE LOCATION
-            audio: "./assets/music/demo-song.mp3",
+            audio:
+                "https://nituldeka2026-debug.github.io/NITUL-Games/apps/sayavibe/assets/music/demo-song.mp3",
 
-            cover: "./assets/covers/default-cover.jpg",
+            cover:
+                "assets/covers/default-cover.jpg",
 
             lyrics: [
                 "Welcome to SayaVibe 🎵",
@@ -50,9 +57,11 @@ document.addEventListener("DOMContentLoaded", function () {
             title: "My First Song",
             artist: "SayaVibe",
 
-            audio: "./assets/music/my-first-song.mp3",
+            audio:
+                "https://nituldeka2026-debug.github.io/NITUL-Games/apps/sayavibe/assets/music/my-first-song.mp3",
 
-            cover: "./assets/covers/default-cover.jpg",
+            cover:
+                "assets/covers/default-cover.jpg",
 
             lyrics: [
                 "This is my first song 🎵",
@@ -61,6 +70,7 @@ document.addEventListener("DOMContentLoaded", function () {
                 "Feel every lyric ❤️"
             ]
         }
+
     ];
 
 
@@ -71,24 +81,45 @@ document.addEventListener("DOMContentLoaded", function () {
     // FORMAT TIME
     // ========================================
 
-    function formatTime(time) {
+    function formatTime(seconds) {
 
         if (
-            !Number.isFinite(time) ||
-            time < 0
+            isNaN(seconds) ||
+            !isFinite(seconds) ||
+            seconds < 0
         ) {
             return "0:00";
         }
 
         const minutes =
-            Math.floor(time / 60);
+            Math.floor(seconds / 60);
 
-        const seconds =
-            Math.floor(time % 60)
+        const secs =
+            Math.floor(seconds % 60)
                 .toString()
                 .padStart(2, "0");
 
-        return minutes + ":" + seconds;
+        return minutes + ":" + secs;
+    }
+
+
+    // ========================================
+    // UPDATE DURATION
+    // ========================================
+
+    function updateDuration() {
+
+        if (
+            audio.readyState >= 1 &&
+            isFinite(audio.duration) &&
+            audio.duration > 0
+        ) {
+
+            durationEl.textContent =
+                formatTime(audio.duration);
+
+        }
+
     }
 
 
@@ -104,64 +135,94 @@ document.addEventListener("DOMContentLoaded", function () {
 
         currentSong = index;
 
-        const song = songs[index];
+        const song = songs[currentSong];
 
-        songTitle.textContent = song.title;
-        artistName.textContent = song.artist;
 
-        coverImage.src = song.cover;
+        // Song information
+        songTitle.textContent =
+            song.title;
 
-        // Stop old audio
+        artistName.textContent =
+            song.artist;
+
+
+        // Cover
+        coverImage.src =
+            song.cover;
+
+
+        // Stop previous song
         audio.pause();
 
-        // Remove old source
+
+        // Reset player
         audio.removeAttribute("src");
 
-        // Reset
-        currentTimeEl.textContent = "0:00";
-        durationEl.textContent = "0:00";
-        progressBar.value = 0;
-
-        playBtn.textContent = "▶";
-
-        // Set NEW source
-        audio.src = song.audio;
-
-        // Force reload
         audio.load();
 
-        // Lyrics
-        renderLyrics(song.lyrics);
+        currentTimeEl.textContent =
+            "0:00";
 
-        console.log("SayaVibe song:", song.title);
-        console.log("Audio URL:", audio.src);
+        durationEl.textContent =
+            "0:00";
+
+        progressBar.value = 0;
+
+        playBtn.textContent =
+            "▶";
+
+
+        // Set new song
+        audio.src =
+            song.audio;
+
+
+        // Load new audio
+        audio.load();
+
+
+        // Render lyrics
+        renderLyrics(
+            song.lyrics
+        );
+
+
+        console.log(
+            "SayaVibe loaded:",
+            song.title
+        );
+
+        console.log(
+            "Audio:",
+            audio.src
+        );
     }
 
 
     // ========================================
-    // PLAY
+    // PLAY SONG
     // ========================================
 
     function playSong() {
 
+        if (!audio.src) {
+            return;
+        }
+
         audio.play()
             .then(function () {
 
-                playBtn.textContent = "⏸";
-
-                console.log("Song playing");
+                playBtn.textContent =
+                    "⏸";
 
             })
             .catch(function (error) {
 
                 console.error(
-                    "PLAY ERROR:",
+                    "Playback Error:",
                     error
                 );
 
-                alert(
-                    "Song play হোৱা নাই। Browser console check কৰক।"
-                );
             });
     }
 
@@ -183,6 +244,7 @@ document.addEventListener("DOMContentLoaded", function () {
                 audio.pause();
 
             }
+
         }
     );
 
@@ -195,7 +257,8 @@ document.addEventListener("DOMContentLoaded", function () {
         "play",
         function () {
 
-            playBtn.textContent = "⏸";
+            playBtn.textContent =
+                "⏸";
 
         }
     );
@@ -209,7 +272,8 @@ document.addEventListener("DOMContentLoaded", function () {
         "pause",
         function () {
 
-            playBtn.textContent = "▶";
+            playBtn.textContent =
+                "▶";
 
         }
     );
@@ -224,20 +288,26 @@ document.addEventListener("DOMContentLoaded", function () {
         function () {
 
             console.log(
-                "Duration:",
+                "Audio duration:",
                 audio.duration
             );
 
-            if (
-                Number.isFinite(audio.duration)
-            ) {
+            updateDuration();
 
-                durationEl.textContent =
-                    formatTime(
-                        audio.duration
-                    );
+        }
+    );
 
-            }
+
+    // ========================================
+    // DURATION CHANGE
+    // ========================================
+
+    audio.addEventListener(
+        "durationchange",
+        function () {
+
+            updateDuration();
+
         }
     );
 
@@ -250,16 +320,8 @@ document.addEventListener("DOMContentLoaded", function () {
         "loadeddata",
         function () {
 
-            if (
-                Number.isFinite(audio.duration)
-            ) {
+            updateDuration();
 
-                durationEl.textContent =
-                    formatTime(
-                        audio.duration
-                    );
-
-            }
         }
     );
 
@@ -272,16 +334,7 @@ document.addEventListener("DOMContentLoaded", function () {
         "canplay",
         function () {
 
-            if (
-                Number.isFinite(audio.duration)
-            ) {
-
-                durationEl.textContent =
-                    formatTime(
-                        audio.duration
-                    );
-
-            }
+            updateDuration();
 
         }
     );
@@ -296,27 +349,28 @@ document.addEventListener("DOMContentLoaded", function () {
         function () {
 
             if (
-                !Number.isFinite(
-                    audio.duration
-                ) ||
+                !isFinite(audio.duration) ||
                 audio.duration <= 0
             ) {
                 return;
             }
 
 
+            // Current time
             currentTimeEl.textContent =
                 formatTime(
                     audio.currentTime
                 );
 
 
+            // Duration
             durationEl.textContent =
                 formatTime(
                     audio.duration
                 );
 
 
+            // Progress
             progressBar.value =
                 (
                     audio.currentTime /
@@ -324,6 +378,7 @@ document.addEventListener("DOMContentLoaded", function () {
                 ) * 100;
 
 
+            // Lyrics
             updateLyrics();
 
         }
@@ -339,9 +394,8 @@ document.addEventListener("DOMContentLoaded", function () {
         function () {
 
             if (
-                !Number.isFinite(
-                    audio.duration
-                )
+                !isFinite(audio.duration) ||
+                audio.duration <= 0
             ) {
                 return;
             }
@@ -349,8 +403,9 @@ document.addEventListener("DOMContentLoaded", function () {
 
             audio.currentTime =
                 (
-                    Number(progressBar.value) /
-                    100
+                    Number(
+                        progressBar.value
+                    ) / 100
                 ) * audio.duration;
 
         }
@@ -368,14 +423,16 @@ document.addEventListener("DOMContentLoaded", function () {
         function () {
 
             audio.volume =
-                Number(volumeBar.value);
+                Number(
+                    volumeBar.value
+                );
 
         }
     );
 
 
     // ========================================
-    // PREVIOUS
+    // PREVIOUS SONG
     // ========================================
 
     previousBtn.addEventListener(
@@ -385,18 +442,22 @@ document.addEventListener("DOMContentLoaded", function () {
             currentSong--;
 
             if (currentSong < 0) {
+
                 currentSong =
                     songs.length - 1;
+
             }
 
-            loadSong(currentSong);
+            loadSong(
+                currentSong
+            );
 
         }
     );
 
 
     // ========================================
-    // NEXT
+    // NEXT SONG
     // ========================================
 
     nextBtn.addEventListener(
@@ -409,17 +470,21 @@ document.addEventListener("DOMContentLoaded", function () {
                 currentSong >=
                 songs.length
             ) {
+
                 currentSong = 0;
+
             }
 
-            loadSong(currentSong);
+            loadSong(
+                currentSong
+            );
 
         }
     );
 
 
     // ========================================
-    // END
+    // SONG ENDED
     // ========================================
 
     audio.addEventListener(
@@ -432,10 +497,14 @@ document.addEventListener("DOMContentLoaded", function () {
                 currentSong >=
                 songs.length
             ) {
+
                 currentSong = 0;
+
             }
 
-            loadSong(currentSong);
+            loadSong(
+                currentSong
+            );
 
             playSong();
 
@@ -444,35 +513,45 @@ document.addEventListener("DOMContentLoaded", function () {
 
 
     // ========================================
-    // LYRICS
+    // RENDER LYRICS
     // ========================================
 
     function renderLyrics(lyrics) {
 
-        lyricsContainer.innerHTML = "";
+        lyricsContainer.innerHTML =
+            "";
 
         lyrics.forEach(
             function (line, index) {
 
                 const p =
-                    document.createElement("p");
+                    document.createElement(
+                        "p"
+                    );
 
                 p.className =
                     "lyrics-line";
 
-                p.textContent = line;
+                p.textContent =
+                    line;
+
 
                 if (index === 0) {
 
                     p.classList.add(
                         "active"
                     );
+
                 }
 
-                lyricsContainer.appendChild(p);
+
+                lyricsContainer.appendChild(
+                    p
+                );
 
             }
         );
+
     }
 
 
@@ -487,13 +566,15 @@ document.addEventListener("DOMContentLoaded", function () {
                 ".lyrics-line"
             );
 
+
         if (
             !lines.length ||
-            !Number.isFinite(
-                audio.duration
-            )
+            !isFinite(audio.duration) ||
+            audio.duration <= 0
         ) {
+
             return;
+
         }
 
 
@@ -502,7 +583,7 @@ document.addEventListener("DOMContentLoaded", function () {
             audio.duration;
 
 
-        let index =
+        let activeIndex =
             Math.floor(
                 percentage *
                 lines.length
@@ -510,19 +591,22 @@ document.addEventListener("DOMContentLoaded", function () {
 
 
         if (
-            index >= lines.length
+            activeIndex >=
+            lines.length
         ) {
-            index =
+
+            activeIndex =
                 lines.length - 1;
+
         }
 
 
         lines.forEach(
-            function (line, i) {
+            function (line, index) {
 
                 line.classList.toggle(
                     "active",
-                    i === index
+                    index === activeIndex
                 );
 
             }
@@ -535,35 +619,45 @@ document.addEventListener("DOMContentLoaded", function () {
     // SONG LIST
     // ========================================
 
-    document
-        .querySelectorAll(".song-play")
-        .forEach(
-            function (button) {
+    const songItems =
+        document.querySelectorAll(
+            ".song-item"
+        );
 
-                button.addEventListener(
-                    "click",
-                    function () {
 
-                        const index =
-                            Number(
-                                button.dataset.index
-                            );
+    songItems.forEach(
+        function (item, index) {
 
-                        if (
-                            !songs[index]
-                        ) {
-                            return;
-                        }
+            const button =
+                item.querySelector(
+                    ".song-play"
+                );
+
+
+            if (!button) {
+                return;
+            }
+
+
+            button.addEventListener(
+                "click",
+                function () {
+
+                    if (
+                        songs[index]
+                    ) {
 
                         loadSong(index);
 
                         playSong();
 
                     }
-                );
 
-            }
-        );
+                }
+            );
+
+        }
+    );
 
 
     // ========================================
@@ -604,10 +698,13 @@ document.addEventListener("DOMContentLoaded", function () {
                     "show"
                 );
 
-                searchInput.focus();
+                if (searchInput) {
+                    searchInput.focus();
+                }
 
             }
         );
+
     }
 
 
@@ -621,10 +718,27 @@ document.addEventListener("DOMContentLoaded", function () {
                     "show"
                 );
 
-                searchInput.value = "";
+                if (searchInput) {
+                    searchInput.value = "";
+                }
+
+
+                document
+                    .querySelectorAll(
+                        ".song-item"
+                    )
+                    .forEach(
+                        function (item) {
+
+                            item.style.display =
+                                "flex";
+
+                        }
+                    );
 
             }
         );
+
     }
 
 
@@ -651,6 +765,7 @@ document.addEventListener("DOMContentLoaded", function () {
                                 item.textContent
                                     .toLowerCase();
 
+
                             item.style.display =
                                 text.includes(
                                     query
@@ -663,11 +778,12 @@ document.addEventListener("DOMContentLoaded", function () {
 
             }
         );
+
     }
 
 
     // ========================================
-    // SYNC
+    // SYNC BUTTON
     // ========================================
 
     const syncBtn =
@@ -693,6 +809,83 @@ document.addEventListener("DOMContentLoaded", function () {
 
 
     // ========================================
+    // VIEW ALL
+    // ========================================
+
+    const viewAllBtn =
+        document.getElementById(
+            "viewAllBtn"
+        );
+
+
+    if (viewAllBtn) {
+
+        viewAllBtn.addEventListener(
+            "click",
+            function () {
+
+                const section =
+                    document.querySelector(
+                        ".songs-section"
+                    );
+
+
+                if (section) {
+
+                    section.scrollIntoView({
+                        behavior: "smooth"
+                    });
+
+                }
+
+            }
+        );
+
+    }
+
+
+    // ========================================
+    // BOTTOM NAV
+    // ========================================
+
+    document
+        .querySelectorAll(
+            ".nav-item"
+        )
+        .forEach(
+            function (item) {
+
+                item.addEventListener(
+                    "click",
+                    function () {
+
+                        document
+                            .querySelectorAll(
+                                ".nav-item"
+                            )
+                            .forEach(
+                                function (nav) {
+
+                                    nav.classList.remove(
+                                        "active"
+                                    );
+
+                                }
+                            );
+
+
+                        item.classList.add(
+                            "active"
+                        );
+
+                    }
+                );
+
+            }
+        );
+
+
+    // ========================================
     // AUDIO ERROR
     // ========================================
 
@@ -701,11 +894,11 @@ document.addEventListener("DOMContentLoaded", function () {
         function () {
 
             console.error(
-                "❌ Audio failed"
+                "❌ AUDIO ERROR"
             );
 
             console.error(
-                "Source:",
+                "Audio source:",
                 audio.src
             );
 
@@ -714,10 +907,14 @@ document.addEventListener("DOMContentLoaded", function () {
 
 
     // ========================================
-    // START
+    // INITIALIZE
     // ========================================
 
     loadSong(0);
 
+
+    console.log(
+        "🎵 SayaVibe initialized successfully"
+    );
+
 });
-```
