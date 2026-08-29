@@ -1,17 +1,11 @@
 ```javascript
 // ========================================
-// SayaVibe Music Player
-// FULL FIXED VERSION
+// SayaVibe - SIMPLE WORKING PLAYER
 // ========================================
 
-document.addEventListener("DOMContentLoaded", () => {
-
-    // ========================================
-    // ELEMENTS
-    // ========================================
+document.addEventListener("DOMContentLoaded", function () {
 
     const audio = document.getElementById("audioPlayer");
-
     const playBtn = document.getElementById("playBtn");
     const previousBtn = document.getElementById("previousBtn");
     const nextBtn = document.getElementById("nextBtn");
@@ -19,39 +13,30 @@ document.addEventListener("DOMContentLoaded", () => {
     const progressBar = document.getElementById("progressBar");
     const volumeBar = document.getElementById("volumeBar");
 
-    const currentTimeEl =
-        document.getElementById("currentTime");
+    const currentTimeEl = document.getElementById("currentTime");
+    const durationEl = document.getElementById("duration");
 
-    const durationEl =
-        document.getElementById("duration");
-
-    const songTitle =
-        document.getElementById("songTitle");
-
-    const artistName =
-        document.getElementById("artistName");
-
-    const coverImage =
-        document.getElementById("coverImage");
+    const songTitle = document.getElementById("songTitle");
+    const artistName = document.getElementById("artistName");
+    const coverImage = document.getElementById("coverImage");
 
     const lyricsContainer =
         document.getElementById("lyricsContainer");
 
 
     // ========================================
-    // SONG DATA
+    // SONGS
     // ========================================
 
     const songs = [
-
         {
             title: "SayaVibe Demo",
             artist: "SayaVibe",
 
-            // CORRECT PATH
-            audio: "assets/music/demo-song.mp3",
+            // EXACT FILE LOCATION
+            audio: "./assets/music/demo-song.mp3",
 
-            cover: "assets/covers/default-cover.jpg",
+            cover: "./assets/covers/default-cover.jpg",
 
             lyrics: [
                 "Welcome to SayaVibe 🎵",
@@ -65,10 +50,9 @@ document.addEventListener("DOMContentLoaded", () => {
             title: "My First Song",
             artist: "SayaVibe",
 
-            // Add this MP3 later
-            audio: "assets/music/my-first-song.mp3",
+            audio: "./assets/music/my-first-song.mp3",
 
-            cover: "assets/covers/default-cover.jpg",
+            cover: "./assets/covers/default-cover.jpg",
 
             lyrics: [
                 "This is my first song 🎵",
@@ -77,7 +61,6 @@ document.addEventListener("DOMContentLoaded", () => {
                 "Feel every lyric ❤️"
             ]
         }
-
     ];
 
 
@@ -88,50 +71,24 @@ document.addEventListener("DOMContentLoaded", () => {
     // FORMAT TIME
     // ========================================
 
-    function formatTime(seconds) {
+    function formatTime(time) {
 
         if (
-            !isFinite(seconds) ||
-            isNaN(seconds) ||
-            seconds < 0
+            !Number.isFinite(time) ||
+            time < 0
         ) {
-
             return "0:00";
-
         }
 
-
         const minutes =
-            Math.floor(seconds / 60);
+            Math.floor(time / 60);
 
-
-        const secs =
-            Math.floor(seconds % 60)
+        const seconds =
+            Math.floor(time % 60)
                 .toString()
                 .padStart(2, "0");
 
-
-        return `${minutes}:${secs}`;
-
-    }
-
-
-    // ========================================
-    // UPDATE DURATION
-    // ========================================
-
-    function updateDuration() {
-
-        if (
-            isFinite(audio.duration) &&
-            audio.duration > 0
-        ) {
-
-            durationEl.textContent =
-                formatTime(audio.duration);
-
-        }
-
+        return minutes + ":" + seconds;
     }
 
 
@@ -142,129 +99,70 @@ document.addEventListener("DOMContentLoaded", () => {
     function loadSong(index) {
 
         if (!songs[index]) {
-
             return;
-
         }
-
 
         currentSong = index;
 
-        const song =
-            songs[currentSong];
+        const song = songs[index];
 
+        songTitle.textContent = song.title;
+        artistName.textContent = song.artist;
 
-        // Song information
+        coverImage.src = song.cover;
 
-        songTitle.textContent =
-            song.title;
-
-        artistName.textContent =
-            song.artist;
-
-
-        // Cover
-
-        coverImage.src =
-            song.cover;
-
-
-        // Stop current audio
-
+        // Stop old audio
         audio.pause();
 
+        // Remove old source
+        audio.removeAttribute("src");
 
         // Reset
-
-        audio.currentTime = 0;
-
+        currentTimeEl.textContent = "0:00";
+        durationEl.textContent = "0:00";
         progressBar.value = 0;
 
-        currentTimeEl.textContent =
-            "0:00";
+        playBtn.textContent = "▶";
 
-        durationEl.textContent =
-            "0:00";
+        // Set NEW source
+        audio.src = song.audio;
 
-
-        // Set new audio
-
-        audio.src =
-            song.audio;
-
-
-        // Load audio
-
+        // Force reload
         audio.load();
 
+        // Lyrics
+        renderLyrics(song.lyrics);
 
-        // Reset play button
-
-        playBtn.textContent =
-            "▶";
-
-
-        // Render lyrics
-
-        renderLyrics(
-            song.lyrics
-        );
-
-
-        console.log(
-            "Loaded song:",
-            song.title
-        );
-
-        console.log(
-            "Audio path:",
-            song.audio
-        );
-
+        console.log("SayaVibe song:", song.title);
+        console.log("Audio URL:", audio.src);
     }
 
 
     // ========================================
-    // PLAY SONG
+    // PLAY
     // ========================================
 
     function playSong() {
 
-        if (!audio.src) {
+        audio.play()
+            .then(function () {
 
-            return;
+                playBtn.textContent = "⏸";
 
-        }
+                console.log("Song playing");
 
+            })
+            .catch(function (error) {
 
-        const promise =
-            audio.play();
+                console.error(
+                    "PLAY ERROR:",
+                    error
+                );
 
-
-        if (promise !== undefined) {
-
-            promise
-                .then(() => {
-
-                    playBtn.textContent =
-                        "⏸";
-
-                })
-                .catch(error => {
-
-                    console.error(
-                        "Playback error:",
-                        error
-                    );
-
-                    alert(
-                        "Song play হোৱা নাই। আকৌ Play button click কৰক।"
-                    );
-
-                });
-
-        }
-
+                alert(
+                    "Song play হোৱা নাই। Browser console check কৰক।"
+                );
+            });
     }
 
 
@@ -274,7 +172,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
     playBtn.addEventListener(
         "click",
-        () => {
+        function () {
 
             if (audio.paused) {
 
@@ -285,70 +183,83 @@ document.addEventListener("DOMContentLoaded", () => {
                 audio.pause();
 
             }
-
         }
     );
 
 
     // ========================================
-    // AUDIO PLAY EVENT
+    // PLAY EVENT
     // ========================================
 
     audio.addEventListener(
         "play",
-        () => {
+        function () {
 
-            playBtn.textContent =
-                "⏸";
+            playBtn.textContent = "⏸";
 
         }
     );
 
 
     // ========================================
-    // AUDIO PAUSE EVENT
+    // PAUSE EVENT
     // ========================================
 
     audio.addEventListener(
         "pause",
-        () => {
+        function () {
 
-            playBtn.textContent =
-                "▶";
+            playBtn.textContent = "▶";
 
         }
     );
 
 
     // ========================================
-    // AUDIO METADATA
+    // LOADED METADATA
     // ========================================
 
     audio.addEventListener(
         "loadedmetadata",
-        () => {
-
-            updateDuration();
+        function () {
 
             console.log(
                 "Duration:",
                 audio.duration
             );
 
+            if (
+                Number.isFinite(audio.duration)
+            ) {
+
+                durationEl.textContent =
+                    formatTime(
+                        audio.duration
+                    );
+
+            }
         }
     );
 
 
     // ========================================
-    // DURATION CHANGE
+    // LOADED DATA
     // ========================================
 
     audio.addEventListener(
-        "durationchange",
-        () => {
+        "loadeddata",
+        function () {
 
-            updateDuration();
+            if (
+                Number.isFinite(audio.duration)
+            ) {
 
+                durationEl.textContent =
+                    formatTime(
+                        audio.duration
+                    );
+
+            }
         }
     );
 
@@ -359,9 +270,18 @@ document.addEventListener("DOMContentLoaded", () => {
 
     audio.addEventListener(
         "canplay",
-        () => {
+        function () {
 
-            updateDuration();
+            if (
+                Number.isFinite(audio.duration)
+            ) {
+
+                durationEl.textContent =
+                    formatTime(
+                        audio.duration
+                    );
+
+            }
 
         }
     );
@@ -373,27 +293,16 @@ document.addEventListener("DOMContentLoaded", () => {
 
     audio.addEventListener(
         "timeupdate",
-        () => {
+        function () {
 
             if (
-                !isFinite(audio.duration) ||
+                !Number.isFinite(
+                    audio.duration
+                ) ||
                 audio.duration <= 0
             ) {
-
                 return;
-
             }
-
-
-            const percentage =
-                (
-                    audio.currentTime /
-                    audio.duration
-                ) * 100;
-
-
-            progressBar.value =
-                percentage;
 
 
             currentTimeEl.textContent =
@@ -408,6 +317,13 @@ document.addEventListener("DOMContentLoaded", () => {
                 );
 
 
+            progressBar.value =
+                (
+                    audio.currentTime /
+                    audio.duration
+                ) * 100;
+
+
             updateLyrics();
 
         }
@@ -420,15 +336,14 @@ document.addEventListener("DOMContentLoaded", () => {
 
     progressBar.addEventListener(
         "input",
-        () => {
+        function () {
 
             if (
-                !isFinite(audio.duration) ||
-                audio.duration <= 0
+                !Number.isFinite(
+                    audio.duration
+                )
             ) {
-
                 return;
-
             }
 
 
@@ -450,7 +365,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
     volumeBar.addEventListener(
         "input",
-        () => {
+        function () {
 
             audio.volume =
                 Number(volumeBar.value);
@@ -460,38 +375,33 @@ document.addEventListener("DOMContentLoaded", () => {
 
 
     // ========================================
-    // PREVIOUS SONG
+    // PREVIOUS
     // ========================================
 
     previousBtn.addEventListener(
         "click",
-        () => {
+        function () {
 
             currentSong--;
 
             if (currentSong < 0) {
-
                 currentSong =
                     songs.length - 1;
-
             }
 
-
-            loadSong(
-                currentSong
-            );
+            loadSong(currentSong);
 
         }
     );
 
 
     // ========================================
-    // NEXT SONG
+    // NEXT
     // ========================================
 
     nextBtn.addEventListener(
         "click",
-        () => {
+        function () {
 
             currentSong++;
 
@@ -499,27 +409,22 @@ document.addEventListener("DOMContentLoaded", () => {
                 currentSong >=
                 songs.length
             ) {
-
                 currentSong = 0;
-
             }
 
-
-            loadSong(
-                currentSong
-            );
+            loadSong(currentSong);
 
         }
     );
 
 
     // ========================================
-    // SONG ENDED
+    // END
     // ========================================
 
     audio.addEventListener(
         "ended",
-        () => {
+        function () {
 
             currentSong++;
 
@@ -527,18 +432,10 @@ document.addEventListener("DOMContentLoaded", () => {
                 currentSong >=
                 songs.length
             ) {
-
                 currentSong = 0;
-
             }
 
-
-            loadSong(
-                currentSong
-            );
-
-
-            // Automatically play next song
+            loadSong(currentSong);
 
             playSong();
 
@@ -547,48 +444,35 @@ document.addEventListener("DOMContentLoaded", () => {
 
 
     // ========================================
-    // RENDER LYRICS
+    // LYRICS
     // ========================================
 
     function renderLyrics(lyrics) {
 
-        lyricsContainer.innerHTML =
-            "";
-
+        lyricsContainer.innerHTML = "";
 
         lyrics.forEach(
-            (line, index) => {
+            function (line, index) {
 
                 const p =
-                    document.createElement(
-                        "p"
-                    );
-
+                    document.createElement("p");
 
                 p.className =
                     "lyrics-line";
 
-
-                p.textContent =
-                    line;
-
+                p.textContent = line;
 
                 if (index === 0) {
 
                     p.classList.add(
                         "active"
                     );
-
                 }
 
-
-                lyricsContainer.appendChild(
-                    p
-                );
+                lyricsContainer.appendChild(p);
 
             }
         );
-
     }
 
 
@@ -603,15 +487,13 @@ document.addEventListener("DOMContentLoaded", () => {
                 ".lyrics-line"
             );
 
-
         if (
             !lines.length ||
-            !isFinite(audio.duration) ||
-            audio.duration <= 0
+            !Number.isFinite(
+                audio.duration
+            )
         ) {
-
             return;
-
         }
 
 
@@ -620,7 +502,7 @@ document.addEventListener("DOMContentLoaded", () => {
             audio.duration;
 
 
-        let activeIndex =
+        let index =
             Math.floor(
                 percentage *
                 lines.length
@@ -628,86 +510,60 @@ document.addEventListener("DOMContentLoaded", () => {
 
 
         if (
-            activeIndex >=
-            lines.length
+            index >= lines.length
         ) {
-
-            activeIndex =
+            index =
                 lines.length - 1;
-
         }
 
 
         lines.forEach(
-            (line, index) => {
+            function (line, i) {
 
                 line.classList.toggle(
                     "active",
-                    index === activeIndex
+                    i === index
                 );
 
             }
         );
 
-
-        const activeLine =
-            lines[activeIndex];
-
-
-        if (activeLine) {
-
-            activeLine.scrollIntoView({
-                behavior: "smooth",
-                block: "center"
-            });
-
-        }
-
     }
 
 
     // ========================================
-    // SONG LIST BUTTONS
+    // SONG LIST
     // ========================================
 
-    const songButtons =
-        document.querySelectorAll(
-            ".song-play"
-        );
+    document
+        .querySelectorAll(".song-play")
+        .forEach(
+            function (button) {
 
+                button.addEventListener(
+                    "click",
+                    function () {
 
-    songButtons.forEach(
-        (button) => {
+                        const index =
+                            Number(
+                                button.dataset.index
+                            );
 
-            button.addEventListener(
-                "click",
-                () => {
+                        if (
+                            !songs[index]
+                        ) {
+                            return;
+                        }
 
-                    const index =
-                        Number(
-                            button.dataset.index
-                        );
+                        loadSong(index);
 
-
-                    if (
-                        isNaN(index) ||
-                        !songs[index]
-                    ) {
-
-                        return;
+                        playSong();
 
                     }
+                );
 
-
-                    loadSong(index);
-
-                    playSong();
-
-                }
-            );
-
-        }
-    );
+            }
+        );
 
 
     // ========================================
@@ -737,13 +593,12 @@ document.addEventListener("DOMContentLoaded", () => {
 
     if (
         searchBtn &&
-        searchSection &&
-        searchInput
+        searchSection
     ) {
 
         searchBtn.addEventListener(
             "click",
-            () => {
+            function () {
 
                 searchSection.classList.add(
                     "show"
@@ -753,7 +608,6 @@ document.addEventListener("DOMContentLoaded", () => {
 
             }
         );
-
     }
 
 
@@ -761,7 +615,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
         closeSearch.addEventListener(
             "click",
-            () => {
+            function () {
 
                 searchSection.classList.remove(
                     "show"
@@ -769,23 +623,8 @@ document.addEventListener("DOMContentLoaded", () => {
 
                 searchInput.value = "";
 
-
-                document
-                    .querySelectorAll(
-                        ".song-item"
-                    )
-                    .forEach(
-                        item => {
-
-                            item.style.display =
-                                "flex";
-
-                        }
-                    );
-
             }
         );
-
     }
 
 
@@ -793,7 +632,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
         searchInput.addEventListener(
             "input",
-            () => {
+            function () {
 
                 const query =
                     searchInput.value
@@ -806,12 +645,11 @@ document.addEventListener("DOMContentLoaded", () => {
                         ".song-item"
                     )
                     .forEach(
-                        item => {
+                        function (item) {
 
                             const text =
                                 item.textContent
                                     .toLowerCase();
-
 
                             item.style.display =
                                 text.includes(
@@ -825,12 +663,11 @@ document.addEventListener("DOMContentLoaded", () => {
 
             }
         );
-
     }
 
 
     // ========================================
-    // AUTO SYNC BUTTON
+    // SYNC
     // ========================================
 
     const syncBtn =
@@ -843,87 +680,16 @@ document.addEventListener("DOMContentLoaded", () => {
 
         syncBtn.addEventListener(
             "click",
-            () => {
+            function () {
 
                 alert(
-                    "✨ Real-time lyrics sync will be added with timed lyrics."
+                    "✨ Lyrics Sync will be added soon."
                 );
 
             }
         );
 
     }
-
-
-    // ========================================
-    // VIEW ALL
-    // ========================================
-
-    const viewAllBtn =
-        document.getElementById(
-            "viewAllBtn"
-        );
-
-
-    if (viewAllBtn) {
-
-        viewAllBtn.addEventListener(
-            "click",
-            () => {
-
-                document
-                    .querySelector(
-                        ".songs-section"
-                    )
-                    .scrollIntoView({
-                        behavior: "smooth"
-                    });
-
-            }
-        );
-
-    }
-
-
-    // ========================================
-    // NAVIGATION
-    // ========================================
-
-    document
-        .querySelectorAll(
-            ".nav-item"
-        )
-        .forEach(
-            item => {
-
-                item.addEventListener(
-                    "click",
-                    () => {
-
-                        document
-                            .querySelectorAll(
-                                ".nav-item"
-                            )
-                            .forEach(
-                                nav => {
-
-                                    nav.classList.remove(
-                                        "active"
-                                    );
-
-                                }
-                            );
-
-
-                        item.classList.add(
-                            "active"
-                        );
-
-                    }
-                );
-
-            }
-        );
 
 
     // ========================================
@@ -932,14 +698,14 @@ document.addEventListener("DOMContentLoaded", () => {
 
     audio.addEventListener(
         "error",
-        () => {
+        function () {
 
             console.error(
-                "❌ AUDIO ERROR"
+                "❌ Audio failed"
             );
 
             console.error(
-                "Audio URL:",
+                "Source:",
                 audio.src
             );
 
@@ -948,15 +714,10 @@ document.addEventListener("DOMContentLoaded", () => {
 
 
     // ========================================
-    // INITIALIZE
+    // START
     // ========================================
 
     loadSong(0);
-
-
-    console.log(
-        "🎵 SayaVibe initialized"
-    );
 
 });
 ```
