@@ -1,920 +1,446 @@
-// ========================================
-// SayaVibe Music Player
-// FINAL FIXED VERSION
-// ========================================
+const audio = document.getElementById("audio");
 
-document.addEventListener("DOMContentLoaded", function () {
+const playBtn = document.getElementById("playBtn");
+const prevBtn = document.getElementById("prevBtn");
+const nextBtn = document.getElementById("nextBtn");
 
-    // ========================================
-    // ELEMENTS
-    // ========================================
+const progress = document.getElementById("progress");
 
-    const audio = document.getElementById("audioPlayer");
+const songTitle = document.getElementById("songTitle");
+const artistName = document.getElementById("artistName");
 
-    const playBtn = document.getElementById("playBtn");
-    const previousBtn = document.getElementById("previousBtn");
-    const nextBtn = document.getElementById("nextBtn");
+const currentTime = document.getElementById("currentTime");
+const duration = document.getElementById("duration");
 
-    const progressBar = document.getElementById("progressBar");
-    const volumeBar = document.getElementById("volumeBar");
+const lyricsBox = document.getElementById("lyricsBox");
+const lyricsStatus = document.getElementById("lyricsStatus");
 
-    const currentTimeEl = document.getElementById("currentTime");
-    const durationEl = document.getElementById("duration");
+const songList = document.getElementById("songList");
 
-    const songTitle = document.getElementById("songTitle");
-    const artistName = document.getElementById("artistName");
-    const coverImage = document.getElementById("coverImage");
+const searchInput = document.getElementById("searchInput");
 
-    const lyricsContainer =
-        document.getElementById("lyricsContainer");
+const favBtn = document.getElementById("favBtn");
 
+const themeBtn = document.getElementById("themeBtn");
 
-    // ========================================
-    // SONG DATABASE
-    // ========================================
 
-    const songs = [
+/*
+  IMPORTANT:
+  Replace the audio paths below with your
+  own / licensed audio files.
+*/
 
-        {
-            title: "SayaVibe Demo",
-            artist: "SayaVibe",
+const songs = [
 
-            audio:
-                "https://nituldeka2026-debug.github.io/NITUL-Games/apps/sayavibe/assets/music/demo-song.mp3",
+  {
+    title: "SAYA VIBE",
+    artist: "SAYAVIBE",
+    audio: "assets/music/song1.mp3",
 
-            cover:
-                "assets/covers/default-cover.jpg",
+    lyrics: [
+      { time: 0, text: "Welcome to SAYAVIBE" },
+      { time: 5, text: "Your music. Your lyrics." },
+      { time: 10, text: "Feel every moment." },
+      { time: 15, text: "Sing with your heart." }
+    ]
+  },
 
-            lyrics: [
-                "Welcome to SayaVibe 🎵",
-                "Feel the music...",
-                "Read every lyric...",
-                "And enjoy the vibe ❤️"
-            ]
-        },
+  {
+    title: "Dream Vibe",
+    artist: "SAYAVIBE",
+    audio: "assets/music/song2.mp3",
 
-        {
-            title: "My First Song",
-            artist: "SayaVibe",
+    lyrics: [
+      { time: 0, text: "Close your eyes" },
+      { time: 5, text: "Feel the music" },
+      { time: 10, text: "Follow the rhythm" },
+      { time: 15, text: "Live your vibe" }
+    ]
+  }
 
-            audio:
-                "https://nituldeka2026-debug.github.io/NITUL-Games/apps/sayavibe/assets/music/my-first-song.mp3",
+];
 
-            cover:
-                "assets/covers/default-cover.jpg",
 
-            lyrics: [
-                "This is my first song 🎵",
-                "Welcome to the SayaVibe world",
-                "Music brings us together",
-                "Feel every lyric ❤️"
-            ]
-        }
+let currentSong = 0;
+let isPlaying = false;
 
-    ];
 
+/* LOAD SONG */
 
-    let currentSong = 0;
+function loadSong(index) {
 
+  currentSong = index;
 
-    // ========================================
-    // FORMAT TIME
-    // ========================================
+  const song = songs[currentSong];
 
-    function formatTime(seconds) {
+  songTitle.textContent = song.title;
+  artistName.textContent = song.artist;
 
-        if (
-            isNaN(seconds) ||
-            !isFinite(seconds) ||
-            seconds < 0
-        ) {
-            return "0:00";
-        }
+  audio.src = song.audio;
 
-        const minutes =
-            Math.floor(seconds / 60);
+  renderLyrics(song.lyrics);
 
-        const secs =
-            Math.floor(seconds % 60)
-                .toString()
-                .padStart(2, "0");
+  lyricsStatus.textContent = "Ready";
 
-        return minutes + ":" + secs;
-    }
+  progress.value = 0;
 
+  currentTime.textContent = "0:00";
+  duration.textContent = "0:00";
 
-    // ========================================
-    // UPDATE DURATION
-    // ========================================
+  updateFavoriteButton();
 
-    function updateDuration() {
+}
 
-        if (
-            audio.readyState >= 1 &&
-            isFinite(audio.duration) &&
-            audio.duration > 0
-        ) {
 
-            durationEl.textContent =
-                formatTime(audio.duration);
+/* PLAY / PAUSE */
 
-        }
+function togglePlay() {
 
-    }
+  if (!audio.src) return;
 
+  if (isPlaying) {
 
-    // ========================================
-    // LOAD SONG
-    // ========================================
+    audio.pause();
 
-    function loadSong(index) {
+  } else {
 
-        if (!songs[index]) {
-            return;
-        }
+    audio.play().catch(() => {
+      lyricsStatus.textContent = "Tap Play to start";
+    });
 
-        currentSong = index;
+  }
 
-        const song = songs[currentSong];
+}
 
 
-        // Song information
-        songTitle.textContent =
-            song.title;
+/* AUDIO EVENTS */
 
-        artistName.textContent =
-            song.artist;
+audio.addEventListener("play", () => {
 
+  isPlaying = true;
 
-        // Cover
-        coverImage.src =
-            song.cover;
+  playBtn.textContent = "⏸";
 
-
-        // Stop previous song
-        audio.pause();
-
-
-        // Reset player
-        audio.removeAttribute("src");
-
-        audio.load();
-
-        currentTimeEl.textContent =
-            "0:00";
-
-        durationEl.textContent =
-            "0:00";
-
-        progressBar.value = 0;
-
-        playBtn.textContent =
-            "▶";
-
-
-        // Set new song
-        audio.src =
-            song.audio;
-
-
-        // Load new audio
-        audio.load();
-
-
-        // Render lyrics
-        renderLyrics(
-            song.lyrics
-        );
-
-
-        console.log(
-            "SayaVibe loaded:",
-            song.title
-        );
-
-        console.log(
-            "Audio:",
-            audio.src
-        );
-    }
-
-
-    // ========================================
-    // PLAY SONG
-    // ========================================
-
-    function playSong() {
-
-        if (!audio.src) {
-            return;
-        }
-
-        audio.play()
-            .then(function () {
-
-                playBtn.textContent =
-                    "⏸";
-
-            })
-            .catch(function (error) {
-
-                console.error(
-                    "Playback Error:",
-                    error
-                );
-
-            });
-    }
-
-
-    // ========================================
-    // PLAY / PAUSE
-    // ========================================
-
-    playBtn.addEventListener(
-        "click",
-        function () {
-
-            if (audio.paused) {
-
-                playSong();
-
-            } else {
-
-                audio.pause();
-
-            }
-
-        }
-    );
-
-
-    // ========================================
-    // PLAY EVENT
-    // ========================================
-
-    audio.addEventListener(
-        "play",
-        function () {
-
-            playBtn.textContent =
-                "⏸";
-
-        }
-    );
-
-
-    // ========================================
-    // PAUSE EVENT
-    // ========================================
-
-    audio.addEventListener(
-        "pause",
-        function () {
-
-            playBtn.textContent =
-                "▶";
-
-        }
-    );
-
-
-    // ========================================
-    // LOADED METADATA
-    // ========================================
-
-    audio.addEventListener(
-        "loadedmetadata",
-        function () {
-
-            console.log(
-                "Audio duration:",
-                audio.duration
-            );
-
-            updateDuration();
-
-        }
-    );
-
-
-    // ========================================
-    // DURATION CHANGE
-    // ========================================
-
-    audio.addEventListener(
-        "durationchange",
-        function () {
-
-            updateDuration();
-
-        }
-    );
-
-
-    // ========================================
-    // LOADED DATA
-    // ========================================
-
-    audio.addEventListener(
-        "loadeddata",
-        function () {
-
-            updateDuration();
-
-        }
-    );
-
-
-    // ========================================
-    // CAN PLAY
-    // ========================================
-
-    audio.addEventListener(
-        "canplay",
-        function () {
-
-            updateDuration();
-
-        }
-    );
-
-
-    // ========================================
-    // TIME UPDATE
-    // ========================================
-
-    audio.addEventListener(
-        "timeupdate",
-        function () {
-
-            if (
-                !isFinite(audio.duration) ||
-                audio.duration <= 0
-            ) {
-                return;
-            }
-
-
-            // Current time
-            currentTimeEl.textContent =
-                formatTime(
-                    audio.currentTime
-                );
-
-
-            // Duration
-            durationEl.textContent =
-                formatTime(
-                    audio.duration
-                );
-
-
-            // Progress
-            progressBar.value =
-                (
-                    audio.currentTime /
-                    audio.duration
-                ) * 100;
-
-
-            // Lyrics
-            updateLyrics();
-
-        }
-    );
-
-
-    // ========================================
-    // PROGRESS BAR
-    // ========================================
-
-    progressBar.addEventListener(
-        "input",
-        function () {
-
-            if (
-                !isFinite(audio.duration) ||
-                audio.duration <= 0
-            ) {
-                return;
-            }
-
-
-            audio.currentTime =
-                (
-                    Number(
-                        progressBar.value
-                    ) / 100
-                ) * audio.duration;
-
-        }
-    );
-
-
-    // ========================================
-    // VOLUME
-    // ========================================
-
-    audio.volume = 1;
-
-    volumeBar.addEventListener(
-        "input",
-        function () {
-
-            audio.volume =
-                Number(
-                    volumeBar.value
-                );
-
-        }
-    );
-
-
-    // ========================================
-    // PREVIOUS SONG
-    // ========================================
-
-    previousBtn.addEventListener(
-        "click",
-        function () {
-
-            currentSong--;
-
-            if (currentSong < 0) {
-
-                currentSong =
-                    songs.length - 1;
-
-            }
-
-            loadSong(
-                currentSong
-            );
-
-        }
-    );
-
-
-    // ========================================
-    // NEXT SONG
-    // ========================================
-
-    nextBtn.addEventListener(
-        "click",
-        function () {
-
-            currentSong++;
-
-            if (
-                currentSong >=
-                songs.length
-            ) {
-
-                currentSong = 0;
-
-            }
-
-            loadSong(
-                currentSong
-            );
-
-        }
-    );
-
-
-    // ========================================
-    // SONG ENDED
-    // ========================================
-
-    audio.addEventListener(
-        "ended",
-        function () {
-
-            currentSong++;
-
-            if (
-                currentSong >=
-                songs.length
-            ) {
-
-                currentSong = 0;
-
-            }
-
-            loadSong(
-                currentSong
-            );
-
-            playSong();
-
-        }
-    );
-
-
-    // ========================================
-    // RENDER LYRICS
-    // ========================================
-
-    function renderLyrics(lyrics) {
-
-        lyricsContainer.innerHTML =
-            "";
-
-        lyrics.forEach(
-            function (line, index) {
-
-                const p =
-                    document.createElement(
-                        "p"
-                    );
-
-                p.className =
-                    "lyrics-line";
-
-                p.textContent =
-                    line;
-
-
-                if (index === 0) {
-
-                    p.classList.add(
-                        "active"
-                    );
-
-                }
-
-
-                lyricsContainer.appendChild(
-                    p
-                );
-
-            }
-        );
-
-    }
-
-
-    // ========================================
-    // AUTO LYRICS
-    // ========================================
-
-    function updateLyrics() {
-
-        const lines =
-            lyricsContainer.querySelectorAll(
-                ".lyrics-line"
-            );
-
-
-        if (
-            !lines.length ||
-            !isFinite(audio.duration) ||
-            audio.duration <= 0
-        ) {
-
-            return;
-
-        }
-
-
-        const percentage =
-            audio.currentTime /
-            audio.duration;
-
-
-        let activeIndex =
-            Math.floor(
-                percentage *
-                lines.length
-            );
-
-
-        if (
-            activeIndex >=
-            lines.length
-        ) {
-
-            activeIndex =
-                lines.length - 1;
-
-        }
-
-
-        lines.forEach(
-            function (line, index) {
-
-                line.classList.toggle(
-                    "active",
-                    index === activeIndex
-                );
-
-            }
-        );
-
-    }
-
-
-    // ========================================
-    // SONG LIST
-    // ========================================
-
-    const songItems =
-        document.querySelectorAll(
-            ".song-item"
-        );
-
-
-    songItems.forEach(
-        function (item, index) {
-
-            const button =
-                item.querySelector(
-                    ".song-play"
-                );
-
-
-            if (!button) {
-                return;
-            }
-
-
-            button.addEventListener(
-                "click",
-                function () {
-
-                    if (
-                        songs[index]
-                    ) {
-
-                        loadSong(index);
-
-                        playSong();
-
-                    }
-
-                }
-            );
-
-        }
-    );
-
-
-    // ========================================
-    // SEARCH
-    // ========================================
-
-    const searchBtn =
-        document.getElementById(
-            "searchBtn"
-        );
-
-    const searchSection =
-        document.getElementById(
-            "searchSection"
-        );
-
-    const closeSearch =
-        document.getElementById(
-            "closeSearch"
-        );
-
-    const searchInput =
-        document.getElementById(
-            "searchInput"
-        );
-
-
-    if (
-        searchBtn &&
-        searchSection
-    ) {
-
-        searchBtn.addEventListener(
-            "click",
-            function () {
-
-                searchSection.classList.add(
-                    "show"
-                );
-
-                if (searchInput) {
-                    searchInput.focus();
-                }
-
-            }
-        );
-
-    }
-
-
-    if (closeSearch) {
-
-        closeSearch.addEventListener(
-            "click",
-            function () {
-
-                searchSection.classList.remove(
-                    "show"
-                );
-
-                if (searchInput) {
-                    searchInput.value = "";
-                }
-
-
-                document
-                    .querySelectorAll(
-                        ".song-item"
-                    )
-                    .forEach(
-                        function (item) {
-
-                            item.style.display =
-                                "flex";
-
-                        }
-                    );
-
-            }
-        );
-
-    }
-
-
-    if (searchInput) {
-
-        searchInput.addEventListener(
-            "input",
-            function () {
-
-                const query =
-                    searchInput.value
-                        .toLowerCase()
-                        .trim();
-
-
-                document
-                    .querySelectorAll(
-                        ".song-item"
-                    )
-                    .forEach(
-                        function (item) {
-
-                            const text =
-                                item.textContent
-                                    .toLowerCase();
-
-
-                            item.style.display =
-                                text.includes(
-                                    query
-                                )
-                                    ? "flex"
-                                    : "none";
-
-                        }
-                    );
-
-            }
-        );
-
-    }
-
-
-    // ========================================
-    // SYNC BUTTON
-    // ========================================
-
-    const syncBtn =
-        document.getElementById(
-            "syncBtn"
-        );
-
-
-    if (syncBtn) {
-
-        syncBtn.addEventListener(
-            "click",
-            function () {
-
-                alert(
-                    "✨ Lyrics Sync will be added soon."
-                );
-
-            }
-        );
-
-    }
-
-
-    // ========================================
-    // VIEW ALL
-    // ========================================
-
-    const viewAllBtn =
-        document.getElementById(
-            "viewAllBtn"
-        );
-
-
-    if (viewAllBtn) {
-
-        viewAllBtn.addEventListener(
-            "click",
-            function () {
-
-                const section =
-                    document.querySelector(
-                        ".songs-section"
-                    );
-
-
-                if (section) {
-
-                    section.scrollIntoView({
-                        behavior: "smooth"
-                    });
-
-                }
-
-            }
-        );
-
-    }
-
-
-    // ========================================
-    // BOTTOM NAV
-    // ========================================
-
-    document
-        .querySelectorAll(
-            ".nav-item"
-        )
-        .forEach(
-            function (item) {
-
-                item.addEventListener(
-                    "click",
-                    function () {
-
-                        document
-                            .querySelectorAll(
-                                ".nav-item"
-                            )
-                            .forEach(
-                                function (nav) {
-
-                                    nav.classList.remove(
-                                        "active"
-                                    );
-
-                                }
-                            );
-
-
-                        item.classList.add(
-                            "active"
-                        );
-
-                    }
-                );
-
-            }
-        );
-
-
-    // ========================================
-    // AUDIO ERROR
-    // ========================================
-
-    audio.addEventListener(
-        "error",
-        function () {
-
-            console.error(
-                "❌ AUDIO ERROR"
-            );
-
-            console.error(
-                "Audio source:",
-                audio.src
-            );
-
-        }
-    );
-
-
-    // ========================================
-    // INITIALIZE
-    // ========================================
-
-    loadSong(0);
-
-
-    console.log(
-        "🎵 SayaVibe initialized successfully"
-    );
+  lyricsStatus.textContent = "Playing";
 
 });
+
+
+audio.addEventListener("pause", () => {
+
+  isPlaying = false;
+
+  playBtn.textContent = "▶";
+
+  lyricsStatus.textContent = "Paused";
+
+});
+
+
+audio.addEventListener("loadedmetadata", () => {
+
+  progress.max = audio.duration;
+
+  duration.textContent = formatTime(audio.duration);
+
+});
+
+
+audio.addEventListener("timeupdate", () => {
+
+  progress.value = audio.currentTime;
+
+  currentTime.textContent =
+    formatTime(audio.currentTime);
+
+  updateLyrics();
+
+});
+
+
+audio.addEventListener("ended", () => {
+
+  nextSong();
+
+});
+
+
+/* PROGRESS */
+
+progress.addEventListener("input", () => {
+
+  audio.currentTime = progress.value;
+
+});
+
+
+/* NEXT */
+
+function nextSong() {
+
+  currentSong++;
+
+  if (currentSong >= songs.length) {
+    currentSong = 0;
+  }
+
+  loadSong(currentSong);
+
+  audio.play().catch(() => {});
+
+}
+
+
+/* PREVIOUS */
+
+function previousSong() {
+
+  currentSong--;
+
+  if (currentSong < 0) {
+    currentSong = songs.length - 1;
+  }
+
+  loadSong(currentSong);
+
+  audio.play().catch(() => {});
+
+}
+
+
+playBtn.addEventListener("click", togglePlay);
+
+nextBtn.addEventListener("click", nextSong);
+
+prevBtn.addEventListener("click", previousSong);
+
+
+/* FORMAT TIME */
+
+function formatTime(seconds) {
+
+  if (!isFinite(seconds)) {
+    return "0:00";
+  }
+
+  const minutes = Math.floor(seconds / 60);
+
+  const secs = Math.floor(seconds % 60)
+    .toString()
+    .padStart(2, "0");
+
+  return `${minutes}:${secs}`;
+
+}
+
+
+/* LYRICS */
+
+function renderLyrics(lyrics) {
+
+  lyricsBox.innerHTML = "";
+
+  lyrics.forEach((line, index) => {
+
+    const p = document.createElement("p");
+
+    p.className = "lyric";
+
+    p.dataset.time = line.time;
+
+    p.dataset.index = index;
+
+    p.textContent = line.text;
+
+    lyricsBox.appendChild(p);
+
+  });
+
+}
+
+
+function updateLyrics() {
+
+  const song = songs[currentSong];
+
+  const lines = document.querySelectorAll(".lyric");
+
+  let activeIndex = 0;
+
+  for (let i = 0; i < song.lyrics.length; i++) {
+
+    if (audio.currentTime >= song.lyrics[i].time) {
+      activeIndex = i;
+    }
+
+  }
+
+  lines.forEach((line, index) => {
+
+    line.classList.toggle(
+      "active",
+      index === activeIndex
+    );
+
+  });
+
+  const activeLine = lines[activeIndex];
+
+  if (activeLine) {
+
+    activeLine.scrollIntoView({
+      behavior: "smooth",
+      block: "center"
+    });
+
+  }
+
+}
+
+
+/* SONG LIST */
+
+function renderSongs(list = songs) {
+
+  songList.innerHTML = "";
+
+  list.forEach((song, index) => {
+
+    const card = document.createElement("div");
+
+    card.className = "song-card";
+
+    card.innerHTML = `
+      <div class="song-icon">🎵</div>
+
+      <div>
+        <h3>${song.title}</h3>
+        <p>${song.artist}</p>
+      </div>
+    `;
+
+    card.addEventListener("click", () => {
+
+      const originalIndex = songs.indexOf(song);
+
+      loadSong(originalIndex);
+
+      audio.play().catch(() => {});
+
+    });
+
+    songList.appendChild(card);
+
+  });
+
+}
+
+
+/* SEARCH */
+
+searchInput.addEventListener("input", () => {
+
+  const value =
+    searchInput.value.toLowerCase().trim();
+
+  const filtered = songs.filter(song =>
+
+    song.title.toLowerCase().includes(value) ||
+
+    song.artist.toLowerCase().includes(value)
+
+  );
+
+  renderSongs(filtered);
+
+});
+
+
+/* FAVOURITE */
+
+function updateFavoriteButton() {
+
+  const favorites =
+    JSON.parse(
+      localStorage.getItem("sayavibeFavorites") || "[]"
+    );
+
+  const exists =
+    favorites.includes(currentSong);
+
+  favBtn.textContent =
+    exists
+      ? "♥ Added to Favourite"
+      : "♡ Add to Favourite";
+
+}
+
+
+favBtn.addEventListener("click", () => {
+
+  let favorites =
+    JSON.parse(
+      localStorage.getItem("sayavibeFavorites") || "[]"
+    );
+
+  if (favorites.includes(currentSong)) {
+
+    favorites =
+      favorites.filter(
+        item => item !== currentSong
+      );
+
+  } else {
+
+    favorites.push(currentSong);
+
+  }
+
+  localStorage.setItem(
+    "sayavibeFavorites",
+    JSON.stringify(favorites)
+  );
+
+  updateFavoriteButton();
+
+});
+
+
+/* DARK / LIGHT */
+
+themeBtn.addEventListener("click", () => {
+
+  document.body.classList.toggle("light");
+
+  const light =
+    document.body.classList.contains("light");
+
+  themeBtn.textContent =
+    light ? "🌙" : "☀️";
+
+  localStorage.setItem(
+    "sayavibeTheme",
+    light ? "light" : "dark"
+  );
+
+});
+
+
+/* RESTORE THEME */
+
+if (
+  localStorage.getItem("sayavibeTheme") === "light"
+) {
+
+  document.body.classList.add("light");
+
+  themeBtn.textContent = "🌙";
+
+}
+
+
+/* START */
+
+loadSong(0);
+
+renderSongs();
