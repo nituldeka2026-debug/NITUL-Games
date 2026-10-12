@@ -1411,3 +1411,62 @@ input {
     }
 
 }
+
+
+/* =========================
+   MY DIGITAL PROJECTS
+   ========================= */
+.projects-section {
+    position: relative;
+    padding: 88px 6% 82px;
+    overflow: hidden;
+    background: linear-gradient(180deg, rgba(17, 16, 39, .72), rgba(8, 8, 23, .98));
+    border-top: 1px solid rgba(255,255,255,.07);
+}
+.projects-section::before {
+    content: "";
+    position: absolute;
+    width: 440px;
+    height: 300px;
+    top: 10px;
+    left: 50%;
+    transform: translateX(-50%);
+    background: radial-gradient(ellipse, rgba(127, 75, 255, .13), transparent 70%);
+    pointer-events: none;
+}
+.projects-heading, .projects-grid, .creator-note { position: relative; z-index: 1; }
+.projects-heading { text-align: center; max-width: 720px; margin: 0 auto 36px; }
+.projects-eyebrow { display: inline-block; color: #b9a2ff; font-size: 11px; font-weight: 800; letter-spacing: 2.3px; margin-bottom: 13px; }
+.projects-heading h2 { font-size: clamp(28px, 4vw, 42px); letter-spacing: -1.2px; }
+.projects-heading h2 b { color: #ff5b97; }
+.projects-heading p { color: #aaa8bf; font-size: 14px; line-height: 1.7; margin-top: 12px; }
+.projects-grid { max-width: 1120px; margin: 0 auto; display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 20px; }
+.project-card { --project-accent: #9b7bff; position: relative; min-height: 275px; display: flex; flex-direction: column; align-items: flex-start; padding: 27px 25px 24px; border: 1px solid rgba(255,255,255,.11); border-radius: 22px; background: linear-gradient(145deg, rgba(255,255,255,.065), rgba(255,255,255,.018)); box-shadow: 0 18px 50px rgba(0,0,0,.14); transition: transform .25s ease, border-color .25s ease, background .25s ease; }
+.project-card:hover { transform: translateY(-5px); border-color: color-mix(in srgb, var(--project-accent) 58%, transparent); background: linear-gradient(145deg, rgba(255,255,255,.09), rgba(255,255,255,.025)); }
+.project-ai { --project-accent: #a78bfa; }
+.project-radio { --project-accent: #ff639d; }
+.project-games { --project-accent: #64d9c4; }
+.project-icon { width: 52px; height: 52px; display: grid; place-items: center; border-radius: 16px; margin-bottom: 22px; color: var(--project-accent); font-size: 27px; font-weight: 800; background: color-mix(in srgb, var(--project-accent) 13%, transparent); border: 1px solid color-mix(in srgb, var(--project-accent) 28%, transparent); }
+.project-tag { color: var(--project-accent); font-size: 9px; font-weight: 800; letter-spacing: 1.6px; }
+.project-card h3 { margin-top: 9px; font-size: 23px; letter-spacing: -.4px; }
+.project-card p { color: #aaa8bd; font-size: 13px; line-height: 1.7; margin: 11px 0 22px; }
+.project-link { margin-top: auto; color: #fff; font-size: 12px; font-weight: 800; display: inline-flex; align-items: center; gap: 9px; padding-bottom: 5px; border-bottom: 1px solid color-mix(in srgb, var(--project-accent) 65%, transparent); transition: gap .2s ease, color .2s ease; }
+.project-link:hover { color: var(--project-accent); gap: 14px; }
+.creator-note { display: flex; justify-content: center; align-items: center; gap: 9px; color: #8f8da5; font-size: 12px; text-align: center; margin: 30px auto 0; flex-wrap: wrap; }
+.creator-note strong { color: #d9d7e8; }
+.creator-dot { width: 7px; height: 7px; border-radius: 50%; background: #64d9c4; box-shadow: 0 0 12px rgba(100,217,196,.7); }
+
+@media (max-width: 900px) {
+    .projects-section { padding: 70px 5% 65px; }
+    .projects-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+    .project-card:last-child { grid-column: 1 / -1; min-height: 225px; }
+}
+@media (max-width: 600px) {
+    .projects-section { padding: 58px 16px 52px; }
+    .projects-heading { margin-bottom: 26px; }
+    .projects-heading p { font-size: 13px; }
+    .projects-grid { grid-template-columns: 1fr; gap: 13px; }
+    .project-card, .project-card:last-child { grid-column: auto; min-height: 0; padding: 23px 21px; }
+    .project-icon { margin-bottom: 17px; }
+    .creator-note { font-size: 11px; line-height: 1.6; }
+}
