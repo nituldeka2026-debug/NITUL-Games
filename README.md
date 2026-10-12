@@ -20,3 +20,7 @@ A static browser-games website and project hub by Nitul Deka.
 - Zubeen Player: https://zubeen-player-jndf.onrender.com
 
 Note: the project links point to externally hosted sites; this repository does not contain their server-side source code.
+
+
+## My Digital Projects
+The homepage includes links to Krishti AI, Zubeen Player, and SAYAVIBE. SAYAVIBE opens at `/apps/sayavibe/` on the same deployed site. Deploy the repository root as a static site so the project links and game paths work correctly.

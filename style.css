@@ -1470,3 +1470,7 @@ input {
     .project-icon { margin-bottom: 17px; }
     .creator-note { font-size: 11px; line-height: 1.6; }
 }
+
+
+/* SAYAVIBE project card accent */
+.project-sayavibe { --project-accent: #65e6cf; }
